@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>후원하기 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --red: #C8003C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--red); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--red); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, #C8003C 0%, #8a0028 100%); color: #fff; padding: 80px 0; text-align: center; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 15px; opacity: 0.8; line-height: 1.8; }
+
+.support-why { padding: 72px 0; background: #fff; }
+.section-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+.section-desc { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 56px; }
+
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.why-card { text-align: center; padding: 36px 24px; }
+.why-card .icon { font-size: 48px; margin-bottom: 20px; }
+.why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.why-card p { font-size: 14px; color: var(--muted); line-height: 1.9; }
+
+.support-form-section { padding: 72px 0; background: #fafafa; }
+.support-layout { display: grid; grid-template-columns: 1fr 360px; gap: 40px; }
+
+.support-card { background: #fff; border-radius: 12px; padding: 36px; border: 1px solid #eee; }
+.form-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+
+.amount-select { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+.amount-btn { padding: 12px 8px; border: 1.5px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: .2s; text-align: center; }
+.amount-btn:hover { border-color: var(--red); color: var(--red); }
+.amount-btn.active { border-color: var(--red); background: rgba(200,0,60,0.04); color: var(--red); }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 7px; }
+.form-group label .req { color: var(--red); }
+.form-group input, .form-group select {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 6px;
+  font-size: 14px; font-family: inherit; outline: none; transition: border .2s;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--red); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-check { display: flex; align-items: flex-start; gap: 10px; }
+.form-check input[type=checkbox] { margin-top: 2px; accent-color: var(--red); }
+.form-check label { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.btn-submit { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: background .2s; }
+.btn-submit:hover { background: #a8002e; }
+
+.bank-info { background: var(--navy); color: #fff; border-radius: 8px; padding: 24px; margin-top: 20px; }
+.bank-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; opacity: 0.7; letter-spacing: 0.08em; }
+.bank-info .bank-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
+.bank-info .bank-row:last-child { border-bottom: none; }
+.bank-info .bank-row .label { opacity: 0.6; }
+.bank-info .bank-row .value { font-weight: 600; }
+
+.sidebar-box { background: #fff; border-radius: 12px; padding: 28px; border: 1px solid #eee; margin-bottom: 20px; }
+.sidebar-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+.impact-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.impact-list li { font-size: 13px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+.impact-list li .amount { color: var(--red); font-weight: 700; min-width: 60px; font-size: 12px; }
+
+.success-msg { display: none; text-align: center; padding: 48px 24px; }
+.success-msg .icon { font-size: 56px; margin-bottom: 16px; }
+.success-msg h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.success-msg p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; margin-top: 72px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .why-grid { grid-template-columns: 1fr; }
+  .support-layout { grid-template-columns: 1fr; }
+  .amount-select { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html" class="active">후원하기</a></li>
+        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="breadcrumb">HOME · 후원하기</p>
+    <h1>함께 창의의 씨앗을 심어주세요</h1>
+    <p>후원자 한 분 한 분의 사랑이 기독교 창작자들에게<br>날개가 됩니다.</p>
+  </div>
+</div>
+
+<section class="support-why">
+  <div class="container">
+    <h2 class="section-title">왜 FCO를 후원해야 하나요?</h2>
+    <p class="section-desc">당신의 후원이 만들어내는 변화</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="icon">📖</div>
+        <h3>기독교 창작의 씨앗</h3>
+        <p>후원금은 창의적인 기독교 작가들의 출판과 창작 활동비로 직접 사용됩니다. 당신의 후원이 한 편의 소설, 한 편의 시가 됩니다.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🌱</div>
+        <h3>다음 세대를 위한 투자</h3>
+        <p>문장 강사 양성 프로그램을 통해 차세대 기독교 창작자들이 길러집니다. 오늘의 후원이 미래의 창의 생태계를 만듭니다.</p>
+      </div>
+      <div class="why-card">
+        <div class="icon">🌍</div>
+        <h3>세상을 향한 복음의 통로</h3>
+        <p>기독교 영상과 문학이 세상 속으로 나가 많은 사람들의 마음을 움직입니다. 복음의 메시지가 예술로 전해집니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="support-form-section">
+  <div class="container">
+    <div class="support-layout">
+      <div>
+        <div class="support-card" id="supportCard">
+          <div class="form-title">후원 신청</div>
+
+          <div class="form-group">
+            <label>후원 유형</label>
+            <div style="display:flex;gap:12px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px;">
+                <input type="radio" name="type" value="정기" checked style="accent-color:var(--red);"> 정기후원 (매월)
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400;font-size:14px;">
+                <input type="radio" name="type" value="일시" style="accent-color:var(--red);"> 일시후원
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>후원 금액 선택 <span class="req">*</span></label>
+            <div class="amount-select">
+              <button class="amount-btn" onclick="selectAmount(10000, this)">1만원</button>
+              <button class="amount-btn active" onclick="selectAmount(30000, this)">3만원</button>
+              <button class="amount-btn" onclick="selectAmount(50000, this)">5만원</button>
+              <button class="amount-btn" onclick="selectAmount(100000, this)">10만원</button>
+            </div>
+            <input type="number" id="customAmount" placeholder="직접 입력 (원)" oninput="deselectAll()" style="margin-top:10px;">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>성명 <span class="req">*</span></label>
+              <input type="text" id="sName" placeholder="홍길동">
+            </div>
+            <div class="form-group">
+              <label>연락처 <span class="req">*</span></label>
+              <input type="tel" id="sTel" placeholder="010-0000-0000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" id="sEmail" placeholder="email@example.com">
+          </div>
+
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" id="sAgree">
+              <label for="sAgree">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+            </div>
+          </div>
+
+          <button class="btn-submit" onclick="submitSupport()">후원 신청하기</button>
+
+          <div class="bank-info" style="margin-top:24px;">
+            <h4>계좌 이체 안내</h4>
+            <div class="bank-row"><span class="label">은행</span><span class="value">○○은행</span></div>
+            <div class="bank-row"><span class="label">계좌번호</span><span class="value">000-000-000000</span></div>
+            <div class="bank-row"><span class="label">예금주</span><span class="value">(재)기독교창의지원재단</span></div>
+          </div>
+        </div>
+        <div class="success-msg" id="successMsg">
+          <div class="icon">💛</div>
+          <h3>후원 신청이 완료되었습니다!</h3>
+          <p>소중한 후원에 진심으로 감사드립니다.<br>담당자가 확인 후 연락드리겠습니다.<br><br>문의: info@fco.or.kr</p>
+        </div>
+      </div>
+
+      <aside>
+        <div class="sidebar-box">
+          <h4>후원금 사용처</h4>
+          <ul class="impact-list">
+            <li><span class="amount">1만원</span> 기독교 창작자에게 창작 활동비 일부를 지원합니다</li>
+            <li><span class="amount">3만원</span> 문장 강사 양성 프로그램 교육 자료를 제공합니다</li>
+            <li><span class="amount">5만원</span> 기독교 도서 출판 지원비 일부로 사용됩니다</li>
+            <li><span class="amount">10만원</span> 오버다 문학상 상금의 일부를 충당합니다</li>
+          </ul>
+        </div>
+        <div class="sidebar-box">
+          <h4>세금 혜택</h4>
+          <p style="font-size:13px;color:var(--muted);line-height:1.8;">FCO 기독교창의지원재단은 지정 기부금 단체입니다. 후원금은 연말 정산 시 세금 혜택을 받으실 수 있습니다. (기부금 영수증 발급 가능)</p>
+        </div>
+        <div class="sidebar-box">
+          <h4>후원자 혜택</h4>
+          <ul class="impact-list">
+            <li><span class="amount">정기</span> FCO 뉴스레터 월간 발송</li>
+            <li><span class="amount">정기</span> 오버다 문학상 수상작 도서 증정</li>
+            <li><span class="amount">정기</span> FCO 주요 행사 초대</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <a href="admin/login.html">관리자</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+let selectedAmount = 30000;
+
+function selectAmount(amount, btn) {
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedAmount = amount;
+  document.getElementById('customAmount').value = '';
+}
+
+function deselectAll() {
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  selectedAmount = 0;
+}
+
+function submitSupport() {
+  const name = document.getElementById('sName').value.trim();
+  const tel = document.getElementById('sTel').value.trim();
+  const agree = document.getElementById('sAgree').checked;
+  const custom = document.getElementById('customAmount').value;
+  const amount = custom ? parseInt(custom) : selectedAmount;
+
+  if (!name || !tel) { alert('이름과 연락처를 입력해 주세요.'); return; }
+  if (!agree) { alert('개인정보 수집 동의가 필요합니다.'); return; }
+  if (!amount || amount < 1000) { alert('후원 금액을 선택하거나 입력해 주세요. (최소 1,000원)'); return; }
+
+  const type = document.querySelector('input[name=type]:checked')?.value || '정기';
+  const supporters = JSON.parse(localStorage.getItem('fco_supporters') || '[]');
+  supporters.unshift({ id: Date.now(), name, tel, email: document.getElementById('sEmail').value, type, amount, date: new Date().toLocaleDateString('ko-KR') });
+  localStorage.setItem('fco_supporters', JSON.stringify(supporters));
+
+  document.getElementById('supportCard').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+}
+
+document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
+</script>
+</body>
+</html>

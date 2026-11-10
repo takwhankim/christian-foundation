@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보도자료 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --red: #C8003C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --subtle: #999; --max: 1180px; }
+html { scroll-behavior: smooth; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { display: flex; align-items: center; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--red); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--red); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; letter-spacing: 0.08em; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 15px; opacity: 0.7; }
+
+.sub-nav { background: #f5f5f5; border-bottom: 1px solid #e8e8e8; }
+.sub-nav ul { display: flex; list-style: none; height: 48px; align-items: center; }
+.sub-nav ul li a { display: flex; align-items: center; height: 48px; padding: 0 20px; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; transition: .2s; }
+.sub-nav ul li a:hover, .sub-nav ul li a.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+
+.news-layout { display: grid; grid-template-columns: 1fr 280px; gap: 40px; padding: 56px 0; }
+
+.news-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.news-toolbar .total { font-size: 14px; color: var(--muted); }
+.news-toolbar .total strong { color: var(--text); }
+.search-box { display: flex; gap: 8px; }
+.search-box input { border: 1px solid #ddd; border-radius: 4px; padding: 8px 14px; font-size: 14px; font-family: inherit; outline: none; width: 200px; }
+.search-box input:focus { border-color: var(--red); }
+.search-box button { background: var(--red); color: #fff; border: none; border-radius: 4px; padding: 8px 16px; font-size: 13px; font-family: inherit; cursor: pointer; }
+
+.news-list { display: flex; flex-direction: column; gap: 0; }
+.news-item { display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 24px 0; border-bottom: 1px solid #eee; cursor: pointer; transition: background .2s; }
+.news-item:hover { background: rgba(200,0,60,0.02); }
+.news-item .thumb { width: 100px; height: 72px; border-radius: 6px; background: linear-gradient(135deg, #e8f0fe, #c8d8f8); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.news-item .body .category { font-size: 11px; font-weight: 600; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.news-item .body h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+.news-item .body p { font-size: 13px; color: var(--muted); line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.news-item .meta { text-align: right; flex-shrink: 0; }
+.news-item .meta .date { font-size: 12px; color: var(--subtle); display: block; }
+.news-item .meta .badge-new { display: inline-block; font-size: 10px; font-weight: 700; color: var(--red); background: rgba(200,0,60,0.08); padding: 2px 7px; border-radius: 3px; margin-top: 6px; }
+
+.sidebar .widget { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 20px; border: 1px solid #eee; }
+.sidebar .widget h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; }
+.category-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.category-list li a { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); padding: 6px 0; transition: color .2s; }
+.category-list li a:hover { color: var(--red); }
+.category-list li a .cnt { font-size: 12px; color: var(--subtle); }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-cloud a { background: #f5f5f5; color: var(--muted); font-size: 12px; padding: 4px 10px; border-radius: 20px; transition: .2s; }
+.tag-cloud a:hover { background: var(--red); color: #fff; }
+
+.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 40px; }
+.pagination a, .pagination span { width: 36px; height: 36px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid #ddd; color: var(--muted); transition: .2s; }
+.pagination a:hover { border-color: var(--red); color: var(--red); }
+.pagination .active { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 12px; max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 40px; position: relative; }
+.modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
+.modal .cat { font-size: 11px; font-weight: 600; color: var(--red); letter-spacing: 0.1em; }
+.modal h2 { font-size: 24px; font-weight: 700; margin: 8px 0 4px; line-height: 1.4; }
+.modal .meta { font-size: 13px; color: var(--muted); margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #f0f0f0; }
+.modal .content { font-size: 15px; color: var(--muted); line-height: 2; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; margin-top: 48px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .news-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .news-item { grid-template-columns: 1fr; }
+  .news-item .thumb { display: none; }
+  .news-item .meta { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html">사업소개</a></li>
+        <li><a href="news.html" class="active">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="breadcrumb">HOME · 보도자료</p>
+    <h1>보도자료</h1>
+    <p>FCO 기독교창의지원재단의 주요 소식과 보도 내용을 전합니다.</p>
+  </div>
+</div>
+
+<nav class="sub-nav">
+  <div class="container">
+    <ul>
+      <li><a href="#" class="active" onclick="filterCategory('all')">전체</a></li>
+      <li><a href="#" onclick="filterCategory('notice')">공지사항</a></li>
+      <li><a href="#" onclick="filterCategory('press')">보도자료</a></li>
+      <li><a href="#" onclick="filterCategory('award')">시상</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="news-layout">
+      <div class="news-main">
+        <div class="news-toolbar">
+          <p class="total">총 <strong id="totalCount">10</strong>건</p>
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+            <button onclick="searchNews()">검색</button>
+          </div>
+        </div>
+        <div class="news-list" id="newsList"></div>
+        <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">&raquo;</a>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="widget">
+          <h4>카테고리</h4>
+          <ul class="category-list">
+            <li><a href="#" onclick="filterCategory('all')">전체 <span class="cnt">10</span></a></li>
+            <li><a href="#" onclick="filterCategory('notice')">공지사항 <span class="cnt">5</span></a></li>
+            <li><a href="#" onclick="filterCategory('press')">보도자료 <span class="cnt">3</span></a></li>
+            <li><a href="#" onclick="filterCategory('award')">시상 <span class="cnt">2</span></a></li>
+          </ul>
+        </div>
+        <div class="widget">
+          <h4>태그</h4>
+          <div class="tag-cloud">
+            <a href="#">문학상</a><a href="#">도서지원</a><a href="#">창의</a>
+            <a href="#">기독교</a><a href="#">Film</a><a href="#">후원</a>
+            <a href="#">문장강사</a><a href="#">공모</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="cat" id="modalCat"></div>
+    <h2 id="modalTitle"></h2>
+    <div class="meta" id="modalMeta"></div>
+    <div class="content" id="modalContent"></div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <div style="display:flex; gap:20px;">
+        <a href="admin/login.html">관리자</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const defaultNews = [
+  { id:1, cat:'notice', catLabel:'공지사항', title:'2024 오버다 문학상 수상자 발표', date:'2024.11.01', isNew:true, emoji:'🏆', excerpt:'2024 오버다 문학상 수상자가 발표되었습니다. 대상을 비롯한 각 부문 수상자 명단과 시상식 일정을 안내드립니다.', content:'2024 오버다 문학상 심사 결과, 다음과 같이 수상자를 선정하여 발표합니다.\n\n대상: (추후 공개)\n최우수상: (추후 공개)\n우수상: (추후 공개)\n\n시상식은 2024년 11월 중 개최될 예정이며, 별도 안내드릴 예정입니다.\n\n응모해 주신 모든 분들께 깊이 감사드립니다.' },
+  { id:2, cat:'notice', catLabel:'공지사항', title:'기독교 도서 지원사업 2차 모집 공고', date:'2024.10.15', isNew:false, emoji:'📚', excerpt:'FCO 기독교창의지원재단 2024년 기독교 도서 지원사업 2차 모집을 시작합니다.', content:'FCO 기독교창의지원재단은 기독교 창의 작가들의 출판을 지원하기 위해 2024년 도서 지원사업 2차 모집을 진행합니다.\n\n지원 자격: 기독교적 세계관을 가진 작가\n지원 금액: 출판 비용의 50% (최대 500만원)\n접수 기간: 2024.10.15 ~ 2024.11.15\n\n지원하기 페이지에서 신청해 주세요.' },
+  { id:3, cat:'press', catLabel:'보도자료', title:'"기독교 창작의 새 바람" - 국민일보', date:'2024.11.03', isNew:true, emoji:'📰', excerpt:'국민일보에서 FCO 기독교창의지원재단의 활동을 조명한 기사가 게재되었습니다.', content:'국민일보 2024.11.03 기사\n\n"기독교 창작의 새 바람 - FCO재단의 도전"\n\nFCO 기독교창의지원재단이 창립 첫 해부터 활발한 사업을 전개하며 기독교 창작 생태계에 새 바람을 불어넣고 있다. 도서 지원부터 문학상, 영상 지원까지 다양한 사업으로 크리스천 창작자들에게 힘을 보태고 있다.' },
+  { id:4, cat:'notice', catLabel:'공지사항', title:'FCO 재단 창립 기념 특별 세미나 안내', date:'2024.09.28', isNew:false, emoji:'📋', excerpt:'FCO 기독교창의지원재단 창립 기념 특별 세미나가 개최됩니다.', content:'FCO 기독교창의지원재단 창립을 기념하여 특별 세미나를 개최합니다.\n\n주제: "기독교 창의 생태계의 미래"\n일시: 2024년 10월 15일 오후 2시\n장소: 서울 ○○센터 대강당\n\n참가 신청은 이메일로 받습니다.' },
+  { id:5, cat:'award', catLabel:'시상', title:'오버다 문학상 시상식 성황리 개최', date:'2024.10.05', isNew:false, emoji:'🎊', excerpt:'오버다 문학상 시상식이 성황리에 마무리되었습니다. 수상자들의 소감과 행사 현황을 전해드립니다.', content:'2024 오버다 문학상 시상식이 성황리에 개최되었습니다.\n\n많은 분들의 축하와 격려 속에 첫 시상식을 무사히 마쳤습니다.\n수상자분들의 작품 활동을 FCO 재단이 계속 응원하겠습니다.' },
+  { id:6, cat:'press', catLabel:'보도자료', title:'FCO 재단, 창의 작가 50명 선정 지원', date:'2024.10.20', isNew:false, emoji:'📰', excerpt:'FCO 기독교창의지원재단이 올해 창의 작가 50명을 선정하여 지원한다고 밝혔습니다.', content:'FCO 기독교창의지원재단은 2024년 창의 작가 지원 사업을 통해 총 50명의 기독교 작가를 선정, 출판 지원과 창작 활동비를 지원한다고 밝혔습니다.' },
+  { id:7, cat:'notice', catLabel:'공지사항', title:'문장 강사 양성 프로그램 3기 모집', date:'2024.09.10', isNew:false, emoji:'✍️', excerpt:'FCO 문장 강사 양성 프로그램 3기를 모집합니다. 기독교 글쓰기 강사를 꿈꾸시는 분을 환영합니다.', content:'FCO 기독교창의지원재단 문장 강사 양성 프로그램 3기를 모집합니다.\n\n교육 내용: 기독교 글쓰기 이론 및 실습, 강의법, 출판 기획\n교육 기간: 2024.10 ~ 2025.02 (20주)\n수강료: 무료 (재단 지원)\n\n선발 인원: 20명' },
+  { id:8, cat:'press', catLabel:'보도자료', title:'FCO-기독 출판사 MOU 체결', date:'2024.08.30', isNew:false, emoji:'🤝', excerpt:'FCO 기독교창의지원재단이 주요 기독교 출판사들과 MOU를 체결했습니다.', content:'FCO 기독교창의지원재단은 기독교 출판사 ○○, ○○, ○○와 업무 협약(MOU)을 체결하고 창의 작가 지원 협력 체계를 구축했습니다.' },
+  { id:9, cat:'award', catLabel:'시상', title:'기독교 창의 생태계 구축의 선봉 FCO', date:'2024.09.15', isNew:false, emoji:'🌟', excerpt:'기독교 창의 생태계를 위한 FCO의 역할과 비전을 소개합니다.', content:'FCO 기독교창의지원재단은 한국 기독교 창의 생태계의 선순환을 만들어가기 위해 올 한 해 다양한 사업을 전개해 왔습니다.' },
+  { id:10, cat:'notice', catLabel:'공지사항', title:'2024 하반기 Film 지원사업 공모', date:'2024.08.20', isNew:false, emoji:'🎬', excerpt:'기독교적 세계관을 담은 영상 프로젝트를 지원합니다. FCO Film 지원사업에 지원하세요.', content:'FCO 기독교창의지원재단 2024 하반기 Film 지원사업 공모를 시작합니다.\n\n지원 분야: 단편영화, 웹드라마, 다큐멘터리\n지원 금액: 최대 2,000만원\n접수 기간: 2024.08.20 ~ 2024.09.20' },
+];
+
+let currentCategory = 'all';
+let allNews = [];
+
+function getNews() {
+  const saved = JSON.parse(localStorage.getItem('fco_news') || '[]');
+  return [...saved, ...defaultNews];
+}
+
+function renderNews(data) {
+  const list = document.getElementById('newsList');
+  document.getElementById('totalCount').textContent = data.length;
+  if (data.length === 0) {
+    list.innerHTML = '<p style="text-align:center;padding:48px;color:#999;">검색 결과가 없습니다.</p>';
+    return;
+  }
+  list.innerHTML = data.map(n => `
+    <div class="news-item" onclick="openModal(${n.id})">
+      <div class="thumb">${n.emoji || '📄'}</div>
+      <div class="body">
+        <div class="category">${n.catLabel}</div>
+        <h3>${n.title}</h3>
+        <p>${n.excerpt}</p>
+      </div>
+      <div class="meta">
+        <span class="date">${n.date}</span>
+        ${n.isNew ? '<span class="badge-new">NEW</span>' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCategory(cat) {
+  currentCategory = cat;
+  const data = getNews();
+  allNews = cat === 'all' ? data : data.filter(n => n.cat === cat);
+  renderNews(allNews);
+}
+
+function searchNews() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const data = getNews();
+  const filtered = data.filter(n =>
+    (currentCategory === 'all' || n.cat === currentCategory) &&
+    (n.title.toLowerCase().includes(q) || n.excerpt.toLowerCase().includes(q))
+  );
+  renderNews(filtered);
+}
+
+function openModal(id) {
+  const item = getNews().find(n => n.id === id);
+  if (!item) return;
+  document.getElementById('modalCat').textContent = item.catLabel;
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalMeta').textContent = item.date;
+  document.getElementById('modalContent').innerHTML = item.content.replace(/\n/g, '<br>');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay') || e.target.classList.contains('modal-close')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') searchNews(); });
+document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
+
+filterCategory('all');
+</script>
+</body>
+</html>

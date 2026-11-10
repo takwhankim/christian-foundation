@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCO 기독교창의지원재단</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700;1,900&family=Lora:ital@1&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #C8003C;
+  --red-soft: #E8004A;
+  --navy: #1a1f3c;
+  --navy-soft: #2a3058;
+  --text: #1a1a1a;
+  --muted: #666;
+  --subtle: #999;
+  --bg: #fff;
+  --bg-gray: #f5f5f5;
+  --max: 1180px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Pretendard", sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  width: min(calc(100% - 48px), var(--max));
+  margin: 0 auto;
+}
+
+/* ── NAV ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.nav-shell {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-fco {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--red);
+  letter-spacing: 0.04em;
+}
+
+.logo-full {
+  font-size: 9.5px;
+  font-weight: 500;
+  color: var(--red);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--red); }
+
+.nav-cta {
+  background: var(--navy);
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 9px 20px;
+  border-radius: 4px;
+  transition: background .2s !important;
+}
+
+.nav-cta:hover { background: var(--navy-soft) !important; color: #fff !important; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  transition: .3s;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 72vh;
+  min-height: 480px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 55% 40%, #a8d8a8 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 70% 30%, #e8c97a 0%, transparent 55%),
+    radial-gradient(ellipse 40% 60% at 40% 60%, #6bbfbf 0%, transparent 50%),
+    radial-gradient(ellipse 55% 65% at 20% 20%, #d4e8b0 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 80% 70%, #f0e08a 0%, transparent 50%),
+    linear-gradient(145deg, #c8e8c8 0%, #e8d870 40%, #70b8b8 70%, #a8d4a8 100%);
+  filter: blur(0px);
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.3) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 52px;
+  width: 100%;
+}
+
+.hero-title {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(56px, 9vw, 110px);
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 2px 32px rgba(0,0,0,0.18);
+  padding-left: calc((100vw - min(calc(100% - 48px), 1180px)) / 2 + 24px);
+}
+
+/* ── AWARD ── */
+.award-section {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.award-label {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.award-label h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.award-label .en {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--red);
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+.award-body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.award-cover {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, #1a3a6e, #2d5a9e);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  padding: 32px 24px;
+  box-shadow: 4px 8px 32px rgba(0,0,0,0.18);
+}
+
+.award-cover .cover-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.award-cover .cover-title {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.award-cover .cover-sub {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.award-cover .award-badge {
+  margin-top: 24px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.award-text h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.award-text .award-en {
+  font-size: 12px;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.award-text p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.award-text .detail-list {
+  list-style: none;
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.award-text .detail-list li {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.award-text .detail-list li strong {
+  min-width: 72px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--red-soft); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+}
+
+.btn-outline:hover { background: var(--navy); color: #fff; }
+
+/* ── PROJECTS ── */
+.projects-section {
+  padding: 80px 0;
+  background: var(--bg-gray);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--red);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.section-desc {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.project-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px 24px;
+  transition: transform .25s, box-shadow .25s;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+
+.project-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.icon-blue { background: #e8f0fe; }
+.icon-red { background: #fce8ee; }
+.icon-green { background: #e6f4ea; }
+.icon-orange { background: #fff3e0; }
+
+.project-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.project-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.project-card .more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--red);
+}
+
+/* ── NOTICE ── */
+.notice-section {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.notice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.notice-col h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--red);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notice-col h3 a {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.notice-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.notice-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 16px;
+}
+
+.notice-list li a {
+  font-size: 14px;
+  color: var(--text);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color .2s;
+}
+
+.notice-list li a:hover { color: var(--red); }
+
+.notice-list .date {
+  font-size: 12px;
+  color: var(--subtle);
+  flex-shrink: 0;
+}
+
+.badge-new {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--red);
+  background: rgba(200,0,60,0.08);
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ── SUPPORT BANNER ── */
+.support-banner {
+  background: var(--navy);
+  padding: 72px 0;
+  text-align: center;
+  color: #fff;
+}
+
+.support-banner h2 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.support-banner p {
+  font-size: 15px;
+  opacity: 0.75;
+  margin-bottom: 36px;
+  line-height: 1.8;
+}
+
+.support-banner .btn-white {
+  background: #fff;
+  color: var(--navy);
+  font-size: 15px;
+  padding: 14px 36px;
+}
+
+.support-banner .btn-white:hover { background: #f0f0f0; }
+
+/* ── FOOTER ── */
+.site-footer {
+  background: #111;
+  color: rgba(255,255,255,0.6);
+  padding: 56px 0 36px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-brand .logo-fco { color: #fff; font-size: 24px; }
+.footer-brand .logo-full { color: rgba(255,255,255,0.5); font-size: 10px; }
+
+.footer-brand p {
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 16px;
+  color: rgba(255,255,255,0.45);
+}
+
+.footer-col h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  transition: color .2s;
+}
+
+.footer-col ul li a:hover { color: #fff; }
+
+.footer-info {
+  font-size: 12px;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.4);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-bottom a {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  transition: color .2s;
+}
+
+.footer-bottom a:hover { color: #fff; }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 68px; left: 0; right: 0;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 16px 24px 24px;
+    gap: 16px;
+    z-index: 99;
+  }
+  .nav-toggle { display: flex; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .notice-grid { grid-template-columns: 1fr; }
+  .award-body { grid-template-columns: 1fr; }
+  .award-cover { max-width: 220px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+@media (max-width: 600px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content container">
+    <h1 class="hero-title">Originality.</h1>
+  </div>
+</section>
+
+<!-- AWARD -->
+<section class="award-section">
+  <div class="container">
+    <div class="award-label">
+      <h2>오버다 문학상</h2>
+      <p class="en">Oberdah Literary Award</p>
+    </div>
+    <div class="award-body">
+      <div class="award-cover">
+        <span class="cover-label">OBERDAH LITERARY AWARD</span>
+        <div class="cover-title">오버다<br>문학상</div>
+        <div class="cover-sub">기독교 창의 문학의<br>새 지평을 열다</div>
+        <span class="award-badge">2024 수상작 발표</span>
+      </div>
+      <div class="award-text">
+        <h3>오버다 문학상</h3>
+        <p class="award-en">OBERDAH LITERARY AWARD</p>
+        <p>
+          FCO 기독교창의지원재단은 그리스도 안에서 창의적인 목소리를 가진 작가들을 발굴하고 지원합니다.
+          오버다 문학상은 기독교적 세계관으로 한국 문학의 지평을 넓히는 작품을 선정하여 시상합니다.
+        </p>
+        <p>
+          성경적 가치와 문학적 완성도를 동시에 추구하는 작가에게 열린 문이 있습니다.
+          독창성과 창의성을 바탕으로 세상에 빛을 발하는 이야기를 기대합니다.
+        </p>
+        <ul class="detail-list">
+          <li><strong>시상 부문</strong> 단편소설, 시, 에세이</li>
+          <li><strong>응모 자격</strong> 기독교적 세계관을 가진 작가 누구나</li>
+          <li><strong>시상 내역</strong> 대상 300만원, 최우수상 150만원, 우수상 70만원</li>
+          <li><strong>제출 방법</strong> FCO 공식 홈페이지를 통한 온라인 접수</li>
+        </ul>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="apply.html" class="btn btn-primary">지원하기 →</a>
+          <a href="projects.html#award" class="btn btn-outline">자세히 보기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">2024 FCO PROJECT</p>
+      <h2 class="section-title">CREATIVE ON ORIGINALITY</h2>
+      <p class="section-desc">기독교 창의성을 세상 속으로</p>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+      <div class="project-card">
+        <div class="project-icon icon-blue">📚</div>
+        <h3>기독교 도서<br>지원사업</h3>
+        <p>기독교 창의 작가들의 출판을 지원하여 양질의 기독교 문학이 세상에 나올 수 있도록 돕습니다.</p>
+        <span class="more">자세히 보기 →</span>
+      </div>
+      <div class="project-card">
+        <div class="project-icon icon-red">🏆</div>
+        <h3>오버다 문학상</h3>
+        <p>그리스도 안에서 독창적인 문학 작품을 창작하는 작가를 발굴하고 시상하는 FCO 대표 사업입니다.</p>
+        <span class="more">자세히 보기 →</span>
+      </div>
+      <div class="project-card">
+        <div class="project-icon icon-green">🎬</div>
+        <h3>Film・드라마</h3>
+        <p>기독교적 가치를 담은 영상 콘텐츠 제작을 지원하여 미디어 선교의 새 길을 열어갑니다.</p>
+        <span class="more">자세히 보기 →</span>
+      </div>
+      <div class="project-card">
+        <div class="project-icon icon-orange">✍️</div>
+        <h3>문장 강사<br>양성</h3>
+        <p>기독교 작가와 강사를 양성하는 교육 프로그램으로 차세대 창의 인재를 키웁니다.</p>
+        <span class="more">자세히 보기 →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTICE -->
+<section class="notice-section">
+  <div class="container">
+    <div class="notice-grid">
+      <div class="notice-col">
+        <h3>공지사항 <a href="news.html">전체보기 →</a></h3>
+        <ul class="notice-list" id="noticeList">
+          <li>
+            <a href="#">2024 오버다 문학상 수상자 발표</a>
+            <span class="badge-new">NEW</span>
+            <span class="date">2024.11.01</span>
+          </li>
+          <li>
+            <a href="#">기독교 도서 지원사업 2차 모집 공고</a>
+            <span class="date">2024.10.15</span>
+          </li>
+          <li>
+            <a href="#">FCO 재단 창립 기념 특별 세미나 안내</a>
+            <span class="date">2024.09.28</span>
+          </li>
+          <li>
+            <a href="#">문장 강사 양성 프로그램 3기 모집</a>
+            <span class="date">2024.09.10</span>
+          </li>
+          <li>
+            <a href="#">2024 하반기 Film 지원사업 공모</a>
+            <span class="date">2024.08.20</span>
+          </li>
+        </ul>
+      </div>
+      <div class="notice-col">
+        <h3>보도자료 <a href="news.html">전체보기 →</a></h3>
+        <ul class="notice-list" id="pressList">
+          <li>
+            <a href="#">"기독교 창작의 새 바람" - 국민일보</a>
+            <span class="badge-new">NEW</span>
+            <span class="date">2024.11.03</span>
+          </li>
+          <li>
+            <a href="#">FCO 재단, 창의 작가 50명 선정 지원</a>
+            <span class="date">2024.10.20</span>
+          </li>
+          <li>
+            <a href="#">오버다 문학상 시상식 성황리 개최</a>
+            <span class="date">2024.10.05</span>
+          </li>
+          <li>
+            <a href="#">기독교 창의 생태계 구축의 선봉 FCO</a>
+            <span class="date">2024.09.15</span>
+          </li>
+          <li>
+            <a href="#">FCO-기독 출판사 MOU 체결</a>
+            <span class="date">2024.08.30</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT BANNER -->
+<section class="support-banner">
+  <div class="container">
+    <h2>함께 창의의 씨앗을 심어주세요</h2>
+    <p>FCO 기독교창의지원재단의 사역에 동참하시면<br>기독교 창작 문화의 새 역사를 함께 만들어갑니다.</p>
+    <a href="support.html" class="btn btn-white">후원하기 →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+        <p>Foundation for<br>Christian Originality<br><br>기독교 창의 생태계를 세우는<br>새로운 도전</p>
+      </div>
+      <div class="footer-col">
+        <h4>바로가기</h4>
+        <ul>
+          <li><a href="about.html">재단소개</a></li>
+          <li><a href="projects.html">사업소개</a></li>
+          <li><a href="news.html">보도자료</a></li>
+          <li><a href="support.html">후원하기</a></li>
+          <li><a href="apply.html">지원하기</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>연락처</h4>
+        <div class="footer-info">
+          (재)기독교창의지원재단<br>
+          서울특별시 ○○구 ○○로 ○○○<br><br>
+          Tel. 02-000-0000<br>
+          Email. info@fco.or.kr<br><br>
+          사업자등록번호: 000-00-00000
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <div style="display:flex; gap:20px;">
+        <a href="#">개인정보처리방침</a>
+        <a href="#">이용약관</a>
+        <a href="admin/login.html">관리자</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// LocalStorage에서 공지 불러오기
+function loadNotices() {
+  const notices = JSON.parse(localStorage.getItem('fco_notices') || '[]');
+  if (notices.length === 0) return;
+  const list = document.getElementById('noticeList');
+  list.innerHTML = notices.slice(0, 5).map(n => `
+    <li>
+      <a href="#">${n.title}</a>
+      ${n.isNew ? '<span class="badge-new">NEW</span>' : ''}
+      <span class="date">${n.date}</span>
+    </li>
+  `).join('');
+}
+
+function loadPress() {
+  const press = JSON.parse(localStorage.getItem('fco_press') || '[]');
+  if (press.length === 0) return;
+  const list = document.getElementById('pressList');
+  list.innerHTML = press.slice(0, 5).map(p => `
+    <li>
+      <a href="#">${p.title}</a>
+      ${p.isNew ? '<span class="badge-new">NEW</span>' : ''}
+      <span class="date">${p.date}</span>
+    </li>
+  `).join('');
+}
+
+loadNotices();
+loadPress();
+</script>
+</body>
+</html>

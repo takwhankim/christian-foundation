@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>재단소개 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #C8003C; --navy: #1a1f3c;
+  --text: #1a1a1a; --muted: #666; --subtle: #999;
+  --max: 1180px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo { display: flex; align-items: center; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--red); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--red); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; letter-spacing: 0.08em; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 15px; opacity: 0.7; line-height: 1.8; }
+
+.sub-nav { background: #f5f5f5; border-bottom: 1px solid #e8e8e8; }
+.sub-nav ul { display: flex; list-style: none; height: 48px; align-items: center; gap: 0; }
+.sub-nav ul li a { display: flex; align-items: center; height: 48px; padding: 0 20px; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; transition: .2s; }
+.sub-nav ul li a:hover, .sub-nav ul li a.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+
+.section { padding: 72px 0; }
+.section + .section { border-top: 1px solid #f0f0f0; }
+
+.about-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.about-intro .text h2 { font-size: 32px; font-weight: 700; line-height: 1.4; margin-bottom: 24px; }
+.about-intro .text h2 em { font-style: italic; color: var(--red); }
+.about-intro .text p { font-size: 15px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
+.about-intro .visual { background: linear-gradient(135deg, #e8f0fe, #fce8ee); border-radius: 12px; height: 360px; display: flex; align-items: center; justify-content: center; }
+.about-intro .visual .big-text { font-family: "Playfair Display", serif; font-style: italic; font-size: 72px; font-weight: 700; color: var(--red); opacity: 0.15; }
+
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.value-card { padding: 32px; background: #f9f9f9; border-radius: 8px; border-top: 3px solid var(--red); }
+.value-card .num { font-size: 36px; font-weight: 800; color: rgba(200,0,60,0.1); font-family: "Playfair Display", serif; }
+.value-card h3 { font-size: 18px; font-weight: 700; margin: 8px 0 12px; }
+.value-card p { font-size: 14px; color: var(--muted); line-height: 1.9; }
+
+.section-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.section-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; }
+
+.history-list { display: flex; flex-direction: column; gap: 0; }
+.history-year { display: grid; grid-template-columns: 100px 1fr; gap: 24px; padding: 32px 0; border-bottom: 1px solid #f0f0f0; }
+.history-year:last-child { border-bottom: none; }
+.history-year .year { font-size: 24px; font-weight: 800; color: var(--red); }
+.history-year .events { display: flex; flex-direction: column; gap: 12px; }
+.history-year .event { font-size: 14px; color: var(--text); display: flex; gap: 12px; }
+.history-year .event .month { color: var(--muted); min-width: 36px; font-size: 13px; }
+
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+.team-card { text-align: center; }
+.team-card .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #e8f0fe, #c8d8f8); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+.team-card h4 { font-size: 15px; font-weight: 700; }
+.team-card p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 56px 0 36px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+.footer-bottom a:hover { color: #fff; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .about-intro { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html" class="active">재단소개</a></li>
+        <li><a href="projects.html">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="breadcrumb">HOME · 재단소개</p>
+    <h1>재단소개</h1>
+    <p>FCO 기독교창의지원재단은 그리스도의 사랑으로 창의성을 세상에 흘려보냅니다.</p>
+  </div>
+</div>
+
+<nav class="sub-nav">
+  <div class="container">
+    <ul>
+      <li><a href="#intro" class="active">설립 목적</a></li>
+      <li><a href="#values">핵심 가치</a></li>
+      <li><a href="#history">연혁</a></li>
+      <li><a href="#team">임원진</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <section class="section" id="intro">
+    <div class="container">
+      <div class="about-intro">
+        <div class="text">
+          <h2>기독교 창의성으로<br><em>세상을 변화시킵니다</em></h2>
+          <p>
+            FCO(Foundation for Christian Originality) 기독교창의지원재단은 하나님이 주신 창의성을 발휘하여 세상에 선한 영향력을 끼치는 크리스천 창작자들을 발굴하고 지원합니다.
+          </p>
+          <p>
+            문학, 영상, 미술, 음악 등 다양한 예술 분야에서 기독교적 세계관을 가진 창작자들이 작품 활동을 지속할 수 있도록 재정적, 교육적 지원을 아끼지 않겠습니다.
+          </p>
+          <p>
+            하나님의 아름다움과 진리를 담은 창작물이 세상 속으로 흘러가, 더 많은 사람들이 창조주를 만나는 통로가 되기를 소망합니다.
+          </p>
+        </div>
+        <div class="visual">
+          <span class="big-text">FCO</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="values" style="background:#fafafa;">
+    <div class="container">
+      <h2 class="section-title">핵심 가치</h2>
+      <p class="section-sub">FCO가 추구하는 세 가지 핵심 가치입니다.</p>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="num">01</div>
+          <h3>독창성 (Originality)</h3>
+          <p>하나님이 각자에게 주신 고유한 목소리와 재능을 발굴합니다. 획일화된 콘텐츠가 아닌, 각자의 독특한 창의성이 꽃필 수 있도록 지원합니다.</p>
+        </div>
+        <div class="value-card">
+          <div class="num">02</div>
+          <h3>탁월성 (Excellence)</h3>
+          <p>기독교 작품도 세상 최고 수준의 완성도를 추구해야 합니다. 복음의 내용뿐 아니라 예술적 형식에서도 탁월함을 지향합니다.</p>
+        </div>
+        <div class="value-card">
+          <div class="num">03</div>
+          <h3>영향력 (Impact)</h3>
+          <p>창작물이 교회 안에만 머물지 않고 세상으로 나가 사람들의 마음을 움직이고 하나님께로 이끄는 선한 영향력을 발휘하도록 돕습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="history">
+    <div class="container">
+      <h2 class="section-title">연혁</h2>
+      <p class="section-sub">FCO 기독교창의지원재단의 발자취입니다.</p>
+      <div class="history-list">
+        <div class="history-year">
+          <div class="year">2024</div>
+          <div class="events">
+            <div class="event"><span class="month">11월</span> 오버다 문학상 수상자 발표 및 시상식</div>
+            <div class="event"><span class="month">09월</span> 기독교 도서 지원사업 2차 선정 발표</div>
+            <div class="event"><span class="month">06월</span> FCO Film 지원사업 1기 프로젝트 시작</div>
+            <div class="event"><span class="month">03월</span> 오버다 문학상 1회 공모 개시</div>
+            <div class="event"><span class="month">01월</span> 기독교창의지원재단 공식 설립</div>
+          </div>
+        </div>
+        <div class="history-year">
+          <div class="year">2023</div>
+          <div class="events">
+            <div class="event"><span class="month">12월</span> 재단 설립 준비위원회 출범</div>
+            <div class="event"><span class="month">09월</span> FCO 비전 선포식 및 발기인 대회</div>
+            <div class="event"><span class="month">06월</span> 기독교 창의 생태계 연구 프로젝트 시작</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="team" style="background:#fafafa;">
+    <div class="container">
+      <h2 class="section-title">임원진</h2>
+      <p class="section-sub">FCO 기독교창의지원재단을 이끄는 분들입니다.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="avatar">👤</div>
+          <h4>이사장</h4>
+          <p>FCO 기독교창의지원재단</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar">👤</div>
+          <h4>상임이사</h4>
+          <p>FCO 기독교창의지원재단</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar">👤</div>
+          <h4>사무총장</h4>
+          <p>FCO 기독교창의지원재단</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar">👤</div>
+          <h4>감사</h4>
+          <p>FCO 기독교창의지원재단</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <div style="display:flex; gap:20px;">
+        <a href="#">개인정보처리방침</a>
+        <a href="#">이용약관</a>
+        <a href="admin/login.html">관리자</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

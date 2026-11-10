@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사업소개 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --red: #C8003C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--red); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--red); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 15px; opacity: 0.7; }
+
+.projects-overview { padding: 72px 0; background: #fff; }
+.section-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+.section-desc { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 56px; line-height: 1.8; }
+
+.project-detail { margin-bottom: 72px; padding-bottom: 72px; border-bottom: 1px solid #f0f0f0; }
+.project-detail:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.project-detail .row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.project-detail .row.reverse { direction: rtl; }
+.project-detail .row.reverse > * { direction: ltr; }
+.project-detail .text .cat { font-size: 11px; font-weight: 600; color: var(--red); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
+.project-detail .text h2 { font-size: 30px; font-weight: 700; margin-bottom: 20px; line-height: 1.3; }
+.project-detail .text p { font-size: 15px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
+.project-detail .text .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.project-detail .text .tags span { background: #f0f0f0; color: var(--muted); font-size: 12px; padding: 4px 12px; border-radius: 20px; }
+.project-detail .text .apply-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--red); color: #fff; border-radius: 4px; font-size: 14px; font-weight: 600; transition: background .2s; }
+.project-detail .text .apply-btn:hover { background: #a8002e; }
+.project-detail .visual { background: linear-gradient(135deg, #e8f0fe, #c8d8f8); border-radius: 12px; height: 320px; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+
+.support-cta { background: var(--navy); color: #fff; text-align: center; padding: 72px 0; }
+.support-cta h2 { font-size: 30px; font-weight: 700; margin-bottom: 12px; }
+.support-cta p { font-size: 15px; opacity: 0.75; margin-bottom: 32px; line-height: 1.8; }
+.support-cta a { display: inline-block; background: #fff; color: var(--navy); padding: 14px 36px; border-radius: 4px; font-size: 15px; font-weight: 700; transition: background .2s; }
+.support-cta a:hover { background: #f0f0f0; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .project-detail .row { grid-template-columns: 1fr; }
+  .project-detail .row.reverse { direction: ltr; }
+  .project-detail .visual { height: 220px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <span class="logo-fco">FCO</span>
+          <span class="logo-full">기독교창의지원재단</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html" class="active">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="breadcrumb">HOME · 사업소개</p>
+    <h1>사업소개</h1>
+    <p>FCO 기독교창의지원재단이 운영하는 창의 지원 사업을 소개합니다.</p>
+  </div>
+</div>
+
+<section class="projects-overview">
+  <div class="container">
+    <h2 class="section-title">2024 FCO PROJECT</h2>
+    <p class="section-desc">기독교 창의성으로 세상을 변화시키기 위한<br>FCO 기독교창의지원재단의 핵심 사업들입니다.</p>
+
+    <div class="project-detail" id="book">
+      <div class="row">
+        <div class="text">
+          <div class="cat">PROGRAM 01</div>
+          <h2>기독교 도서 지원사업</h2>
+          <p>기독교적 세계관을 가진 창작자들의 출판을 지원합니다. 양질의 기독교 문학이 세상에 나올 수 있도록 출판 비용의 일부를 지원하며, 출판사와의 연계를 통해 더 많은 독자에게 닿을 수 있도록 돕습니다.</p>
+          <p>신앙의 깊이와 문학적 완성도를 모두 갖춘 작품을 기다립니다.</p>
+          <div class="tags">
+            <span>소설</span><span>시</span><span>에세이</span><span>청소년 도서</span><span>어린이 도서</span>
+          </div>
+          <a href="apply.html" class="apply-btn">지원 신청하기 →</a>
+        </div>
+        <div class="visual">📚</div>
+      </div>
+    </div>
+
+    <div class="project-detail" id="award">
+      <div class="row reverse">
+        <div class="text">
+          <div class="cat">PROGRAM 02</div>
+          <h2>오버다 문학상</h2>
+          <p>그리스도 안에서 독창적인 문학 작품을 창작하는 작가를 발굴하고 시상하는 FCO 대표 사업입니다. '오버다(Oberdah)'는 '넘어서다'라는 의미를 담아, 기존의 경계를 넘어서는 창의적인 작품을 환영합니다.</p>
+          <p>대상(300만원), 최우수상(150만원), 우수상(70만원) 등 총 1천만원의 상금을 수여합니다.</p>
+          <div class="tags">
+            <span>단편소설</span><span>시</span><span>에세이</span><span>연 1회 공모</span>
+          </div>
+          <a href="apply.html" class="apply-btn">지원 신청하기 →</a>
+        </div>
+        <div class="visual" style="background:linear-gradient(135deg,#fce8ee,#f8c8d8);">🏆</div>
+      </div>
+    </div>
+
+    <div class="project-detail" id="film">
+      <div class="row">
+        <div class="text">
+          <div class="cat">PROGRAM 03</div>
+          <h2>Film・드라마 지원사업</h2>
+          <p>기독교적 가치를 담은 영상 콘텐츠 제작을 지원합니다. 단편영화, 웹드라마, 다큐멘터리 등 다양한 형식의 영상 프로젝트를 대상으로 최대 2,000만원을 지원합니다.</p>
+          <p>스크린과 화면을 통해 복음의 메시지가 전해질 수 있도록 FCO가 함께합니다.</p>
+          <div class="tags">
+            <span>단편영화</span><span>웹드라마</span><span>다큐멘터리</span><span>최대 2,000만원</span>
+          </div>
+          <a href="apply.html" class="apply-btn">지원 신청하기 →</a>
+        </div>
+        <div class="visual" style="background:linear-gradient(135deg,#e6f4ea,#c8e8d4);">🎬</div>
+      </div>
+    </div>
+
+    <div class="project-detail" id="edu">
+      <div class="row reverse">
+        <div class="text">
+          <div class="cat">PROGRAM 04</div>
+          <h2>문장 강사 양성 프로그램</h2>
+          <p>기독교 작가와 강사를 양성하는 교육 프로그램입니다. 기초반과 심화반으로 나뉘어 20주 과정으로 진행되며, 기독교 글쓰기 이론, 강의법, 출판 기획 등 실무 중심 교육을 제공합니다.</p>
+          <p>수강료는 전액 FCO 재단이 지원하며, 수료 후 FCO 공식 강사로 활동할 수 있는 기회를 드립니다.</p>
+          <div class="tags">
+            <span>무료 교육</span><span>20주 과정</span><span>기초/심화반</span><span>강사 자격 취득</span>
+          </div>
+          <a href="apply.html" class="apply-btn">지원 신청하기 →</a>
+        </div>
+        <div class="visual" style="background:linear-gradient(135deg,#fff3e0,#ffe0c0);">✍️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="support-cta">
+  <div class="container">
+    <h2>함께 창의의 씨앗을 심어주세요</h2>
+    <p>FCO 기독교창의지원재단의 사역에 동참하시면<br>기독교 창작 문화의 새 역사를 함께 만들어갑니다.</p>
+    <a href="support.html">후원하기 →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <div style="display:flex;gap:20px;">
+        <a href="admin/login.html">관리자</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
+</script>
+</body>
+</html>

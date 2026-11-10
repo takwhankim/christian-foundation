@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자 로그인 | FCO</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --red: #C8003C; --navy: #1a1f3c; }
+body {
+  font-family: "Pretendard", sans-serif;
+  background: linear-gradient(135deg, var(--navy) 0%, #0f1428 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.3);
+}
+
+.logo-area {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.logo-fco {
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--red);
+  letter-spacing: 0.04em;
+  display: block;
+}
+
+.logo-full {
+  font-size: 11px;
+  color: var(--red);
+  font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+.admin-label {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: #f5f5f5;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: border .2s;
+  color: #1a1a1a;
+}
+
+.form-group input:focus {
+  border-color: var(--red);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background .2s;
+  letter-spacing: 0.04em;
+}
+
+.btn-login:hover { background: #2a3058; }
+
+.error-msg {
+  display: none;
+  color: var(--red);
+  font-size: 13px;
+  text-align: center;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(200,0,60,0.06);
+  border-radius: 6px;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #999;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.back-link:hover { color: var(--navy); }
+
+.hint {
+  font-size: 11px;
+  color: #bbb;
+  text-align: center;
+  margin-top: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="logo-area">
+    <span class="logo-fco">FCO</span>
+    <span class="logo-full">기독교창의지원재단</span>
+    <span class="admin-label">관리자</span>
+  </div>
+
+  <div class="form-group">
+    <label>아이디</label>
+    <input type="text" id="username" placeholder="관리자 아이디" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label>비밀번호</label>
+    <input type="password" id="password" placeholder="비밀번호" autocomplete="current-password">
+  </div>
+
+  <button class="btn-login" onclick="login()">로그인</button>
+  <div class="error-msg" id="errorMsg">아이디 또는 비밀번호가 올바르지 않습니다.</div>
+
+  <a href="../index.html" class="back-link">← 홈페이지로 돌아가기</a>
+  <p class="hint">초기 계정: admin / fco2024!</p>
+</div>
+
+<script>
+function login() {
+  const id = document.getElementById('username').value;
+  const pw = document.getElementById('password').value;
+  const saved = JSON.parse(localStorage.getItem('fco_admin_creds') || '{"id":"admin","pw":"fco2024!"}');
+  if (id === saved.id && pw === saved.pw) {
+    sessionStorage.setItem('fco_admin', '1');
+    window.location.href = 'index.html';
+  } else {
+    document.getElementById('errorMsg').style.display = 'block';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+if (sessionStorage.getItem('fco_admin')) window.location.href = 'index.html';
+</script>
+</body>
+</html>
