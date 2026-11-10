@@ -7,7 +7,7 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --red: #C8003C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
+:root { --brand: #6B2D8C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
 body { font-family: "Pretendard", sans-serif; color: var(--text); }
 a { color: inherit; text-decoration: none; }
 .container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
@@ -15,11 +15,11 @@ a { color: inherit; text-decoration: none; }
 .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
 .nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .logo-mark { display: flex; flex-direction: column; line-height: 1; }
-.logo-fco { font-weight: 800; font-size: 22px; color: var(--red); letter-spacing: 0.04em; }
-.logo-full { font-size: 9.5px; font-weight: 500; color: var(--red); }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
 .nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
-.nav-links a:hover, .nav-links a.active { color: var(--red); }
+.nav-links a:hover, .nav-links a.active { color: var(--brand); }
 .nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
 .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
@@ -38,13 +38,13 @@ a { color: inherit; text-decoration: none; }
 .project-detail .row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 .project-detail .row.reverse { direction: rtl; }
 .project-detail .row.reverse > * { direction: ltr; }
-.project-detail .text .cat { font-size: 11px; font-weight: 600; color: var(--red); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
+.project-detail .text .cat { font-size: 11px; font-weight: 600; color: var(--brand); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
 .project-detail .text h2 { font-size: 30px; font-weight: 700; margin-bottom: 20px; line-height: 1.3; }
 .project-detail .text p { font-size: 15px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
 .project-detail .text .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
 .project-detail .text .tags span { background: #f0f0f0; color: var(--muted); font-size: 12px; padding: 4px 12px; border-radius: 20px; }
-.project-detail .text .apply-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--red); color: #fff; border-radius: 4px; font-size: 14px; font-weight: 600; transition: background .2s; }
-.project-detail .text .apply-btn:hover { background: #a8002e; }
+.project-detail .text .apply-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--brand); color: #fff; border-radius: 4px; font-size: 14px; font-weight: 600; transition: background .2s; }
+.project-detail .text .apply-btn:hover { background: #57226E; }
 .project-detail .visual { background: linear-gradient(135deg, #e8f0fe, #c8d8f8); border-radius: 12px; height: 320px; display: flex; align-items: center; justify-content: center; font-size: 80px; }
 
 .support-cta { background: var(--navy); color: #fff; text-align: center; padding: 72px 0; }
@@ -73,12 +73,7 @@ a { color: inherit; text-decoration: none; }
 <header class="site-header">
   <div class="container">
     <nav class="nav-shell">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">
-          <span class="logo-fco">FCO</span>
-          <span class="logo-full">기독교창의지원재단</span>
-        </div>
-      </a>
+      <a href="index.html" class="logo"><img src="logo.png" alt="FCO 기독교창의지원재단" class="logo-img"></a>
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html">재단소개</a></li>
         <li><a href="projects.html" class="active">사업소개</a></li>

@@ -7,7 +7,7 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --red: #C8003C; --navy: #1a1f3c; }
+:root { --brand: #6B2D8C; --navy: #1a1f3c; }
 body {
   font-family: "Pretendard", sans-serif;
   background: linear-gradient(135deg, var(--navy) 0%, #0f1428 100%);
@@ -35,14 +35,14 @@ body {
 .logo-fco {
   font-weight: 800;
   font-size: 32px;
-  color: var(--red);
+  color: var(--brand);
   letter-spacing: 0.04em;
   display: block;
 }
 
 .logo-full {
   font-size: 11px;
-  color: var(--red);
+  color: var(--brand);
   font-weight: 500;
   display: block;
   margin-top: 2px;
@@ -87,7 +87,7 @@ body {
 }
 
 .form-group input:focus {
-  border-color: var(--red);
+  border-color: var(--brand);
 }
 
 .btn-login {
@@ -110,12 +110,12 @@ body {
 
 .error-msg {
   display: none;
-  color: var(--red);
+  color: var(--brand);
   font-size: 13px;
   text-align: center;
   margin-top: 12px;
   padding: 10px;
-  background: rgba(200,0,60,0.06);
+  background: rgba(107,45,140,0.06);
   border-radius: 6px;
 }
 
@@ -143,8 +143,7 @@ body {
 
 <div class="login-card">
   <div class="logo-area">
-    <span class="logo-fco">FCO</span>
-    <span class="logo-full">기독교창의지원재단</span>
+    <img src="../logo.png" alt="FCO 기독교창의지원재단" style="height:44px;width:auto;">
     <span class="admin-label">관리자</span>
   </div>
 

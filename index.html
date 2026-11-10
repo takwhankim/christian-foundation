@@ -12,8 +12,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --red: #C8003C;
-  --red-soft: #E8004A;
+  --brand: #6B2D8C;
+  --brand-soft: #7D3FA0;
   --navy: #1a1f3c;
   --navy-soft: #2a3058;
   --text: #1a1a1a;
@@ -61,30 +61,12 @@ a { color: inherit; text-decoration: none; }
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-shrink: 0;
 }
 
-.logo-mark {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
-.logo-fco {
-  font-family: "Pretendard", sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  color: var(--red);
-  letter-spacing: 0.04em;
-}
-
-.logo-full {
-  font-size: 9.5px;
-  font-weight: 500;
-  color: var(--red);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+.logo-img {
+  height: 40px;
+  width: auto;
 }
 
 .nav-links {
@@ -101,7 +83,7 @@ a { color: inherit; text-decoration: none; }
   transition: color .2s;
 }
 
-.nav-links a:hover { color: var(--red); }
+.nav-links a:hover { color: var(--brand); }
 
 .nav-cta {
   background: var(--navy);
@@ -202,7 +184,7 @@ a { color: inherit; text-decoration: none; }
 .award-label .en {
   font-size: 13px;
   font-weight: 400;
-  color: var(--red);
+  color: var(--brand);
   letter-spacing: 0.08em;
   margin-top: 4px;
 }
@@ -267,7 +249,7 @@ a { color: inherit; text-decoration: none; }
 
 .award-text .award-en {
   font-size: 12px;
-  color: var(--red);
+  color: var(--brand);
   letter-spacing: 0.1em;
   font-weight: 500;
   margin-bottom: 24px;
@@ -315,11 +297,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-primary {
-  background: var(--red);
+  background: var(--brand);
   color: #fff;
 }
 
-.btn-primary:hover { background: var(--red-soft); }
+.btn-primary:hover { background: var(--brand-soft); }
 
 .btn-outline {
   background: transparent;
@@ -343,7 +325,7 @@ a { color: inherit; text-decoration: none; }
 .section-label {
   font-size: 11px;
   font-weight: 600;
-  color: var(--red);
+  color: var(--brand);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-bottom: 10px;
@@ -417,7 +399,7 @@ a { color: inherit; text-decoration: none; }
   margin-top: 20px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--red);
+  color: var(--brand);
 }
 
 /* ── NOTICE ── */
@@ -437,7 +419,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 2px solid var(--red);
+  border-bottom: 2px solid var(--brand);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -474,7 +456,7 @@ a { color: inherit; text-decoration: none; }
   transition: color .2s;
 }
 
-.notice-list li a:hover { color: var(--red); }
+.notice-list li a:hover { color: var(--brand); }
 
 .notice-list .date {
   font-size: 12px;
@@ -485,8 +467,8 @@ a { color: inherit; text-decoration: none; }
 .badge-new {
   font-size: 10px;
   font-weight: 700;
-  color: var(--red);
-  background: rgba(200,0,60,0.08);
+  color: var(--brand);
+  background: rgba(107,45,140,0.08);
   padding: 2px 7px;
   border-radius: 3px;
   flex-shrink: 0;
@@ -633,12 +615,7 @@ a { color: inherit; text-decoration: none; }
 <header class="site-header">
   <div class="container">
     <nav class="nav-shell">
-      <a href="index.html" class="logo">
-        <div class="logo-mark">
-          <span class="logo-fco">FCO</span>
-          <span class="logo-full">기독교창의지원재단</span>
-        </div>
-      </a>
+      <a href="index.html" class="logo"><img src="logo.png" alt="FCO 기독교창의지원재단" class="logo-img"></a>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html">재단소개</a></li>
@@ -814,10 +791,7 @@ a { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo-mark">
-          <span class="logo-fco">FCO</span>
-          <span class="logo-full">기독교창의지원재단</span>
-        </div>
+        <img src="logo.png" alt="FCO 기독교창의지원재단" style="height:36px;filter:brightness(0) invert(1);margin-bottom:12px;">
         <p>Foundation for<br>Christian Originality<br><br>기독교 창의 생태계를 세우는<br>새로운 도전</p>
       </div>
       <div class="footer-col">
