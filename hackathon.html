@@ -1039,6 +1039,16 @@ img { max-width: 100%; }
   }
   const desc = hero.querySelector('.hk-hero-desc');
   if (desc && v.descColor) desc.style.color = v.descColor;
+  if (v.subBgColor) {
+    document.querySelectorAll('.hk-panel, .hk-tabs, .hk-bottom-cta + .site-footer').forEach(el => {
+      if (!el.classList.contains('hk-bottom-cta')) el.style.background = v.subBgColor;
+    });
+    document.documentElement.style.setProperty('--sub-bg', v.subBgColor);
+  }
+  if (v.subTextColor) {
+    document.documentElement.style.setProperty('--sub-text', v.subTextColor);
+    document.querySelectorAll('.hk-panel').forEach(el => el.style.color = v.subTextColor);
+  }
 })();
 
 // ── TAB SWITCHING ──

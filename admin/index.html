@@ -426,6 +426,20 @@ td.clickable:hover { text-decoration: underline; }
               <input type="text" id="hkHeroDescColorHex" maxlength="9" style="width:90px;">
             </div>
           </div>
+          <div class="form-group">
+            <label>서브 배경 색상 <small style="font-weight:400;color:#999">(탭 콘텐츠 영역)</small></label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkSubBg" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkSubBgHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>서브 배경 텍스트 색상</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkSubTextColor" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkSubTextColorHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
         </div>
         <div style="margin-top:16px;display:flex;align-items:center;gap:14px;">
           <button class="btn btn-primary" onclick="saveHkHero()">저장</button>
@@ -1042,7 +1056,7 @@ async function changePassword() {
 }
 const ORG = { orgName: 'name', orgTel: 'tel', orgEmail: 'email', orgAddr: 'address', orgBizno: 'bizno' };
 // ── 해커톤 히어로 ──
-const HK_HERO_DEFAULTS = { bgColor: '#FFD600', titleColor: '#1a1f3c', titleSize: 72, spanColor: '#2563EB', spanSize: 72, descColor: '#1a1f3c' };
+const HK_HERO_DEFAULTS = { bgColor: '#FFD600', titleColor: '#1a1f3c', titleSize: 72, spanColor: '#2563EB', spanSize: 72, descColor: '#1a1f3c', subBgColor: '#ffffff', subTextColor: '#1a1a1a' };
 function syncHkHeroColor(colorId, hexId) {
   const cp = document.getElementById(colorId), tx = document.getElementById(hexId);
   if (!cp || !tx) return;
@@ -1059,6 +1073,8 @@ async function loadHkHero() {
   syncHkHeroColor('hkHeroTitleColor', 'hkHeroTitleColorHex');
   syncHkHeroColor('hkHeroSpanColor', 'hkHeroSpanColorHex');
   syncHkHeroColor('hkHeroDescColor', 'hkHeroDescColorHex');
+  syncHkHeroColor('hkSubBg', 'hkSubBgHex');
+  syncHkHeroColor('hkSubTextColor', 'hkSubTextColorHex');
   syncHkHeroSlider('hkHeroTitleSz', 'hkHeroTitleSzVal');
   syncHkHeroSlider('hkHeroSpanSz', 'hkHeroSpanSzVal');
   const { data } = await db.from('site_settings').select('value').eq('key', 'hackathon_hero').maybeSingle();
@@ -1075,6 +1091,10 @@ async function loadHkHero() {
   document.getElementById('hkHeroSpanSzVal').textContent = v.spanSize;
   document.getElementById('hkHeroDescColor').value = v.descColor;
   document.getElementById('hkHeroDescColorHex').value = v.descColor;
+  document.getElementById('hkSubBg').value = v.subBgColor;
+  document.getElementById('hkSubBgHex').value = v.subBgColor;
+  document.getElementById('hkSubTextColor').value = v.subTextColor;
+  document.getElementById('hkSubTextColorHex').value = v.subTextColor;
 }
 async function saveHkHero() {
   const val = {
@@ -1084,6 +1104,8 @@ async function saveHkHero() {
     spanColor: document.getElementById('hkHeroSpanColorHex').value.trim() || document.getElementById('hkHeroSpanColor').value,
     spanSize: parseInt(document.getElementById('hkHeroSpanSz').value, 10),
     descColor: document.getElementById('hkHeroDescColorHex').value.trim() || document.getElementById('hkHeroDescColor').value,
+    subBgColor: document.getElementById('hkSubBgHex').value.trim() || document.getElementById('hkSubBg').value,
+    subTextColor: document.getElementById('hkSubTextColorHex').value.trim() || document.getElementById('hkSubTextColor').value,
   };
   const { error } = await db.from('site_settings').upsert({ key: 'hackathon_hero', value: val }, { onConflict: 'key' });
   const msg = document.getElementById('hkHeroMsg');
