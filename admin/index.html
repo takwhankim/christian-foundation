@@ -739,9 +739,10 @@ const HERO_DEFAULT_SLIDE = { type: 'video', url: '../images/brush-ink.mp4', post
 let heroSlides = [];
 
 function normalizeHero(v) {
-  if (v?.slides?.length) return { interval: v.interval || 6, slides: v.slides };
-  if (v?.url) return { interval: 6, slides: [{ type: v.type, url: v.url, title: v.title }] };   // 이전 단일 형식
-  return { interval: v?.interval || 6, slides: [{ ...HERO_DEFAULT_SLIDE, title: v?.title || HERO_DEFAULT_SLIDE.title }] };
+  const height = v?.height || 100;
+  if (v?.slides?.length) return { interval: v.interval || 6, height, slides: v.slides };
+  if (v?.url) return { interval: 6, height, slides: [{ type: v.type, url: v.url, title: v.title }] };   // 이전 단일 형식
+  return { interval: v?.interval || 6, height, slides: [{ ...HERO_DEFAULT_SLIDE, title: v?.title || HERO_DEFAULT_SLIDE.title }] };
 }
 async function loadHero() {
   const h = normalizeHero(await getSetting('hero'));
