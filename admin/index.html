@@ -278,7 +278,13 @@ td.clickable:hover { text-decoration: underline; }
       <div class="settings-card" style="max-width:880px;margin-top:20px">
         <div class="form-row" style="grid-template-columns:200px 1fr;align-items:end">
           <div class="form-group" style="margin:0"><label>전환 간격 (초)</label><input type="number" id="heroInterval" min="3" max="30" value="6"></div>
-          <div class="form-group" style="margin:0"><label>히어로 세로 높이 (vh)</label><input type="number" id="heroHeight" min="30" max="100" value="100" placeholder="100"><p class="help" style="margin:4px 0 0">기본값 100 = 화면 꽉 채움. 50이면 화면 절반 높이.</p></div>
+          <div class="form-group" style="margin:0">
+            <label>히어로 세로 높이 &nbsp;<strong id="heroHeightVal">100</strong>vh</label>
+            <input type="range" id="heroHeight" min="30" max="100" step="10" value="100"
+              style="width:100%;accent-color:var(--brand);cursor:pointer;"
+              oninput="document.getElementById('heroHeightVal').textContent=this.value">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:2px"><span>30</span><span>50</span><span>70</span><span>90</span><span>100</span></div>
+          </div>
           <p class="help" style="margin:0 0 10px">슬라이드가 1개면 바뀌지 않습니다. 영상은 반복 재생되며 소리는 나지 않습니다.</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
@@ -692,7 +698,9 @@ async function loadHero() {
   const h = normalizeHero(await getSetting('hero'));
   heroSlides = h.slides.map(x => x.builtin ? { ...HERO_DEFAULT_SLIDE, title: x.title } : { ...x });
   document.getElementById('heroInterval').value = h.interval;
-  document.getElementById('heroHeight').value = h.height || 100;
+  const hv = h.height || 100;
+  document.getElementById('heroHeight').value = hv;
+  document.getElementById('heroHeightVal').textContent = hv;
   renderHeroSlides();
 }
 function slideMedia(sl) {
