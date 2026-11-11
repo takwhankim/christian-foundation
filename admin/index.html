@@ -745,10 +745,11 @@ function normalizeHero(v) {
   return { interval: v?.interval || 6, height, slides: [{ ...HERO_DEFAULT_SLIDE, title: v?.title || HERO_DEFAULT_SLIDE.title }] };
 }
 async function loadHero() {
-  const h = normalizeHero(await getSetting('hero'));
+  const raw = await getSetting('hero');
+  const h = normalizeHero(raw);
   heroSlides = h.slides.map(x => x.builtin ? { ...HERO_DEFAULT_SLIDE, title: x.title } : { ...x });
   document.getElementById('heroInterval').value = h.interval;
-  const hv = h.height || 100;
+  const hv = Number(raw?.height) || 100;
   document.getElementById('heroHeight').value = hv;
   document.getElementById('heroHeightVal').textContent = hv;
   renderHeroSlides();
