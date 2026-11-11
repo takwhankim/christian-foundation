@@ -385,6 +385,54 @@ td.clickable:hover { text-decoration: underline; }
 
     <!-- HACKATHON -->
     <div class="panel" id="panel-hackathon">
+
+      <!-- 히어로 설정 -->
+      <div class="settings-card" style="margin-bottom:36px;">
+        <h3 style="margin-bottom:20px;">히어로 설정</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="form-group">
+            <label>배경 색상</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkHeroBg" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkHeroBgHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>제목 색상</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkHeroTitleColor" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkHeroTitleColorHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>제목 크기 <strong id="hkHeroTitleSzVal">72</strong>px</label>
+            <input type="range" id="hkHeroTitleSz" min="24" max="180" value="72" style="width:100%;">
+          </div>
+          <div class="form-group">
+            <label>강조 텍스트 색상 <small style="font-weight:400;color:#999">("기술을 소환한다")</small></label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkHeroSpanColor" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkHeroSpanColorHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>강조 텍스트 크기 <strong id="hkHeroSpanSzVal">72</strong>px</label>
+            <input type="range" id="hkHeroSpanSz" min="24" max="180" value="72" style="width:100%;">
+          </div>
+          <div class="form-group">
+            <label>설명 텍스트 색상</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="color" id="hkHeroDescColor" style="width:44px;height:36px;padding:2px;border:1.5px solid #ddd;border-radius:6px;cursor:pointer;">
+              <input type="text" id="hkHeroDescColorHex" maxlength="9" style="width:90px;">
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:flex;align-items:center;gap:14px;">
+          <button class="btn btn-primary" onclick="saveHkHero()">저장</button>
+          <span id="hkHeroMsg" style="font-size:13px;color:#16a34a;"></span>
+        </div>
+      </div>
+
       <div class="section-header-row">
         <h2>해커톤2027 참가 신청</h2>
         <button class="btn btn-secondary" onclick="exportCSV('hackathon')">CSV 내보내기</button>
@@ -499,7 +547,8 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.panel === id));
   document.getElementById('pageTitle').textContent = LABELS[id] || '';
-  ({ dashboard: loadDashboard, hero: loadHero, projects: loadProjects, posts: loadPosts, obadiah: loadObadiah, hackathon: () => loadList('hackathon'),
+  ({ dashboard: loadDashboard, hero: loadHero, projects: loadProjects, posts: loadPosts, obadiah: loadObadiah,
+     hackathon: () => { loadList('hackathon'); loadHkHero(); },
      applications: () => loadList('applications'), supporters: () => loadList('supporters'), settings: loadOrgInfo })[id]?.();
 }
 document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => showPanel(n.dataset.panel)));
@@ -992,6 +1041,56 @@ async function changePassword() {
   toast('비밀번호가 변경되었습니다.');
 }
 const ORG = { orgName: 'name', orgTel: 'tel', orgEmail: 'email', orgAddr: 'address', orgBizno: 'bizno' };
+// ── 해커톤 히어로 ──
+const HK_HERO_DEFAULTS = { bgColor: '#FFD600', titleColor: '#1a1f3c', titleSize: 72, spanColor: '#2563EB', spanSize: 72, descColor: '#1a1f3c' };
+function syncHkHeroColor(colorId, hexId) {
+  const cp = document.getElementById(colorId), tx = document.getElementById(hexId);
+  if (!cp || !tx) return;
+  cp.addEventListener('input', () => { tx.value = cp.value; });
+  tx.addEventListener('change', () => { if (/^#[0-9a-fA-F]{3,8}$/.test(tx.value)) cp.value = tx.value; });
+}
+function syncHkHeroSlider(rangeId, valId) {
+  const r = document.getElementById(rangeId), v = document.getElementById(valId);
+  if (!r || !v) return;
+  r.addEventListener('input', () => { v.textContent = r.value; });
+}
+async function loadHkHero() {
+  syncHkHeroColor('hkHeroBg', 'hkHeroBgHex');
+  syncHkHeroColor('hkHeroTitleColor', 'hkHeroTitleColorHex');
+  syncHkHeroColor('hkHeroSpanColor', 'hkHeroSpanColorHex');
+  syncHkHeroColor('hkHeroDescColor', 'hkHeroDescColorHex');
+  syncHkHeroSlider('hkHeroTitleSz', 'hkHeroTitleSzVal');
+  syncHkHeroSlider('hkHeroSpanSz', 'hkHeroSpanSzVal');
+  const { data } = await db.from('site_settings').select('value').eq('key', 'hackathon_hero').maybeSingle();
+  const v = { ...HK_HERO_DEFAULTS, ...(data?.value || {}) };
+  document.getElementById('hkHeroBg').value = v.bgColor;
+  document.getElementById('hkHeroBgHex').value = v.bgColor;
+  document.getElementById('hkHeroTitleColor').value = v.titleColor;
+  document.getElementById('hkHeroTitleColorHex').value = v.titleColor;
+  document.getElementById('hkHeroTitleSz').value = v.titleSize;
+  document.getElementById('hkHeroTitleSzVal').textContent = v.titleSize;
+  document.getElementById('hkHeroSpanColor').value = v.spanColor;
+  document.getElementById('hkHeroSpanColorHex').value = v.spanColor;
+  document.getElementById('hkHeroSpanSz').value = v.spanSize;
+  document.getElementById('hkHeroSpanSzVal').textContent = v.spanSize;
+  document.getElementById('hkHeroDescColor').value = v.descColor;
+  document.getElementById('hkHeroDescColorHex').value = v.descColor;
+}
+async function saveHkHero() {
+  const val = {
+    bgColor: document.getElementById('hkHeroBgHex').value.trim() || document.getElementById('hkHeroBg').value,
+    titleColor: document.getElementById('hkHeroTitleColorHex').value.trim() || document.getElementById('hkHeroTitleColor').value,
+    titleSize: parseInt(document.getElementById('hkHeroTitleSz').value, 10),
+    spanColor: document.getElementById('hkHeroSpanColorHex').value.trim() || document.getElementById('hkHeroSpanColor').value,
+    spanSize: parseInt(document.getElementById('hkHeroSpanSz').value, 10),
+    descColor: document.getElementById('hkHeroDescColorHex').value.trim() || document.getElementById('hkHeroDescColor').value,
+  };
+  const { error } = await db.from('site_settings').upsert({ key: 'hackathon_hero', value: val }, { onConflict: 'key' });
+  const msg = document.getElementById('hkHeroMsg');
+  if (error) { msg.style.color = '#c0392b'; msg.textContent = '저장 실패: ' + error.message; return; }
+  msg.style.color = '#16a34a'; msg.textContent = '저장되었습니다.'; setTimeout(() => { msg.textContent = ''; }, 2500);
+}
+
 async function loadOrgInfo() {
   const { data } = await db.from('site_settings').select('value').eq('key', 'org').maybeSingle();
   const v = data?.value || {};

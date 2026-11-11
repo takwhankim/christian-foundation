@@ -1014,6 +1014,33 @@ img { max-width: 100%; }
 <script src="js/supabase-config.js"></script>
 <script src="js/fco-db.js"></script>
 <script>
+// ── 해커톤 히어로 설정 불러오기 ──
+(async () => {
+  if (!window.FCO?.ready) return;
+  const { data } = await FCO.client.from('site_settings').select('value').eq('key', 'hackathon_hero').maybeSingle();
+  const v = data?.value; if (!v) return;
+  const hero = document.querySelector('.hk-hero');
+  if (v.bgColor) hero.style.background = v.bgColor;
+  const h1 = hero.querySelector('h1');
+  if (h1) {
+    if (v.titleColor) h1.style.color = v.titleColor;
+    if (v.titleSize) {
+      const s = v.titleSize;
+      h1.style.fontSize = `clamp(${Math.round(s * 0.44)}px, ${(s * 0.0833).toFixed(1)}vw, ${s}px)`;
+    }
+    const span = h1.querySelector('span');
+    if (span) {
+      if (v.spanColor) span.style.color = v.spanColor;
+      if (v.spanSize) {
+        const s = v.spanSize;
+        span.style.fontSize = `clamp(${Math.round(s * 0.44)}px, ${(s * 0.0833).toFixed(1)}vw, ${s}px)`;
+      }
+    }
+  }
+  const desc = hero.querySelector('.hk-hero-desc');
+  if (desc && v.descColor) desc.style.color = v.descColor;
+})();
+
 // ── TAB SWITCHING ──
 function goTab(id) {
   document.querySelectorAll('.hk-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
