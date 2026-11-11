@@ -704,6 +704,7 @@ async function loadHero() {
   renderHeroSlides();
 }
 function slideMedia(sl) {
+  if (sl.type === 'color') return `<div style="position:absolute;inset:0;background:${esc(sl.color||'#1a1f3c')}"></div>`;
   const url = sl.localUrl || sl.url;
   if (!url) return '<div class="cap" style="font-size:16px;font-weight:400">이미지 또는 영상을 선택하세요</div>';
   return sl.type === 'image' ? `<img src="${esc(url)}" alt="">`
@@ -723,15 +724,36 @@ function renderHeroSlides() {
       <div class="media-preview">${slideMedia(sl)}<div class="cap" data-cap="${i}">${esc(sl.title || '')}</div></div>
       <div class="form-row">
         <div class="form-group"><label>가운데 문구</label><input type="text" maxlength="40" value="${esc(sl.title || '')}" oninput="heroSlides[${i}].title=this.value;document.querySelector('[data-cap=\\'${i}\\']').textContent=this.value"></div>
-        <div class="form-group"><label>이미지 / 영상 ${sl.url || sl.localUrl ? '바꾸기' : '선택'}</label><input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" onchange="pickHeroFile(${i}, this.files[0])"></div>
+        <div class="form-group">
+          <label>슬라이드 유형</label>
+          <select onchange="setHeroSlideType(${i}, this.value)">
+            <option value="media"${sl.type!=='color'?' selected':''}>이미지 / 영상</option>
+            <option value="color"${sl.type==='color'?' selected':''}>배경 컬러</option>
+          </select>
+        </div>
+        ${sl.type==='color' ? `
+        <div class="form-group">
+          <label>배경 색상</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="color" value="${esc(sl.color||'#1a1f3c')}" onchange="heroSlides[${i}].color=this.value;renderHeroSlides()" style="width:48px;height:36px;padding:2px;border:1px solid #e5e5e5;border-radius:6px;cursor:pointer">
+            <code style="font-size:13px;color:#555">${esc(sl.color||'#1a1f3c')}</code>
+          </div>
+        </div>` : `
+        <div class="form-group"><label>이미지 / 영상 ${sl.url||sl.localUrl?'바꾸기':'선택'}</label><input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" onchange="pickHeroFile(${i}, this.files[0])"></div>`}
       </div>
-      <p class="help">이미지: 가로 1920px 이상 권장 &nbsp;|&nbsp; 영상: MP4·WebM, 50MB 이하, 10~30초 권장</p>
+      ${sl.type!=='color' ? '<p class="help">이미지: 가로 1920px 이상 권장 &nbsp;|&nbsp; 영상: MP4·WebM, 50MB 이하, 10~30초 권장</p>' : ''}
     </div>`).join('');
 }
 function pickHeroFile(i, f) {
   if (!f) return;
   if (f.size > 50 * 1024 * 1024) { toast('파일이 50MB를 넘습니다. 용량을 줄여서 올려 주세요.'); return; }
   Object.assign(heroSlides[i], { file: f, localUrl: URL.createObjectURL(f), type: f.type.startsWith('image/') ? 'image' : 'video', isDefault: false, poster: null });
+  renderHeroSlides();
+}
+function setHeroSlideType(i, typeGroup) {
+  const title = heroSlides[i].title || 'Originality.';
+  if (typeGroup === 'color') heroSlides[i] = { type: 'color', color: heroSlides[i].color || '#1a1f3c', title, isDefault: false };
+  else heroSlides[i] = { type: 'image', url: heroSlides[i].url || '', title, isDefault: false };
   renderHeroSlides();
 }
 function addHeroSlide() {
@@ -748,7 +770,7 @@ function moveHeroSlide(i, dir) {
   const j = i + dir; [heroSlides[i], heroSlides[j]] = [heroSlides[j], heroSlides[i]]; renderHeroSlides();
 }
 async function saveHero() {
-  const empty = heroSlides.findIndex(sl => !sl.url && !sl.file && !sl.isDefault);
+  const empty = heroSlides.findIndex(sl => sl.type !== 'color' && !sl.url && !sl.file && !sl.isDefault);
   if (empty > -1) { toast(`슬라이드 ${empty + 1}에 이미지나 영상을 선택하거나, 그 슬라이드를 삭제하세요.`); return; }
   const interval = Math.min(30, Math.max(3, parseInt(document.getElementById('heroInterval').value, 10) || 6));
   const height = Math.min(100, Math.max(30, parseInt(document.getElementById('heroHeight').value, 10) || 100));
@@ -759,6 +781,7 @@ async function saveHero() {
       btn.textContent = sl.file ? `업로드 중… (${k + 1}/${heroSlides.length})` : '저장 중…';
       const title = (sl.title || '').trim();
       if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, builtin: true });
+      else if (sl.type === 'color') slides.push({ type: 'color', color: sl.color || '#1a1f3c', title });
       else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title });
     }
     await setSetting('hero', { interval, height, slides });
