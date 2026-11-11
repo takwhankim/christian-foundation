@@ -339,6 +339,29 @@ td.clickable:hover { text-decoration: underline; }
 
     <!-- OBADIAH -->
     <div class="panel" id="panel-obadiah">
+      <div class="settings-card" style="max-width:720px;margin-bottom:28px">
+        <h3 style="margin:0 0 16px">대표 이미지 설정</h3>
+        <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px">
+          <img id="awardImgPreview" src="../images/obadiah-award.jpg" alt="" style="width:120px;height:auto;border-radius:4px;object-fit:cover;flex-shrink:0">
+          <div style="flex:1;min-width:200px">
+            <div class="form-group">
+              <label>이미지 교체</label>
+              <input type="file" accept="image/jpeg,image/png,image/webp" id="awardImgFile" onchange="previewAwardImg(this.files[0])">
+              <p class="help">가로 800px 이상 권장</p>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label>그림자</label>
+              <select id="awardShadow">
+                <option value="normal">보통 (기본)</option>
+                <option value="none">없음</option>
+                <option value="soft">약하게</option>
+                <option value="strong">강하게</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveAwardSection()">저장</button>
+      </div>
       <div class="section-header-row">
         <h2>오바댜 문학상 응모</h2>
         <button class="btn btn-secondary" onclick="exportCSV('obadiah')">CSV 내보내기</button>
@@ -554,8 +577,34 @@ async function savePost(id) {
   closeModal(); loadPosts();
 }
 
+// ── AWARD SECTION IMAGE ──
+let awardImgFileObj = null;
+async function loadAwardSection() {
+  const v = await getSetting('award_section');
+  if (v?.imgUrl) document.getElementById('awardImgPreview').src = v.imgUrl;
+  if (v?.shadow) document.getElementById('awardShadow').value = v.shadow;
+}
+function previewAwardImg(f) {
+  if (!f) return;
+  awardImgFileObj = f;
+  document.getElementById('awardImgPreview').src = URL.createObjectURL(f);
+}
+async function saveAwardSection() {
+  const btn = event.target; btn.disabled = true; btn.textContent = '저장 중…';
+  try {
+    const current = await getSetting('award_section') || {};
+    const imgUrl = awardImgFileObj ? await uploadMedia(awardImgFileObj, 'award') : (current.imgUrl || '');
+    const shadow = document.getElementById('awardShadow').value;
+    await setSetting('award_section', { imgUrl, shadow });
+    awardImgFileObj = null;
+    toast('저장되었습니다. 홈페이지를 새로고침하면 반영됩니다.');
+  } catch (e) { fail(e); }
+  finally { btn.disabled = false; btn.textContent = '저장'; }
+}
+
 // ── OBADIAH ──
 async function loadObadiah() {
+  loadAwardSection();
   await fetchAll('obadiah');
   const sel = document.getElementById('obRound');
   const prev = sel.value;

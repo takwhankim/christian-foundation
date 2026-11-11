@@ -251,7 +251,7 @@ a.project-card { display: block; color: inherit; text-decoration: none; }
   height: auto;
   display: block;
   border-radius: 4px;
-  box-shadow: 4px 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 4px 8px 32px rgba(0,0,0,0.18); /* JS로 덮어씀 */
 }
 
 .award-text h3 {
@@ -692,7 +692,7 @@ a.project-card { display: block; color: inherit; text-decoration: none; }
     </div>
     <div class="award-body">
       <div class="award-cover">
-        <img src="images/obadiah-award.jpg" alt="2027 기독교창의지원재단 오바댜 문학상 — 가장 짧고 느낌있는 기독교 이야기를 찾습니다. 응모기간 2월 1일부터 매월 말일까지, 당선발표 매월 10일 홈페이지, 응모형식 5자 이상 1200자 이내, 응모부문 카피라이트·시·단문·소설·산문 등, 당선상금 매월 오바댜상 20만원·2등 10만원" width="1280" height="1406">
+        <img id="awardImg" src="images/obadiah-award.jpg" alt="오바댜 문학상 포스터" width="1280" height="1406">
       </div>
       <div class="award-text">
         <h3>짧은 서사로 만들어 내는 오바댜 문학상에 지금 참여하세요!</h3>
@@ -1001,6 +1001,19 @@ async function loadHero() {
   start();
 }
 loadHero();
+
+// 오바댜 문학상 이미지·쉐도우 (관리자 > 오바댜 문학상)
+(async () => {
+  if (!window.FCO?.ready) return;
+  const { data } = await FCO.client.from('site_settings').select('value').eq('key', 'award_section').maybeSingle();
+  const v = data?.value;
+  if (!v) return;
+  const img = document.getElementById('awardImg');
+  if (!img) return;
+  if (v.imgUrl) img.src = v.imgUrl;
+  const SHADOWS = { none: 'none', soft: '2px 4px 12px rgba(0,0,0,0.08)', normal: '4px 8px 32px rgba(0,0,0,0.18)', strong: '8px 20px 48px rgba(0,0,0,0.30)' };
+  img.style.boxShadow = SHADOWS[v.shadow] ?? '';
+})();
 
 // 프로젝트 카드 (관리자 > 프로젝트)
 async function loadProjects() {
