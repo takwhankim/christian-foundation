@@ -741,6 +741,13 @@ function renderHeroSlides() {
         </div>` : `
         <div class="form-group"><label>이미지 / 영상 ${sl.url||sl.localUrl?'바꾸기':'선택'}</label><input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" onchange="pickHeroFile(${i}, this.files[0])"></div>`}
       </div>
+      <div class="form-group" style="max-width:400px;margin-top:4px">
+        <label>명암 &nbsp;<strong id="heroDimVal${i}">${sl.dim !== undefined ? sl.dim : (sl.type==='color' ? 0 : 35)}</strong></label>
+        <input type="range" min="0" max="50" step="5" value="${sl.dim !== undefined ? sl.dim : (sl.type==='color' ? 0 : 35)}"
+          style="width:100%;accent-color:var(--brand);cursor:pointer"
+          oninput="heroSlides[${i}].dim=+this.value;document.getElementById('heroDimVal${i}').textContent=this.value">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:2px"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span></div>
+      </div>
       ${sl.type!=='color' ? '<p class="help">이미지: 가로 1920px 이상 권장 &nbsp;|&nbsp; 영상: MP4·WebM, 50MB 이하, 10~30초 권장</p>' : ''}
     </div>`).join('');
 }
@@ -752,8 +759,8 @@ function pickHeroFile(i, f) {
 }
 function setHeroSlideType(i, typeGroup) {
   const title = heroSlides[i].title || 'Originality.';
-  if (typeGroup === 'color') heroSlides[i] = { type: 'color', color: heroSlides[i].color || '#1a1f3c', title, isDefault: false };
-  else heroSlides[i] = { type: 'image', url: heroSlides[i].url || '', title, isDefault: false };
+  if (typeGroup === 'color') heroSlides[i] = { type: 'color', color: heroSlides[i].color || '#1a1f3c', title, dim: 0, isDefault: false };
+  else heroSlides[i] = { type: 'image', url: heroSlides[i].url || '', title, dim: 35, isDefault: false };
   renderHeroSlides();
 }
 function addHeroSlide() {
@@ -780,9 +787,10 @@ async function saveHero() {
     for (const [k, sl] of heroSlides.entries()) {
       btn.textContent = sl.file ? `업로드 중… (${k + 1}/${heroSlides.length})` : '저장 중…';
       const title = (sl.title || '').trim();
-      if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, builtin: true });
-      else if (sl.type === 'color') slides.push({ type: 'color', color: sl.color || '#1a1f3c', title });
-      else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title });
+      const dim = sl.dim !== undefined ? sl.dim : (sl.type === 'color' ? 0 : 35);
+      if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, dim, builtin: true });
+      else if (sl.type === 'color') slides.push({ type: 'color', color: sl.color || '#1a1f3c', title, dim });
+      else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title, dim });
     }
     await setSetting('hero', { interval, height, slides });
     toast('메인 히어로가 저장되었습니다. 홈페이지를 새로고침하면 반영됩니다.');
