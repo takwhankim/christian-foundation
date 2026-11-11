@@ -984,9 +984,10 @@ async function loadProjects() {
   ]);
   const v = sec?.value;
   if (v) {
-    if (v.label !== undefined) document.getElementById('psLabel').textContent = v.label;
-    if (v.title !== undefined) document.getElementById('psTitle').textContent = v.title;
-    if (v.desc !== undefined) document.getElementById('psDesc').textContent = v.desc;
+    const noEdit = el => !el.dataset.fcoSaved;
+    if (v.label !== undefined && noEdit(document.getElementById('psLabel'))) document.getElementById('psLabel').textContent = v.label;
+    if (v.title !== undefined && noEdit(document.getElementById('psTitle'))) document.getElementById('psTitle').textContent = v.title;
+    if (v.desc !== undefined && noEdit(document.getElementById('psDesc'))) document.getElementById('psDesc').textContent = v.desc;
   }
   if (error) return console.error(error);
   document.getElementById('projectsGrid').innerHTML = rows.map(p => `

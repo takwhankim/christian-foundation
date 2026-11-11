@@ -10,7 +10,7 @@
   const EXCLUDE = [
     'header', 'footer', 'nav', 'script', 'style', 'noscript', 'form', 'select', 'button', 'textarea',
     '.form-group', '.apply-form', '.hk-card', '.support-card', '.modal-overlay', '.modal',
-    '#heroTitle', '#psLabel', '#psTitle', '#psDesc', '#projectsGrid', '#noticeList', '#pressList',
+    '#heroTitle', '#projectsGrid', '#noticeList', '#pressList',
     '#newsList', '.category-list', '.news-toolbar', '.programs', '.amount-select', '#fco-edit-bar',
     '[data-no-edit]',
   ].join(',');
