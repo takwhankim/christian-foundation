@@ -8,27 +8,29 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --brand: #6B2D8C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
-body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; font-size: 17px; }
 a { color: inherit; text-decoration: none; }
 .container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
 
 .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
-.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.nav-shell { height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .logo-mark { display: flex; flex-direction: column; line-height: 1; }
-.logo-img { height: 28px; width: auto; }
+.logo-img { height: 36px; width: auto; }
 .logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
 .logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
-.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a { font-size: 19px; font-weight: 700; letter-spacing: 0.06em; color: #333; transition: color .2s; }
 .nav-links a:hover, .nav-links a.active { color: var(--brand); }
-.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
 .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
 
 .page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
 .page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; letter-spacing: 0.08em; }
 .page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
-.page-hero p { font-size: 15px; opacity: 0.7; }
+.page-hero p { font-size: 17px; opacity: 0.7; }
 
 .apply-layout { display: grid; grid-template-columns: 1fr 360px; gap: 40px; padding: 56px 0 80px; }
 
@@ -39,7 +41,7 @@ a { color: inherit; text-decoration: none; }
 .program-tab .icon { width: 44px; height: 44px; border-radius: 10px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
 .program-tab.active .icon { background: rgba(107,45,140,0.1); }
 .program-tab .info h4 { font-size: 15px; font-weight: 700; }
-.program-tab .info p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.program-tab .info p { font-size: 17px; color: var(--muted); margin-top: 2px; }
 .program-tab .arrow { margin-left: auto; color: #ccc; font-size: 18px; }
 .program-tab.active .arrow { color: var(--brand); }
 
@@ -50,7 +52,7 @@ a { color: inherit; text-decoration: none; }
 .form-group label .req { color: var(--brand); }
 .form-group input, .form-group select, .form-group textarea {
   width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 6px;
-  font-size: 14px; font-family: inherit; outline: none; transition: border .2s;
+  font-size: 17px; font-family: inherit; outline: none; transition: border .2s;
   background: #fff; color: var(--text);
 }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--brand); }
@@ -65,19 +67,19 @@ a { color: inherit; text-decoration: none; }
 .sidebar-box { background: #fff; border-radius: 12px; padding: 28px; border: 1px solid #eee; margin-bottom: 20px; }
 .sidebar-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
 .info-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.info-list li { font-size: 13px; color: var(--muted); display: flex; gap: 10px; line-height: 1.6; }
+.info-list li { font-size: 17px; color: var(--muted); display: flex; gap: 10px; line-height: 1.6; }
 .info-list li::before { content: "·"; color: var(--brand); font-weight: 700; flex-shrink: 0; }
 .timeline { display: flex; flex-direction: column; gap: 0; }
 .timeline-item { display: flex; gap: 16px; padding: 12px 0; border-left: 2px solid #f0f0f0; margin-left: 8px; padding-left: 20px; position: relative; }
 .timeline-item::before { content: ''; position: absolute; left: -5px; top: 20px; width: 8px; height: 8px; border-radius: 50%; background: #ddd; }
 .timeline-item.done::before { background: var(--brand); }
 .timeline-item .tl-label { font-size: 11px; color: var(--brand); font-weight: 600; min-width: 60px; }
-.timeline-item .tl-text { font-size: 13px; color: var(--muted); }
+.timeline-item .tl-text { font-size: 17px; color: var(--muted); }
 
 .success-msg { display: none; text-align: center; padding: 48px 24px; }
 .success-msg .icon { font-size: 56px; margin-bottom: 16px; }
 .success-msg h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-.success-msg p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+.success-msg p { font-size: 17px; color: var(--muted); line-height: 1.8; }
 
 .site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
@@ -86,7 +88,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
   .nav-toggle { display: flex; }
   .apply-layout { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
@@ -104,7 +106,7 @@ a { color: inherit; text-decoration: none; }
         <li><a href="projects.html">사업소개</a></li>
         <li><a href="news.html">보도자료</a></li>
         <li><a href="support.html">후원하기</a></li>
-        <li><a href="apply.html" class="active nav-cta">지원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
     </nav>
@@ -124,32 +126,28 @@ a { color: inherit; text-decoration: none; }
     <div class="apply-layout">
       <div>
         <div class="programs">
-          <div class="program-tab active" onclick="selectProgram('book', this)">
-            <div class="icon">📚</div>
+          <div class="program-tab active" data-program="book" onclick="selectProgram('book', this)">
             <div class="info">
               <h4>기독교 도서 지원사업</h4>
               <p>기독교 작가 출판 지원 (최대 500만원)</p>
             </div>
             <span class="arrow">›</span>
           </div>
-          <div class="program-tab" onclick="selectProgram('award', this)">
-            <div class="icon">🏆</div>
+          <div class="program-tab" data-program="award" onclick="selectProgram('award', this)">
             <div class="info">
-              <h4>오버다 문학상</h4>
-              <p>기독교 창의 문학 공모 (대상 300만원)</p>
+              <h4>오바댜 문학상</h4>
+              <p>짧은 글 공모 · 격월 (오바댜상 30만원)</p>
             </div>
             <span class="arrow">›</span>
           </div>
-          <div class="program-tab" onclick="selectProgram('film', this)">
-            <div class="icon">🎬</div>
+          <div class="program-tab" data-program="film" onclick="selectProgram('film', this)">
             <div class="info">
               <h4>Film・드라마 지원사업</h4>
               <p>기독교 영상 제작 지원 (최대 2,000만원)</p>
             </div>
             <span class="arrow">›</span>
           </div>
-          <div class="program-tab" onclick="selectProgram('edu', this)">
-            <div class="icon">✍️</div>
+          <div class="program-tab" data-program="edu" onclick="selectProgram('edu', this)">
             <div class="info">
               <h4>문장 강사 양성 프로그램</h4>
               <p>기독교 글쓰기 강사 무료 교육</p>
@@ -159,59 +157,99 @@ a { color: inherit; text-decoration: none; }
         </div>
 
         <div class="apply-form" id="applyForm">
-          <div class="form-title" id="formTitle">📚 기독교 도서 지원사업 신청</div>
+          <div class="form-title" id="formTitle">기독교 도서 지원사업 신청</div>
           <div id="formBody">
-            <div class="form-row">
-              <div class="form-group">
-                <label>신청자 성명 <span class="req">*</span></label>
-                <input type="text" placeholder="홍길동">
+            <!-- 사업 지원신청 (도서 / Film / 문장강사) -->
+            <div id="generalFields">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="aName">신청자 성명 <span class="req">*</span></label>
+                  <input type="text" id="aName" placeholder="홍길동" maxlength="50">
+                </div>
+                <div class="form-group">
+                  <label for="aPhone">연락처 <span class="req">*</span></label>
+                  <input type="tel" id="aPhone" placeholder="010-0000-0000" maxlength="30">
+                </div>
               </div>
               <div class="form-group">
-                <label>연락처 <span class="req">*</span></label>
-                <input type="tel" placeholder="010-0000-0000">
+                <label for="aEmail">이메일 <span class="req">*</span></label>
+                <input type="email" id="aEmail" placeholder="email@example.com" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="aTitle">작품/프로젝트명 <span class="req">*</span></label>
+                <input type="text" id="aTitle" placeholder="작품 제목을 입력하세요" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="aGenre">장르 / 분류</label>
+                <select id="aGenre"></select>
+              </div>
+              <div class="form-group">
+                <label for="aSummary">작품 소개 <span class="req">*</span></label>
+                <textarea id="aSummary" maxlength="3000" placeholder="작품의 주제, 내용, 기독교적 세계관과의 연관성을 간략히 소개해 주세요."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="aPlan">지원 동기 및 활용 계획</label>
+                <textarea id="aPlan" maxlength="3000" placeholder="지원금 활용 계획을 구체적으로 작성해 주세요."></textarea>
               </div>
             </div>
-            <div class="form-group">
-              <label>이메일 <span class="req">*</span></label>
-              <input type="email" placeholder="email@example.com">
+
+            <!-- 오바댜 문학상 응모 -->
+            <div id="obadiahFields" style="display:none">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="oName">성명 <span class="req">*</span></label>
+                  <input type="text" id="oName" placeholder="홍길동" maxlength="50">
+                </div>
+                <div class="form-group">
+                  <label for="oPen">필명 <span style="font-weight:400;color:#999">(당선 시 홈페이지 표기)</span></label>
+                  <input type="text" id="oPen" placeholder="선택 입력" maxlength="50">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="oPhone">연락처 <span class="req">*</span></label>
+                  <input type="tel" id="oPhone" placeholder="010-0000-0000" maxlength="30">
+                </div>
+                <div class="form-group">
+                  <label for="oEmail">이메일 <span class="req">*</span></label>
+                  <input type="email" id="oEmail" placeholder="email@example.com" maxlength="200">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="oGenre">응모 부문 <span class="req">*</span></label>
+                <select id="oGenre">
+                  <option value="">선택하세요</option>
+                  <option>소설 (단편·연재·플래시 픽션)</option><option>시</option><option>카피라이트</option><option>에세이</option><option>시나리오</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="oTitle">작품 제목 <span class="req">*</span></label>
+                <input type="text" id="oTitle" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="oBody">작품 본문 <span class="req">*</span> <span style="font-weight:400;color:#999">(5자 이상 1200자 이내)</span></label>
+                <textarea id="oBody" maxlength="1200" style="min-height:260px" placeholder="기독교 세계관이 담긴 짧은 글을 입력해 주세요. 간증·설교·사설 형식의 글은 선정에 불리합니다."></textarea>
+                <p id="oCount" style="text-align:right;font-size:14px;color:#999;margin-top:6px;">0 / 1200자</p>
+              </div>
             </div>
-            <div class="form-group">
-              <label>작품/프로젝트명 <span class="req">*</span></label>
-              <input type="text" placeholder="작품 제목을 입력하세요">
-            </div>
-            <div class="form-group">
-              <label>장르 / 분류</label>
-              <select>
-                <option value="">선택하세요</option>
-                <option>소설</option><option>시</option><option>에세이</option>
-                <option>청소년 도서</option><option>어린이 도서</option><option>기타</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>작품 소개 <span class="req">*</span></label>
-              <textarea placeholder="작품의 주제, 내용, 기독교적 세계관과의 연관성을 간략히 소개해 주세요. (500자 이내)"></textarea>
-            </div>
-            <div class="form-group">
-              <label>지원 동기 및 활용 계획</label>
-              <textarea placeholder="지원금 활용 계획을 구체적으로 작성해 주세요."></textarea>
-            </div>
+
             <div class="form-group">
               <div class="form-check">
                 <input type="checkbox" id="agree1">
-                <label for="agree1">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+                <label for="agree1">개인정보(성명·연락처·이메일) 수집 및 이용에 동의합니다. 수집된 정보는 심사와 결과 안내에만 사용됩니다. (필수)</label>
               </div>
             </div>
             <div class="form-group">
               <div class="form-check">
                 <input type="checkbox" id="agree2">
-                <label for="agree2">제출된 서류는 심사 목적으로만 사용됨을 확인합니다. (필수)</label>
+                <label for="agree2" id="agree2Label">제출된 서류는 심사 목적으로만 사용됨을 확인합니다. (필수)</label>
               </div>
             </div>
-            <button class="btn-submit" onclick="submitApply()">신청서 제출하기</button>
+            <p id="formError" style="display:none;color:#c0392b;font-size:15px;margin-bottom:12px;"></p>
+            <button class="btn-submit" id="submitBtn" onclick="submitApply()">신청서 제출하기</button>
           </div>
         </div>
         <div class="success-msg" id="successMsg">
-          <div class="icon">✅</div>
           <h3>신청이 완료되었습니다!</h3>
           <p>소중한 지원에 감사드립니다.<br>검토 후 등록하신 이메일로 연락드리겠습니다.<br><br>문의: info@fco.or.kr</p>
         </div>
@@ -263,55 +301,81 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
 <script>
 const programs = {
-  book: { icon:'📚', title:'기독교 도서 지원사업', genres: ['소설','시','에세이','청소년 도서','어린이 도서','기타'] },
-  award: { icon:'🏆', title:'오버다 문학상', genres: ['단편소설','시','에세이'] },
-  film: { icon:'🎬', title:'Film・드라마 지원사업', genres: ['단편영화','웹드라마','다큐멘터리','기타'] },
-  edu: { icon:'✍️', title:'문장 강사 양성 프로그램', genres: ['기초반','심화반'] },
+  book: { title:'기독교 도서 지원사업', genres: ['소설','시','에세이','청소년 도서','어린이 도서','기타'] },
+  award: { title:'오바댜 문학상' },
+  film: { title:'Film・드라마 지원사업', genres: ['단편영화','웹드라마','다큐멘터리','기타'] },
+  edu: { title:'문장 강사 양성 프로그램', genres: ['기초반','심화반'] },
 };
-
 let selectedProgram = 'book';
+const $ = id => document.getElementById(id);
 
 function selectProgram(key, el) {
-  document.querySelectorAll('.program-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('.program-tab').forEach(t => t.classList.toggle('active', t === el));
   selectedProgram = key;
-  const p = programs[key];
-  document.getElementById('formTitle').textContent = p.icon + ' ' + p.title + ' 신청';
-  const sel = document.querySelector('#formBody select');
-  if (sel) {
-    sel.innerHTML = '<option value="">선택하세요</option>' + p.genres.map(g => `<option>${g}</option>`).join('');
+  const p = programs[key], isAward = key === 'award';
+  $('formTitle').textContent = p.title + (isAward ? ' 응모' : ' 신청');
+  $('generalFields').style.display = isAward ? 'none' : '';
+  $('obadiahFields').style.display = isAward ? '' : 'none';
+  $('agree2Label').textContent = isAward
+    ? '당선작은 교계의 선교·전도 목적으로 활용될 수 있으며, 그 외 상업적 용도로는 사용되지 않음을 확인합니다. (필수)'
+    : '제출된 서류는 심사 목적으로만 사용됨을 확인합니다. (필수)';
+  $('submitBtn').textContent = isAward ? '작품 응모하기' : '신청서 제출하기';
+  if (!isAward) $('aGenre').innerHTML = '<option value="">선택하세요</option>' + p.genres.map(g => `<option>${g}</option>`).join('');
+  $('formError').style.display = 'none';
+}
+
+$('oBody').addEventListener('input', () => { $('oCount').textContent = `${$('oBody').value.length} / 1200자`; });
+
+function showError(msg, focusEl) {
+  $('formError').textContent = msg; $('formError').style.display = 'block';
+  if (focusEl) focusEl.focus();
+}
+
+async function submitApply() {
+  const v = id => $(id).value.trim();
+  const isAward = selectedProgram === 'award';
+  const required = isAward ? ['oName', 'oPhone', 'oEmail', 'oGenre', 'oTitle', 'oBody'] : ['aName', 'aPhone', 'aEmail', 'aTitle', 'aSummary'];
+  for (const id of required) if (!v(id)) return showError('필수 항목을 모두 입력해 주세요.', $(id));
+  const email = isAward ? $('oEmail') : $('aEmail');
+  if (!email.checkValidity()) return showError('이메일 주소를 확인해 주세요.', email);
+  if (isAward && v('oBody').length < 5) return showError('본문은 5자 이상 입력해 주세요.', $('oBody'));
+  if (!$('agree1').checked || !$('agree2').checked) return showError('필수 항목에 동의해 주세요.');
+
+  const btn = $('submitBtn'); btn.disabled = true; const label = btn.textContent; btn.textContent = '제출 중…';
+  try {
+    if (isAward) {
+      await FCO.submit('obadiah_entries', { name: v('oName'), pen_name: v('oPen') || null, phone: v('oPhone'), email: v('oEmail'),
+        genre: v('oGenre'), title: v('oTitle'), body: $('oBody').value.trim() });
+    } else {
+      await FCO.submit('applications', { program: selectedProgram, program_name: programs[selectedProgram].title,
+        name: v('aName'), phone: v('aPhone'), email: v('aEmail'), project_title: v('aTitle'),
+        genre: v('aGenre') || null, summary: v('aSummary'), plan: v('aPlan') || null });
+    }
+    $('applyForm').style.display = 'none';
+    document.querySelector('.programs').style.display = 'none';
+    $('successMsg').style.display = 'block';
+    $('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = label;
   }
 }
 
-function submitApply() {
-  const checkboxes = document.querySelectorAll('#formBody input[type=checkbox]');
-  for (let cb of checkboxes) {
-    if (!cb.checked) { alert('필수 항목에 동의해 주세요.'); return; }
-  }
-  const inputs = document.querySelectorAll('#formBody input[type=text], #formBody input[type=tel], #formBody input[type=email]');
-  for (let inp of inputs) {
-    if (!inp.value.trim()) { alert('필수 항목을 모두 입력해 주세요.'); inp.focus(); return; }
-  }
-
-  const data = {
-    id: Date.now(),
-    program: selectedProgram,
-    programName: programs[selectedProgram].title,
-    date: new Date().toLocaleDateString('ko-KR'),
-    status: '검토중',
-  };
-  const apps = JSON.parse(localStorage.getItem('fco_applications') || '[]');
-  apps.unshift(data);
-  localStorage.setItem('fco_applications', JSON.stringify(apps));
-
-  document.getElementById('applyForm').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
-  document.querySelectorAll('.programs')[0].style.display = 'none';
-}
+// ?program=award 처럼 들어오면 해당 탭을 바로 열기
+(() => {
+  const key = new URLSearchParams(location.search).get('program');
+  const tab = key && document.querySelector(`.program-tab[data-program="${key}"]`);
+  selectProgram(tab ? key : 'book', tab || document.querySelector('.program-tab'));
+})();
 
 document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
 </script>
+<script src="js/fco-edit.js"></script>
 </body>
 </html>

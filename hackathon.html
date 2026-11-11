@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>해커톤2027 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --brand: #6B2D8C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); font-size: 17px; }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-img { height: 36px; width: auto; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 19px; font-weight: 700; letter-spacing: 0.06em; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--brand); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 17px; opacity: 0.7; }
+
+.projects-overview { padding: 72px 0; background: #fff; }
+.section-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+.section-desc { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 56px; line-height: 1.8; }
+
+.project-detail { margin-bottom: 72px; padding-bottom: 72px; border-bottom: 1px solid #f0f0f0; }
+.project-detail:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.project-detail .row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.project-detail .row.reverse { direction: rtl; }
+.project-detail .row.reverse > * { direction: ltr; }
+.project-detail .text .cat { font-size: 11px; font-weight: 600; color: var(--brand); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
+.project-detail .text h2 { font-size: 30px; font-weight: 700; margin-bottom: 20px; line-height: 1.3; }
+.project-detail .text p { font-size: 17px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
+.project-detail .text .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.project-detail .text .tags span { background: #f0f0f0; color: var(--muted); font-size: 12px; padding: 4px 12px; border-radius: 20px; }
+.project-detail .text .apply-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--brand); color: #fff; border-radius: 4px; font-size: 14px; font-weight: 600; transition: background .2s; }
+.project-detail .text .apply-btn:hover { background: #57226E; }
+.project-detail .visual { background: linear-gradient(135deg, #e8f0fe, #c8d8f8); border-radius: 12px; height: 320px; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+
+.support-cta { background: var(--navy); color: #fff; text-align: center; padding: 72px 0; }
+.support-cta h2 { font-size: 30px; font-weight: 700; margin-bottom: 12px; }
+.support-cta p { font-size: 17px; opacity: 0.75; margin-bottom: 32px; line-height: 1.8; }
+.support-cta a { display: inline-block; background: #fff; color: var(--navy); padding: 14px 36px; border-radius: 4px; font-size: 15px; font-weight: 700; transition: background .2s; }
+.support-cta a:hover { background: #f0f0f0; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .project-detail .row { grid-template-columns: 1fr; }
+  .project-detail .row.reverse { direction: ltr; }
+  .project-detail .visual { height: 220px; }
+}
+/* ── hackathon form ── */
+.hk-form-wrap { max-width: 720px; margin: 0 auto; padding: 72px 0 96px; }
+.hk-form-wrap h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+.hk-form-wrap .lead { text-align: center; color: var(--muted); margin-bottom: 40px; }
+.hk-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 36px; }
+.hk-card .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.hk-card .form-group { margin-bottom: 20px; }
+.hk-card label { display: block; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.hk-card .req { color: #c0392b; }
+.hk-card input, .hk-card select, .hk-card textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 12px 14px; font-size: 17px; font-family: inherit; }
+.hk-card textarea { min-height: 160px; resize: vertical; }
+.hk-card input:focus, .hk-card select:focus, .hk-card textarea:focus { outline: none; border-color: #2563EB; }
+.hk-card .check { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; font-weight: 400; }
+.hk-card .check input { width: auto; margin-top: 4px; }
+.hk-submit { width: 100%; background: #2563EB; color: #fff; border: none; border-radius: 999px; padding: 16px; font-size: 18px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.hk-submit:hover { background: #1D4ED8; }
+.hk-submit:disabled { opacity: .6; cursor: default; }
+.hk-error { display: none; color: #c0392b; font-size: 15px; margin-bottom: 12px; }
+.hk-done { display: none; text-align: center; padding: 48px 24px; }
+.hk-done h3 { font-size: 24px; margin: 12px 0; }
+@media (max-width: 600px) { .hk-card { padding: 24px; } .hk-card .form-row { grid-template-columns: 1fr; gap: 0; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo"><img src="logo.png" alt="FCO 기독교창의지원재단" class="logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill active">해커톤2027</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">HOME / 해커톤2027</div>
+    <h1>해커톤2027</h1>
+    <p>기독교 창작과 기술이 만나는 FCO 해커톤</p>
+  </div>
+</div>
+
+<section class="hk-section">
+  <div class="container">
+    <div class="hk-form-wrap">
+      <h2>참가 신청</h2>
+      <p class="lead">세부 일정과 주제는 곧 공지됩니다. 사전 신청해 주시면 안내를 먼저 보내드립니다.</p>
+
+      <div class="hk-card" id="hkCard">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hName">대표자 성명 <span class="req">*</span></label>
+            <input type="text" id="hName" maxlength="50" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="hTeam">팀명 <span style="font-weight:400;color:#999">(개인 참가는 비워두세요)</span></label>
+            <input type="text" id="hTeam" maxlength="100">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hPhone">연락처 <span class="req">*</span></label>
+            <input type="tel" id="hPhone" maxlength="30" placeholder="010-0000-0000" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="hEmail">이메일 <span class="req">*</span></label>
+            <input type="email" id="hEmail" maxlength="200" autocomplete="email">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hOrg">소속 (교회·학교·단체)</label>
+            <input type="text" id="hOrg" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label for="hCount">참가 인원</label>
+            <input type="number" id="hCount" min="1" max="20" value="1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="hRole">분야 / 역할</label>
+          <select id="hRole">
+            <option value="">선택하세요</option>
+            <option>개발</option><option>디자인</option><option>기획</option><option>콘텐츠·글쓰기</option><option>영상·미디어</option><option>혼합 팀</option><option>기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="hIdea">하고 싶은 프로젝트 / 아이디어</label>
+          <textarea id="hIdea" maxlength="3000" placeholder="떠오르는 아이디어나 관심 주제를 자유롭게 적어 주세요."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="check"><input type="checkbox" id="hAgree"> 개인정보(성명·연락처·이메일) 수집 및 이용에 동의합니다. 수집된 정보는 해커톤 안내와 운영에만 사용됩니다. (필수)</label>
+        </div>
+        <p class="hk-error" id="hError"></p>
+        <button class="hk-submit" id="hSubmit" onclick="submitHackathon()">참가 신청하기</button>
+      </div>
+
+      <div class="hk-done" id="hkDone">
+        <h3>참가 신청이 접수되었습니다!</h3>
+        <p style="color:var(--muted)">세부 일정이 확정되면 입력하신 연락처로 안내드리겠습니다.<br>문의: info@fco.or.kr</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <div style="display:flex;gap:20px;">
+        <a href="admin/login.html">관리자</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
+<script>
+async function submitHackathon() {
+  const $ = id => document.getElementById(id);
+  const v = id => $(id).value.trim();
+  const err = msg => { $('hError').textContent = msg; $('hError').style.display = 'block'; };
+  for (const id of ['hName', 'hPhone', 'hEmail']) if (!v(id)) { $(id).focus(); return err('필수 항목을 모두 입력해 주세요.'); }
+  if (!$('hEmail').checkValidity()) { $('hEmail').focus(); return err('이메일 주소를 확인해 주세요.'); }
+  if (!$('hAgree').checked) return err('개인정보 수집 및 이용에 동의해 주세요.');
+  const btn = $('hSubmit'); btn.disabled = true; btn.textContent = '신청 중…';
+  try {
+    await FCO.submit('hackathon_applications', {
+      name: v('hName'), team_name: v('hTeam') || null, phone: v('hPhone'), email: v('hEmail'),
+      organization: v('hOrg') || null, member_count: parseInt(v('hCount'), 10) || null,
+      role: v('hRole') || null, idea: v('hIdea') || null });
+    $('hkCard').style.display = 'none'; $('hkDone').style.display = 'block';
+  } catch (e) { err(e.message); }
+  finally { btn.disabled = false; btn.textContent = '참가 신청하기'; }
+}
+document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
+</script>
+<script src="js/fco-edit.js"></script>
+</body>
+</html>

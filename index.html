@@ -31,6 +31,7 @@ body {
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
+  font-size: 17px;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -51,7 +52,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-shell {
-  height: 68px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -65,7 +66,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .logo-img {
-  height: 28px;
+  height: 36px;
   width: auto;
 }
 
@@ -77,8 +78,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-links a {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   color: #333;
   transition: color .2s;
 }
@@ -88,7 +90,7 @@ a { color: inherit; text-decoration: none; }
 .nav-cta {
   background: var(--navy);
   color: #fff !important;
-  font-size: 13px !important;
+  font-size: 18px !important;
   font-weight: 600 !important;
   padding: 9px 20px;
   border-radius: 4px;
@@ -96,6 +98,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-cta:hover { background: var(--navy-soft) !important; color: #fff !important; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
 
 .nav-toggle {
   display: none;
@@ -118,11 +122,12 @@ a { color: inherit; text-decoration: none; }
 /* ── HERO ── */
 .hero {
   position: relative;
-  height: 72vh;
-  min-height: 480px;
+  height: calc(100vh - 88px);
+  min-height: 640px;
   overflow: hidden;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-bg {
@@ -148,20 +153,58 @@ a { color: inherit; text-decoration: none; }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 0 0 52px;
+  width: min(calc(100% - 48px), var(--max));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity .5s;
+}
+.hero.media-ready .hero-video { opacity: 1; }
+.hero-title { opacity: 0; transition: opacity .5s; }
+.hero.media-ready .hero-title { opacity: 1; }
+
+/* 슬라이드 (관리자 > 메인 히어로, 1~5개) */
+.hero-slide { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity 1.2s ease; }
+.hero-slide.active { opacity: 1; }
+.hero-slide img, .hero-slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-title.swap { opacity: 0 !important; }
+.hero-dots { position: absolute; left: 0; right: 0; bottom: 32px; z-index: 3; display: flex; justify-content: center; gap: 10px; }
+.hero-dots button { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; background: rgba(255,255,255,.45); cursor: pointer; transition: background .3s, transform .3s; }
+.hero-dots button.active { background: #fff; transform: scale(1.25); }
+.hero-dots button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+a.project-card { display: block; color: inherit; text-decoration: none; }
+.project-card .project-img { width: calc(100% + 48px); margin: -32px -24px 20px; aspect-ratio: 16/10; object-fit: cover; border-radius: 8px 8px 0 0; display: block; }
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
 }
 
 .hero-title {
-  font-family: "Playfair Display", serif;
-  font-style: italic;
-  font-weight: 900;
-  font-size: clamp(56px, 9vw, 110px);
+  font-family: "Pretendard", sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 9vw, 110px);
   color: #fff;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   line-height: 1;
-  text-shadow: 0 2px 32px rgba(0,0,0,0.18);
-  padding-left: calc((100vw - min(calc(100% - 48px), 1180px)) / 2 + 24px);
+  text-shadow: 0 2px 32px rgba(0,0,0,0.25);
 }
 
 /* ── AWARD ── */
@@ -176,13 +219,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 .award-label h2 {
-  font-size: 26px;
+  font-size: 40px;
   font-weight: 700;
   color: var(--text);
 }
 
 .award-label .en {
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 400;
   color: var(--brand);
   letter-spacing: 0.08em;
@@ -191,54 +234,22 @@ a { color: inherit; text-decoration: none; }
 
 .award-body {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: start;
 }
 
 .award-cover {
   width: 100%;
-  aspect-ratio: 3/4;
-  background: linear-gradient(135deg, #1a3a6e, #2d5a9e);
+  display: block;
+}
+
+.award-cover img {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  text-align: center;
-  padding: 32px 24px;
   box-shadow: 4px 8px 32px rgba(0,0,0,0.18);
-}
-
-.award-cover .cover-label {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  opacity: 0.7;
-  margin-bottom: 16px;
-}
-
-.award-cover .cover-title {
-  font-size: 36px;
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.award-cover .cover-sub {
-  font-size: 13px;
-  opacity: 0.8;
-  margin-top: 12px;
-  line-height: 1.6;
-}
-
-.award-cover .award-badge {
-  margin-top: 24px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
 }
 
 .award-text h3 {
@@ -256,11 +267,34 @@ a { color: inherit; text-decoration: none; }
 }
 
 .award-text p {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--muted);
   line-height: 1.9;
   margin-bottom: 16px;
 }
+
+.award-text .award-lead {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.award-text .detail-list li span { flex: 1; line-height: 1.7; }
+
+.award-text .detail-note {
+  font-style: normal;
+  font-size: 17px;
+  color: #000;
+}
+
+.award-text .award-notes {
+  list-style: none;
+  margin: -8px 0 28px;
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.award-text .award-notes li::before { content: "* "; }
 
 .award-text .detail-list {
   list-style: none;
@@ -273,14 +307,15 @@ a { color: inherit; text-decoration: none; }
 .award-text .detail-list li {
   display: flex;
   gap: 12px;
-  font-size: 14px;
-  color: var(--text);
+  font-size: 17px;
+  color: #000;
+  font-weight: 400;
 }
 
 .award-text .detail-list li strong {
   min-width: 72px;
-  color: var(--muted);
-  font-weight: 500;
+  color: #000;
+  font-weight: 700;
 }
 
 .btn {
@@ -323,7 +358,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .section-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--brand);
   letter-spacing: 0.18em;
@@ -380,14 +415,14 @@ a { color: inherit; text-decoration: none; }
 .icon-orange { background: #fff3e0; }
 
 .project-card h3 {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   margin-bottom: 10px;
   line-height: 1.4;
 }
 
 .project-card p {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--muted);
   line-height: 1.8;
 }
@@ -447,7 +482,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .notice-list li a {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--text);
   flex: 1;
   overflow: hidden;
@@ -489,7 +524,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .support-banner p {
-  font-size: 15px;
+  font-size: 17px;
   opacity: 0.75;
   margin-bottom: 36px;
   line-height: 1.8;
@@ -588,7 +623,7 @@ a { color: inherit; text-decoration: none; }
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 68px; left: 0; right: 0;
+    top: 88px; left: 0; right: 0;
     background: #fff;
     border-bottom: 1px solid rgba(0,0,0,0.08);
     padding: 16px 24px 24px;
@@ -599,7 +634,7 @@ a { color: inherit; text-decoration: none; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .notice-grid { grid-template-columns: 1fr; }
   .award-body { grid-template-columns: 1fr; }
-  .award-cover { max-width: 220px; }
+  .award-cover { max-width: 420px; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
 }
 
@@ -622,7 +657,7 @@ a { color: inherit; text-decoration: none; }
         <li><a href="projects.html">사업소개</a></li>
         <li><a href="news.html">보도자료</a></li>
         <li><a href="support.html">후원하기</a></li>
-        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
       </ul>
 
       <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
@@ -633,10 +668,15 @@ a { color: inherit; text-decoration: none; }
 </header>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-bg"></div>
+  <video class="hero-video" id="heroMedia" autoplay muted loop playsinline preload="auto" poster="images/brush-ink-poster.jpg" aria-label="붓끝에서 여러 색의 잉크가 섞이며 퍼져 나가는 장면">
+    <source src="images/brush-ink.webm" type="video/webm">
+    <source src="images/brush-ink.mp4" type="video/mp4">
+  </video>
+
   <div class="hero-content container">
-    <h1 class="hero-title">Originality.</h1>
+    <h1 class="hero-title" id="heroTitle">Originality.</h1>
   </div>
 </section>
 
@@ -644,35 +684,35 @@ a { color: inherit; text-decoration: none; }
 <section class="award-section">
   <div class="container">
     <div class="award-label">
-      <h2>오버다 문학상</h2>
-      <p class="en">Oberdah Literary Award</p>
+      <h2>오바댜 문학상</h2>
+      <p class="en">Obadiah Literary Award</p>
     </div>
     <div class="award-body">
       <div class="award-cover">
-        <span class="cover-label">OBERDAH LITERARY AWARD</span>
-        <div class="cover-title">오버다<br>문학상</div>
-        <div class="cover-sub">기독교 창의 문학의<br>새 지평을 열다</div>
-        <span class="award-badge">2024 수상작 발표</span>
+        <img src="images/obadiah-award.jpg" alt="2027 기독교창의지원재단 오바댜 문학상 — 가장 짧고 느낌있는 기독교 이야기를 찾습니다. 응모기간 2월 1일부터 매월 말일까지, 당선발표 매월 10일 홈페이지, 응모형식 5자 이상 1200자 이내, 응모부문 카피라이트·시·단문·소설·산문 등, 당선상금 매월 오바댜상 20만원·2등 10만원" width="1280" height="1406">
       </div>
       <div class="award-text">
-        <h3>오버다 문학상</h3>
-        <p class="award-en">OBERDAH LITERARY AWARD</p>
+        <h3>짧은 서사로 만들어 내는 오바댜 문학상에 지금 참여하세요!</h3>
+        <p class="award-lead">오바댜서는 예언자 오바댜의 예언을 기록한 구약성경 가운데 하나로, 구약성경에서 가장 짧은 책입니다.</p>
         <p>
-          FCO 기독교창의지원재단은 그리스도 안에서 창의적인 목소리를 가진 작가들을 발굴하고 지원합니다.
-          오버다 문학상은 기독교적 세계관으로 한국 문학의 지평을 넓히는 작품을 선정하여 시상합니다.
-        </p>
-        <p>
-          성경적 가치와 문학적 완성도를 동시에 추구하는 작가에게 열린 문이 있습니다.
-          독창성과 창의성을 바탕으로 세상에 빛을 발하는 이야기를 기대합니다.
+          “오바댜 문학상”은 짧고 재미있는 글로 창조주 하나님의 세계관을 담기 위해 시작된 문학상입니다.
+          짧지만 깊은 통찰과 위트가 있는 글들을 통해 기독교의 본질적인 메시지를 널리 전파하고자 합니다.
+          간결한 문장 속에서도 울려오는 하나님의 말씀과 사랑을 함께 느끼며, 이를 통해 우리의 신앙과 삶에 더 깊은 통찰과 감동을 누리시길 바랍니다.
         </p>
         <ul class="detail-list">
-          <li><strong>시상 부문</strong> 단편소설, 시, 에세이</li>
-          <li><strong>응모 자격</strong> 기독교적 세계관을 가진 작가 누구나</li>
-          <li><strong>시상 내역</strong> 대상 300만원, 최우수상 150만원, 우수상 70만원</li>
-          <li><strong>제출 방법</strong> FCO 공식 홈페이지를 통한 온라인 접수</li>
+          <li><strong>응모형식</strong><span>5자 이상 1200자 이내의 짧은 글로 기독교 세계관이 담겨 있어야 합니다.<br><em class="detail-note">간증, 설교, 사설과 같은 글은 선정에 불리하게 작용합니다.</em></span></li>
+          <li><strong>응모부문</strong><span>소설(단편, 연재, 짧은 플래시 픽션), 시, 카피라이트, 에세이, 시나리오</span></li>
+          <li><strong>응모기간</strong><span>격월로 진행되며 연간 6회 응모를 받습니다. (2월, 4월, 6월, 8월, 10월, 12월)</span></li>
+          <li><strong>당선발표</strong><span>다음 회차 10일, 기독교창의지원재단 홈페이지</span></li>
+          <li><strong>당선상금</strong><span>오바댜상 1명 30만원, 2등 2명 각 10만원</span></li>
+          <li><strong>부상</strong><span>상패 및 도서 외</span></li>
+        </ul>
+        <ul class="award-notes">
+          <li>당선된 작품은 교계에서 선교 및 전도에 활용할 수 있도록 사용이 가능합니다.</li>
+          <li>전도와 선교 외 상업적 용도로 사용할 수 없습니다.</li>
         </ul>
         <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a href="apply.html" class="btn btn-primary">지원하기 →</a>
+          <a href="apply.html?program=award" class="btn btn-primary">지원하기 →</a>
           <a href="projects.html#award" class="btn btn-outline">자세히 보기</a>
         </div>
       </div>
@@ -684,32 +724,28 @@ a { color: inherit; text-decoration: none; }
 <section class="projects-section">
   <div class="container">
     <div class="section-header">
-      <p class="section-label">2024 FCO PROJECT</p>
-      <h2 class="section-title">CREATIVE ON ORIGINALITY</h2>
-      <p class="section-desc">기독교 창의성을 세상 속으로</p>
+      <p class="section-label" id="psLabel">2027 FCO PROJECT</p>
+      <h2 class="section-title" id="psTitle">CREATIVE ON ORIGINALITY</h2>
+      <p class="section-desc" id="psDesc">기독교 창의성을 세상 속으로</p>
     </div>
     <div class="projects-grid" id="projectsGrid">
       <div class="project-card">
-        <div class="project-icon icon-blue">📚</div>
-        <h3>기독교 도서<br>지원사업</h3>
+        <h3>기독교 도서 지원사업</h3>
         <p>기독교 창의 작가들의 출판을 지원하여 양질의 기독교 문학이 세상에 나올 수 있도록 돕습니다.</p>
         <span class="more">자세히 보기 →</span>
       </div>
       <div class="project-card">
-        <div class="project-icon icon-red">🏆</div>
-        <h3>오버다 문학상</h3>
-        <p>그리스도 안에서 독창적인 문학 작품을 창작하는 작가를 발굴하고 시상하는 FCO 대표 사업입니다.</p>
+        <h3>오바댜 문학상</h3>
+        <p>짧은 서사로 창조주 하나님의 세계관을 담는 기독교 문학상입니다.</p>
         <span class="more">자세히 보기 →</span>
       </div>
       <div class="project-card">
-        <div class="project-icon icon-green">🎬</div>
         <h3>Film・드라마</h3>
         <p>기독교적 가치를 담은 영상 콘텐츠 제작을 지원하여 미디어 선교의 새 길을 열어갑니다.</p>
         <span class="more">자세히 보기 →</span>
       </div>
       <div class="project-card">
-        <div class="project-icon icon-orange">✍️</div>
-        <h3>문장 강사<br>양성</h3>
+        <h3>문장 강사 양성</h3>
         <p>기독교 작가와 강사를 양성하는 교육 프로그램으로 차세대 창의 인재를 키웁니다.</p>
         <span class="more">자세히 보기 →</span>
       </div>
@@ -722,10 +758,10 @@ a { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="notice-grid">
       <div class="notice-col">
-        <h3>공지사항 <a href="news.html">전체보기 →</a></h3>
+        <h3>공지사항 <a href="news.html?cat=notice">전체보기 →</a></h3>
         <ul class="notice-list" id="noticeList">
           <li>
-            <a href="#">2024 오버다 문학상 수상자 발표</a>
+            <a href="#">2024 오바댜 문학상 수상자 발표</a>
             <span class="badge-new">NEW</span>
             <span class="date">2024.11.01</span>
           </li>
@@ -748,7 +784,7 @@ a { color: inherit; text-decoration: none; }
         </ul>
       </div>
       <div class="notice-col">
-        <h3>보도자료 <a href="news.html">전체보기 →</a></h3>
+        <h3>보도자료 <a href="news.html?cat=press">전체보기 →</a></h3>
         <ul class="notice-list" id="pressList">
           <li>
             <a href="#">"기독교 창작의 새 바람" - 국민일보</a>
@@ -760,7 +796,7 @@ a { color: inherit; text-decoration: none; }
             <span class="date">2024.10.20</span>
           </li>
           <li>
-            <a href="#">오버다 문학상 시상식 성황리 개최</a>
+            <a href="#">오바댜 문학상 시상식 성황리 개최</a>
             <span class="date">2024.10.05</span>
           </li>
           <li>
@@ -802,11 +838,12 @@ a { color: inherit; text-decoration: none; }
           <li><a href="news.html">보도자료</a></li>
           <li><a href="support.html">후원하기</a></li>
           <li><a href="apply.html">지원하기</a></li>
+          <li><a href="hackathon.html">해커톤2027</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>연락처</h4>
-        <div class="footer-info">
+        <div class="footer-info" id="footerInfo">
           (재)기독교창의지원재단<br>
           서울특별시 ○○구 ○○로 ○○○<br><br>
           Tel. 02-000-0000<br>
@@ -826,40 +863,137 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
 <script>
 document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
 });
 
-// LocalStorage에서 공지 불러오기
-function loadNotices() {
-  const notices = JSON.parse(localStorage.getItem('fco_notices') || '[]');
-  if (notices.length === 0) return;
-  const list = document.getElementById('noticeList');
-  list.innerHTML = notices.slice(0, 5).map(n => `
-    <li>
-      <a href="#">${n.title}</a>
-      ${n.isNew ? '<span class="badge-new">NEW</span>' : ''}
-      <span class="date">${n.date}</span>
-    </li>
-  `).join('');
+// Supabase 연결 시: 공지·보도자료 목록과 푸터 재단 정보를 DB에서 불러옵니다.
+// (연결 전에는 HTML에 있는 기본 내용이 그대로 보입니다)
+async function loadHomeData() {
+  if (!window.FCO?.ready) return;
+  const { esc, fmtDate, client } = FCO;
+  const { data: posts, error } = await client.from('posts').select('id,category,title,is_new,published_on')
+    .eq('published', true).order('published_on', { ascending: false }).order('id', { ascending: false }).limit(30);
+  if (!error) {
+    const render = (id, rows) => {
+      document.getElementById(id).innerHTML = rows.length ? rows.slice(0, 5).map(p => `
+        <li>
+          <a href="news.html?id=${p.id}">${esc(p.title)}</a>
+          ${p.is_new ? '<span class="badge-new">NEW</span>' : ''}
+          <span class="date">${fmtDate(p.published_on)}</span>
+        </li>`).join('') : '<li><span style="color:#999">등록된 글이 없습니다.</span></li>';
+    };
+    render('noticeList', posts.filter(p => p.category !== 'press'));
+    render('pressList', posts.filter(p => p.category === 'press'));
+  }
+  const { data: org } = await client.from('site_settings').select('value').eq('key', 'org').maybeSingle();
+  const o = org?.value;
+  if (o && (o.tel || o.address)) {
+    document.getElementById('footerInfo').innerHTML = [
+      esc(o.name || '(재)기독교창의지원재단'), o.address && esc(o.address), '',
+      o.tel && 'Tel. ' + esc(o.tel), o.email && 'Email. ' + esc(o.email), '',
+      o.bizno && '사업자등록번호: ' + esc(o.bizno),
+    ].filter(v => v !== undefined && v !== null && v !== false).join('<br>');
+  }
 }
+loadHomeData();
 
-function loadPress() {
-  const press = JSON.parse(localStorage.getItem('fco_press') || '[]');
-  if (press.length === 0) return;
-  const list = document.getElementById('pressList');
-  list.innerHTML = press.slice(0, 5).map(p => `
-    <li>
-      <a href="#">${p.title}</a>
-      ${p.isNew ? '<span class="badge-new">NEW</span>' : ''}
-      <span class="date">${p.date}</span>
-    </li>
-  `).join('');
+// 메인 히어로 (관리자 > 메인 히어로) — 1~5개 슬라이드 로테이션
+async function loadHero() {
+  const hero = document.getElementById('hero');
+  const titleEl = document.getElementById('heroTitle');
+  const done = () => hero.classList.add('media-ready');
+  setTimeout(done, 2500); // 응답이 늦어도 기본 영상은 보이게
+  if (!window.FCO?.ready) return done();
+  let h;
+  try {
+    const { data } = await FCO.client.from('site_settings').select('value').eq('key', 'hero').maybeSingle();
+    h = data?.value;
+  } catch (e) { console.error(e); }
+  // 이전 단일 형식 / 슬라이드 형식 모두 지원
+  let slides = h?.slides?.length ? h.slides : (h?.url ? [{ type: h.type, url: h.url, title: h.title }] : []);
+  slides = slides.filter(sl => sl.url).slice(0, 5);
+  if (!slides.length) { if (h?.title) titleEl.textContent = h.title; return done(); }
+
+  const old = document.getElementById('heroMedia');
+  const layers = slides.map((sl, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'hero-slide' + (i === 0 ? ' active' : '');
+    let el;
+    if (sl.type === 'image') {
+      el = document.createElement('img'); el.alt = ''; if (i > 0) el.loading = 'lazy';
+    } else {
+      el = document.createElement('video');
+      el.muted = true; el.loop = true; el.playsInline = true;
+      el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+      el.preload = i === 0 ? 'auto' : 'metadata';
+      if (sl.poster) el.poster = sl.poster;
+      if (i === 0) el.autoplay = true;
+    }
+    el.src = sl.url;
+    wrap.appendChild(el);
+    return wrap;
+  });
+  layers.forEach(l => hero.insertBefore(l, old));
+  old.remove();
+  titleEl.textContent = slides[0].title || '';
+  done();
+  if (slides.length < 2) return;
+
+  let cur = 0, timer;
+  const dots = document.createElement('div');
+  dots.className = 'hero-dots';
+  dots.innerHTML = slides.map((_, i) => `<button type="button" aria-label="${i + 1}번째 화면" ${i === 0 ? 'class="active"' : ''}></button>`).join('');
+  hero.appendChild(dots);
+  const go = (n) => {
+    if (n === cur) return;
+    const prevVid = layers[cur].querySelector('video');
+    layers[cur].classList.remove('active'); dots.children[cur].classList.remove('active');
+    cur = n;
+    layers[cur].classList.add('active'); dots.children[cur].classList.add('active');
+    const vid = layers[cur].querySelector('video');
+    if (vid) { vid.currentTime = 0; vid.play().catch(() => {}); }
+    if (prevVid) setTimeout(() => prevVid.pause(), 1300);
+    titleEl.classList.add('swap');
+    setTimeout(() => { titleEl.textContent = slides[cur].title || ''; titleEl.classList.remove('swap'); }, 500);
+  };
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = () => { if (!reduce) timer = setInterval(() => go((cur + 1) % slides.length), Math.max(3, h.interval || 6) * 1000); };
+  [...dots.children].forEach((b, i) => b.addEventListener('click', () => { clearInterval(timer); go(i); start(); }));
+  document.addEventListener('visibilitychange', () => { clearInterval(timer); if (!document.hidden) start(); });
+  start();
 }
+loadHero();
 
-loadNotices();
-loadPress();
+// 프로젝트 카드 (관리자 > 프로젝트)
+async function loadProjects() {
+  if (!window.FCO?.ready) return;
+  const { esc, client } = FCO;
+  const [{ data: rows, error }, { data: sec }] = await Promise.all([
+    client.from('projects').select('*').eq('published', true).order('sort_order').order('id'),
+    client.from('site_settings').select('value').eq('key', 'projects_section').maybeSingle(),
+  ]);
+  const v = sec?.value;
+  if (v) {
+    if (v.label !== undefined) document.getElementById('psLabel').textContent = v.label;
+    if (v.title !== undefined) document.getElementById('psTitle').textContent = v.title;
+    if (v.desc !== undefined) document.getElementById('psDesc').textContent = v.desc;
+  }
+  if (error) return console.error(error);
+  document.getElementById('projectsGrid').innerHTML = rows.map(p => `
+    <${p.link_url ? `a href="${esc(p.link_url)}"` : 'div'} class="project-card">
+      ${p.image_url ? `<img class="project-img" src="${esc(p.image_url)}" alt="" loading="lazy">` : ''}
+      <h3>${esc(p.title)}</h3>
+      ${p.description ? `<p>${esc(p.description)}</p>` : ''}
+      ${p.link_url ? '<span class="more">자세히 보기 →</span>' : ''}
+    </${p.link_url ? 'a' : 'div'}>`).join('');
+}
+loadProjects();
 </script>
+<script src="js/fco-edit.js"></script>
 </body>
 </html>

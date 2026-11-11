@@ -8,27 +8,29 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root { --brand: #6B2D8C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
-body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; font-size: 17px; }
 a { color: inherit; text-decoration: none; }
 .container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
 
 .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
-.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.nav-shell { height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .logo-mark { display: flex; flex-direction: column; line-height: 1; }
-.logo-img { height: 28px; width: auto; }
+.logo-img { height: 36px; width: auto; }
 .logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
 .logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
-.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a { font-size: 19px; font-weight: 700; letter-spacing: 0.06em; color: #333; transition: color .2s; }
 .nav-links a:hover, .nav-links a.active { color: var(--brand); }
-.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
 .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
 
 .page-hero { background: linear-gradient(135deg, #6B2D8C 0%, #57226E 100%); color: #fff; padding: 80px 0; text-align: center; }
 .page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; }
 .page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
-.page-hero p { font-size: 15px; opacity: 0.8; line-height: 1.8; }
+.page-hero p { font-size: 17px; opacity: 0.8; line-height: 1.8; }
 
 .support-why { padding: 72px 0; background: #fff; }
 .section-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
@@ -38,7 +40,7 @@ a { color: inherit; text-decoration: none; }
 .why-card { text-align: center; padding: 36px 24px; }
 .why-card .icon { font-size: 48px; margin-bottom: 20px; }
 .why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-.why-card p { font-size: 14px; color: var(--muted); line-height: 1.9; }
+.why-card p { font-size: 17px; color: var(--muted); line-height: 1.9; }
 
 .support-form-section { padding: 72px 0; background: #fafafa; }
 .support-layout { display: grid; grid-template-columns: 1fr 360px; gap: 40px; }
@@ -56,7 +58,7 @@ a { color: inherit; text-decoration: none; }
 .form-group label .req { color: var(--brand); }
 .form-group input, .form-group select {
   width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 6px;
-  font-size: 14px; font-family: inherit; outline: none; transition: border .2s;
+  font-size: 17px; font-family: inherit; outline: none; transition: border .2s;
 }
 .form-group input:focus, .form-group select:focus { border-color: var(--brand); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -68,7 +70,7 @@ a { color: inherit; text-decoration: none; }
 
 .bank-info { background: var(--navy); color: #fff; border-radius: 8px; padding: 24px; margin-top: 20px; }
 .bank-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; opacity: 0.7; letter-spacing: 0.08em; }
-.bank-info .bank-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
+.bank-info .bank-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 17px; }
 .bank-info .bank-row:last-child { border-bottom: none; }
 .bank-info .bank-row .label { opacity: 0.6; }
 .bank-info .bank-row .value { font-weight: 600; }
@@ -76,13 +78,13 @@ a { color: inherit; text-decoration: none; }
 .sidebar-box { background: #fff; border-radius: 12px; padding: 28px; border: 1px solid #eee; margin-bottom: 20px; }
 .sidebar-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
 .impact-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.impact-list li { font-size: 13px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+.impact-list li { font-size: 17px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
 .impact-list li .amount { color: var(--brand); font-weight: 700; min-width: 60px; font-size: 12px; }
 
 .success-msg { display: none; text-align: center; padding: 48px 24px; }
 .success-msg .icon { font-size: 56px; margin-bottom: 16px; }
 .success-msg h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-.success-msg p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+.success-msg p { font-size: 17px; color: var(--muted); line-height: 1.8; }
 
 .site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; margin-top: 72px; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
@@ -91,7 +93,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
   .nav-toggle { display: flex; }
   .why-grid { grid-template-columns: 1fr; }
   .support-layout { grid-template-columns: 1fr; }
@@ -111,7 +113,7 @@ a { color: inherit; text-decoration: none; }
         <li><a href="projects.html">사업소개</a></li>
         <li><a href="news.html">보도자료</a></li>
         <li><a href="support.html" class="active">후원하기</a></li>
-        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
     </nav>
@@ -132,17 +134,14 @@ a { color: inherit; text-decoration: none; }
     <p class="section-desc">당신의 후원이 만들어내는 변화</p>
     <div class="why-grid">
       <div class="why-card">
-        <div class="icon">📖</div>
         <h3>기독교 창작의 씨앗</h3>
         <p>후원금은 창의적인 기독교 작가들의 출판과 창작 활동비로 직접 사용됩니다. 당신의 후원이 한 편의 소설, 한 편의 시가 됩니다.</p>
       </div>
       <div class="why-card">
-        <div class="icon">🌱</div>
         <h3>다음 세대를 위한 투자</h3>
         <p>문장 강사 양성 프로그램을 통해 차세대 기독교 창작자들이 길러집니다. 오늘의 후원이 미래의 창의 생태계를 만듭니다.</p>
       </div>
       <div class="why-card">
-        <div class="icon">🌍</div>
         <h3>세상을 향한 복음의 통로</h3>
         <p>기독교 영상과 문학이 세상 속으로 나가 많은 사람들의 마음을 움직입니다. 복음의 메시지가 예술로 전해집니다.</p>
       </div>
@@ -202,7 +201,8 @@ a { color: inherit; text-decoration: none; }
             </div>
           </div>
 
-          <button class="btn-submit" onclick="submitSupport()">후원 신청하기</button>
+          <p id="formError" style="display:none;color:#c0392b;font-size:15px;margin-bottom:12px;"></p>
+          <button class="btn-submit" id="submitBtn" onclick="submitSupport()">후원 신청하기</button>
 
           <div class="bank-info" style="margin-top:24px;">
             <h4>계좌 이체 안내</h4>
@@ -212,7 +212,6 @@ a { color: inherit; text-decoration: none; }
           </div>
         </div>
         <div class="success-msg" id="successMsg">
-          <div class="icon">💛</div>
           <h3>후원 신청이 완료되었습니다!</h3>
           <p>소중한 후원에 진심으로 감사드립니다.<br>담당자가 확인 후 연락드리겠습니다.<br><br>문의: info@fco.or.kr</p>
         </div>
@@ -225,7 +224,7 @@ a { color: inherit; text-decoration: none; }
             <li><span class="amount">1만원</span> 기독교 창작자에게 창작 활동비 일부를 지원합니다</li>
             <li><span class="amount">3만원</span> 문장 강사 양성 프로그램 교육 자료를 제공합니다</li>
             <li><span class="amount">5만원</span> 기독교 도서 출판 지원비 일부로 사용됩니다</li>
-            <li><span class="amount">10만원</span> 오버다 문학상 상금의 일부를 충당합니다</li>
+            <li><span class="amount">10만원</span> 오바댜 문학상 상금의 일부를 충당합니다</li>
           </ul>
         </div>
         <div class="sidebar-box">
@@ -236,7 +235,7 @@ a { color: inherit; text-decoration: none; }
           <h4>후원자 혜택</h4>
           <ul class="impact-list">
             <li><span class="amount">정기</span> FCO 뉴스레터 월간 발송</li>
-            <li><span class="amount">정기</span> 오버다 문학상 수상작 도서 증정</li>
+            <li><span class="amount">정기</span> 오바댜 문학상 수상작 도서 증정</li>
             <li><span class="amount">정기</span> FCO 주요 행사 초대</li>
           </ul>
         </div>
@@ -254,6 +253,9 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
 <script>
 let selectedAmount = 30000;
 
@@ -269,27 +271,31 @@ function deselectAll() {
   selectedAmount = 0;
 }
 
-function submitSupport() {
+function showError(msg) { const e = document.getElementById('formError'); e.textContent = msg; e.style.display = 'block'; }
+async function submitSupport() {
   const name = document.getElementById('sName').value.trim();
-  const tel = document.getElementById('sTel').value.trim();
-  const agree = document.getElementById('sAgree').checked;
+  const phone = document.getElementById('sTel').value.trim();
+  const email = document.getElementById('sEmail').value.trim();
   const custom = document.getElementById('customAmount').value;
-  const amount = custom ? parseInt(custom) : selectedAmount;
-
-  if (!name || !tel) { alert('이름과 연락처를 입력해 주세요.'); return; }
-  if (!agree) { alert('개인정보 수집 동의가 필요합니다.'); return; }
-  if (!amount || amount < 1000) { alert('후원 금액을 선택하거나 입력해 주세요. (최소 1,000원)'); return; }
-
-  const type = document.querySelector('input[name=type]:checked')?.value || '정기';
-  const supporters = JSON.parse(localStorage.getItem('fco_supporters') || '[]');
-  supporters.unshift({ id: Date.now(), name, tel, email: document.getElementById('sEmail').value, type, amount, date: new Date().toLocaleDateString('ko-KR') });
-  localStorage.setItem('fco_supporters', JSON.stringify(supporters));
-
-  document.getElementById('supportCard').style.display = 'none';
-  document.getElementById('successMsg').style.display = 'block';
+  const amount = custom ? parseInt(custom, 10) : selectedAmount;
+  if (!name || !phone) return showError('이름과 연락처를 입력해 주세요.');
+  if (email && !document.getElementById('sEmail').checkValidity()) return showError('이메일 주소를 확인해 주세요.');
+  if (!amount || amount < 1000) return showError('후원 금액을 선택하거나 입력해 주세요. (최소 1,000원)');
+  if (!document.getElementById('sAgree').checked) return showError('개인정보 수집 동의가 필요합니다.');
+  const support_type = document.querySelector('input[name=type]:checked')?.value || '정기';
+  const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.textContent = '신청 중…';
+  try {
+    await FCO.submit('supporters', { support_type, amount, name, phone, email: email || null });
+    document.getElementById('supportCard').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '후원 신청하기';
+  }
 }
-
 document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
 </script>
+<script src="js/fco-edit.js"></script>
 </body>
 </html>

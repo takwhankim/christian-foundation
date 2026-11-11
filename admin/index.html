@@ -174,9 +174,33 @@ tbody tr:hover { background: #fafafa; }
   .content { padding: 16px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }
+
+/* ── added: detail view, filters, loading ── */
+.detail-grid { display: grid; grid-template-columns: 110px 1fr; gap: 10px 16px; font-size: 14px; margin-bottom: 20px; }
+.detail-grid dt { color: var(--muted); font-weight: 600; }
+.detail-grid dd { white-space: pre-wrap; word-break: break-word; }
+.detail-body { background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 16px; font-size: 14px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; margin-bottom: 16px; }
+.table-toolbar select { border: 1px solid #ddd; border-radius: 6px; padding: 7px 10px; font-size: 13px; font-family: inherit; }
+.status-select { border: 1px solid #e5e5e5; border-radius: 4px; padding: 4px 6px; font-size: 12px; font-family: inherit; cursor: pointer; background: #fff; }
+td.clickable { cursor: pointer; color: var(--navy); font-weight: 600; }
+td.clickable:hover { text-decoration: underline; }
+.loading-screen { position: fixed; inset: 0; background: #f4f5f7; display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 14px; color: var(--muted); }
+.notice-bar { background: #fff3e0; color: #b45309; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 20px; }
+.char-count { font-size: 12px; color: var(--subtle); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.media-preview { position: relative; background: #111; border-radius: 10px; overflow: hidden; aspect-ratio: 16/7; margin-bottom: 20px; }
+.media-preview img, .media-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media-preview .cap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: clamp(28px, 5vw, 56px); font-weight: 700; text-shadow: 0 2px 24px rgba(0,0,0,.4); pointer-events: none; }
+.help { font-size: 12px; color: var(--subtle); line-height: 1.7; margin-top: 6px; }
+.order-btns { display: flex; gap: 4px; }
+.order-btns button { width: 26px; height: 26px; border: 1px solid #e0e0e0; background: #fff; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.order-btns button:disabled { opacity: .3; cursor: default; }
+.thumb-sm { width: 56px; height: 40px; object-fit: cover; border-radius: 4px; background: #f0f0f0; display: block; }
 </style>
 </head>
 <body>
+
+<div class="loading-screen" id="loadingScreen">관리자 확인 중…</div>
 
 <!-- SIDEBAR -->
 <nav class="sidebar">
@@ -187,40 +211,28 @@ tbody tr:hover { background: #fafafa; }
   <div class="sidebar-nav">
     <div class="nav-section">
       <div class="nav-section-label">메인</div>
-      <div class="nav-item active" onclick="showPanel('dashboard', this)">
-        <span class="icon">📊</span><span>대시보드</span>
-      </div>
+      <div class="nav-item active" data-panel="dashboard"><span class="icon">📊</span><span>대시보드</span></div>
     </div>
     <div class="nav-section">
       <div class="nav-section-label">콘텐츠</div>
-      <div class="nav-item" onclick="showPanel('notices', this)">
-        <span class="icon">📋</span><span>공지사항</span>
-      </div>
-      <div class="nav-item" onclick="showPanel('press', this)">
-        <span class="icon">📰</span><span>보도자료</span>
-      </div>
-      <div class="nav-item" onclick="showPanel('projects', this)">
-        <span class="icon">📁</span><span>사업 관리</span>
-      </div>
+      <div class="nav-item" data-panel="hero"><span class="icon">🖼️</span><span>메인 히어로</span></div>
+      <div class="nav-item" data-panel="projects"><span class="icon">📁</span><span>프로젝트</span></div>
+      <div class="nav-item" data-panel="posts"><span class="icon">📋</span><span>공지·보도자료</span></div>
     </div>
     <div class="nav-section">
-      <div class="nav-section-label">운영</div>
-      <div class="nav-item" onclick="showPanel('applications', this)">
-        <span class="icon">📝</span><span>지원 신청</span>
-      </div>
-      <div class="nav-item" onclick="showPanel('supporters', this)">
-        <span class="icon">💛</span><span>후원 현황</span>
-      </div>
+      <div class="nav-section-label">접수</div>
+      <div class="nav-item" data-panel="obadiah"><span class="icon">🏆</span><span>오바댜 문학상</span></div>
+      <div class="nav-item" data-panel="hackathon"><span class="icon">💡</span><span>해커톤2027</span></div>
+      <div class="nav-item" data-panel="applications"><span class="icon">📝</span><span>사업 지원신청</span></div>
+      <div class="nav-item" data-panel="supporters"><span class="icon">💛</span><span>후원 신청</span></div>
     </div>
     <div class="nav-section">
       <div class="nav-section-label">설정</div>
-      <div class="nav-item" onclick="showPanel('settings', this)">
-        <span class="icon">⚙️</span><span>설정</span>
-      </div>
+      <div class="nav-item" data-panel="settings"><span class="icon">⚙️</span><span>설정</span></div>
     </div>
   </div>
   <div class="sidebar-footer">
-    <span class="user">관리자</span>
+    <span class="user" id="userEmail">관리자</span>
     <span class="logout" onclick="logout()">로그아웃</span>
   </div>
 </nav>
@@ -239,87 +251,118 @@ tbody tr:hover { background: #fafafa; }
     <!-- DASHBOARD -->
     <div class="panel active" id="panel-dashboard">
       <div class="stats-grid">
-        <div class="stat-card red">
-          <div class="label">공지사항</div>
-          <div class="value" id="stat-notices">-</div>
-          <div class="sub">총 게시물</div>
-        </div>
-        <div class="stat-card navy">
-          <div class="label">보도자료</div>
-          <div class="value" id="stat-press">-</div>
-          <div class="sub">총 게시물</div>
-        </div>
-        <div class="stat-card green">
-          <div class="label">지원 신청</div>
-          <div class="value" id="stat-apps">-</div>
-          <div class="sub">총 신청건</div>
-        </div>
-        <div class="stat-card orange">
-          <div class="label">후원</div>
-          <div class="value" id="stat-support">-</div>
-          <div class="sub">총 후원자</div>
-        </div>
+        <div class="stat-card red"><div class="label">오바댜 문학상</div><div class="value" id="stat-obadiah">-</div><div class="sub">이번 회차 응모</div></div>
+        <div class="stat-card navy"><div class="label">해커톤2027</div><div class="value" id="stat-hackathon">-</div><div class="sub">총 참가 신청</div></div>
+        <div class="stat-card green"><div class="label">사업 지원신청</div><div class="value" id="stat-apps">-</div><div class="sub">검토중</div></div>
+        <div class="stat-card orange"><div class="label">후원 신청</div><div class="value" id="stat-support">-</div><div class="sub">확인 대기</div></div>
       </div>
       <div class="dash-grid">
         <div class="widget">
-          <h3>최근 공지사항 <button onclick="showPanel('notices', document.querySelector('.nav-item:nth-child(4)'))">더보기</button></h3>
-          <ul class="widget-list" id="dash-notices"></ul>
+          <h3>최근 오바댜 응모 <button onclick="showPanel('obadiah')">더보기</button></h3>
+          <ul class="widget-list" id="dash-obadiah"></ul>
         </div>
         <div class="widget">
-          <h3>최근 지원 신청 <button onclick="showPanel('applications', document.querySelector('.nav-item:nth-child(7)'))">더보기</button></h3>
+          <h3>최근 지원·참가 신청 <button onclick="showPanel('applications')">더보기</button></h3>
           <ul class="widget-list" id="dash-apps"></ul>
         </div>
       </div>
     </div>
 
-    <!-- NOTICES -->
-    <div class="panel" id="panel-notices">
+    <!-- HERO -->
+    <div class="panel" id="panel-hero">
       <div class="section-header-row">
-        <h2>공지사항 관리</h2>
-        <button class="btn btn-primary" onclick="openModal('notice')">+ 새 공지 작성</button>
+        <h2>메인 히어로 <span style="font-size:14px;font-weight:400;color:#999">· 최대 5개까지 순서대로 바뀝니다</span></h2>
+        <button class="btn btn-secondary" id="heroAddBtn" onclick="addHeroSlide()">+ 슬라이드 추가</button>
       </div>
-      <div class="table-wrap">
-        <div class="table-toolbar">
-          <div class="table-search">
-            <input type="text" id="noticeSearch" placeholder="제목 검색..." oninput="renderNotices()">
-          </div>
+      <div id="heroSlides"></div>
+      <div class="settings-card" style="max-width:880px;margin-top:20px">
+        <div class="form-row" style="grid-template-columns:200px 1fr;align-items:end">
+          <div class="form-group" style="margin:0"><label>전환 간격 (초)</label><input type="number" id="heroInterval" min="3" max="30" value="6"></div>
+          <p class="help" style="margin:0 0 10px">슬라이드가 1개면 바뀌지 않습니다. 영상은 반복 재생되며 소리는 나지 않습니다.</p>
         </div>
-        <table>
-          <thead><tr><th>#</th><th>제목</th><th>카테고리</th><th>날짜</th><th>NEW</th><th>관리</th></tr></thead>
-          <tbody id="noticeTable"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- PRESS -->
-    <div class="panel" id="panel-press">
-      <div class="section-header-row">
-        <h2>보도자료 관리</h2>
-        <button class="btn btn-primary" onclick="openModal('press')">+ 새 보도자료 작성</button>
-      </div>
-      <div class="table-wrap">
-        <div class="table-toolbar">
-          <div class="table-search">
-            <input type="text" id="pressSearch" placeholder="제목 검색..." oninput="renderPress()">
-          </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+          <button class="btn btn-primary" id="heroSaveBtn" onclick="saveHero()">저장</button>
+          <button class="btn btn-secondary" onclick="resetHero()">기본 영상 1개로 되돌리기</button>
         </div>
-        <table>
-          <thead><tr><th>#</th><th>제목</th><th>날짜</th><th>NEW</th><th>관리</th></tr></thead>
-          <tbody id="pressTable"></tbody>
-        </table>
       </div>
     </div>
 
     <!-- PROJECTS -->
     <div class="panel" id="panel-projects">
       <div class="section-header-row">
-        <h2>사업 관리</h2>
-        <button class="btn btn-primary" onclick="openModal('project')">+ 사업 추가</button>
+        <h2>프로젝트</h2>
+        <button class="btn btn-primary" onclick="openProjectModal()">+ 프로젝트 추가</button>
+      </div>
+      <div class="settings-card" style="margin-bottom:20px">
+        <h3>영역 제목</h3>
+        <div class="form-row" style="grid-template-columns:1fr 2fr 2fr">
+          <div class="form-group"><label>작은 라벨</label><input type="text" id="psLabel" placeholder="2027 FCO PROJECT"></div>
+          <div class="form-group"><label>제목</label><input type="text" id="psTitle" placeholder="CREATIVE ON ORIGINALITY"></div>
+          <div class="form-group"><label>부제</label><input type="text" id="psDesc" placeholder="기독교 창의성을 세상 속으로"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveProjectSection()">제목 저장</button>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>아이콘</th><th>사업명</th><th>설명</th><th>상태</th><th>관리</th></tr></thead>
+          <thead><tr><th>순서</th><th>이미지</th><th>제목</th><th>설명</th><th>링크</th><th>공개</th><th>관리</th></tr></thead>
           <tbody id="projectTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- POSTS -->
+    <div class="panel" id="panel-posts">
+      <div class="section-header-row">
+        <h2>공지·보도자료</h2>
+        <button class="btn btn-primary" onclick="openPostModal()">+ 새 글 작성</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <select id="postFilter" onchange="renderPosts()">
+            <option value="">전체</option><option value="notice">공지사항</option><option value="press">보도자료</option><option value="award">시상</option>
+          </select>
+          <div class="table-search"><input type="text" id="postSearch" placeholder="제목 검색..." oninput="renderPosts()"></div>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>제목</th><th>분류</th><th>게시일</th><th>공개</th><th>관리</th></tr></thead>
+          <tbody id="postTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- OBADIAH -->
+    <div class="panel" id="panel-obadiah">
+      <div class="section-header-row">
+        <h2>오바댜 문학상 응모</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('obadiah')">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <select id="obRound" onchange="renderObadiah()"></select>
+            <select id="obStatus" onchange="renderObadiah()">
+              <option value="">전체 상태</option><option>접수</option><option>오바댜상</option><option>2등</option><option>미선정</option>
+            </select>
+          </div>
+          <div class="table-search"><input type="text" id="obSearch" placeholder="제목·이름 검색..." oninput="renderObadiah()"></div>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>제목</th><th>응모자</th><th>부문</th><th>글자수</th><th>접수일</th><th>상태</th><th>홈페이지 공개</th><th>관리</th></tr></thead>
+          <tbody id="obTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HACKATHON -->
+    <div class="panel" id="panel-hackathon">
+      <div class="section-header-row">
+        <h2>해커톤2027 참가 신청</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('hackathon')">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>팀명</th><th>대표자</th><th>인원</th><th>소속</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
+          <tbody id="hkTable"></tbody>
         </table>
       </div>
     </div>
@@ -327,12 +370,12 @@ tbody tr:hover { background: #fafafa; }
     <!-- APPLICATIONS -->
     <div class="panel" id="panel-applications">
       <div class="section-header-row">
-        <h2>지원 신청 관리</h2>
-        <button class="btn btn-secondary" onclick="exportCSV()">CSV 내보내기</button>
+        <h2>사업 지원신청</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('applications')">CSV 내보내기</button>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>사업</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
+          <thead><tr><th>#</th><th>사업</th><th>작품/프로젝트</th><th>신청자</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
           <tbody id="appTable"></tbody>
         </table>
       </div>
@@ -341,12 +384,12 @@ tbody tr:hover { background: #fafafa; }
     <!-- SUPPORTERS -->
     <div class="panel" id="panel-supporters">
       <div class="section-header-row">
-        <h2>후원 현황</h2>
-        <button class="btn btn-primary" onclick="openModal('supporter')">+ 후원자 추가</button>
+        <h2>후원 신청</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('supporters')">CSV 내보내기</button>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>성명</th><th>연락처</th><th>후원 유형</th><th>날짜</th><th>관리</th></tr></thead>
+          <thead><tr><th>#</th><th>성명</th><th>연락처</th><th>유형</th><th>금액</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
           <tbody id="supporterTable"></tbody>
         </table>
       </div>
@@ -357,39 +400,19 @@ tbody tr:hover { background: #fafafa; }
       <h2 style="margin-bottom:24px;">설정</h2>
       <div class="settings-grid">
         <div class="settings-card">
-          <h3>관리자 계정 변경</h3>
-          <div class="form-group">
-            <label>새 아이디</label>
-            <input type="text" id="newId" placeholder="새 아이디">
-          </div>
-          <div class="form-group">
-            <label>새 비밀번호</label>
-            <input type="password" id="newPw" placeholder="새 비밀번호">
-          </div>
-          <div class="form-group">
-            <label>비밀번호 확인</label>
-            <input type="password" id="newPwConfirm" placeholder="비밀번호 재입력">
-          </div>
-          <button class="btn btn-primary" onclick="changeCreds()">변경 저장</button>
+          <h3>비밀번호 변경</h3>
+          <div class="form-group"><label>새 비밀번호 (8자 이상)</label><input type="password" id="newPw" autocomplete="new-password"></div>
+          <div class="form-group"><label>비밀번호 확인</label><input type="password" id="newPwConfirm" autocomplete="new-password"></div>
+          <button class="btn btn-primary" onclick="changePassword()">변경 저장</button>
+          <p style="font-size:12px;color:#999;margin-top:14px;line-height:1.7;">관리자 추가·삭제는 Supabase 대시보드에서 합니다. (README 참고)</p>
         </div>
         <div class="settings-card">
-          <h3>재단 정보</h3>
-          <div class="form-group">
-            <label>재단명</label>
-            <input type="text" id="orgName" value="FCO 기독교창의지원재단">
-          </div>
-          <div class="form-group">
-            <label>연락처</label>
-            <input type="text" id="orgTel" value="02-000-0000">
-          </div>
-          <div class="form-group">
-            <label>이메일</label>
-            <input type="email" id="orgEmail" value="info@fco.or.kr">
-          </div>
-          <div class="form-group">
-            <label>주소</label>
-            <input type="text" id="orgAddr" value="서울특별시 ○○구 ○○로 ○○○">
-          </div>
+          <h3>재단 정보 (푸터 표시)</h3>
+          <div class="form-group"><label>재단명</label><input type="text" id="orgName"></div>
+          <div class="form-group"><label>연락처</label><input type="text" id="orgTel" placeholder="02-000-0000"></div>
+          <div class="form-group"><label>이메일</label><input type="email" id="orgEmail"></div>
+          <div class="form-group"><label>주소</label><input type="text" id="orgAddr"></div>
+          <div class="form-group"><label>사업자등록번호</label><input type="text" id="orgBizno"></div>
           <button class="btn btn-primary" onclick="saveOrgInfo()">저장</button>
         </div>
       </div>
@@ -399,379 +422,454 @@ tbody tr:hover { background: #fafafa; }
 </div>
 
 <!-- MODAL -->
-<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="modal-title" id="modalTitle">새 항목</div>
+    <div class="modal-title" id="modalTitle"></div>
     <div id="modalBody"></div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal()">취소</button>
-      <button class="btn btn-primary" id="modalSaveBtn" onclick="saveModal()">저장</button>
-    </div>
+    <div class="modal-footer" id="modalFooter"></div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../js/supabase-config.js"></script>
+<script src="../js/fco-db.js"></script>
 <script>
+const { esc, fmtDate, obadiahRound } = FCO;
+const db = FCO.client;
+const state = { posts: [], obadiah: [], hackathon: [], applications: [], supporters: [] };
+const CAT = { notice: '공지사항', press: '보도자료', award: '시상' };
+const TABLE = { obadiah: 'obadiah_entries', hackathon: 'hackathon_applications', applications: 'applications', supporters: 'supporters' };
+const STATUS = {
+  obadiah: ['접수', '오바댜상', '2등', '미선정'],
+  hackathon: ['접수', '확정', '대기', '취소'],
+  applications: ['검토중', '서류심사', '면접', '선정', '미선정'],
+  supporters: ['신청', '확인완료', '보류'],
+};
+
+function toast(msg) { alert(msg); }
+function fail(error) { console.error(error); toast('처리 중 오류가 발생했습니다: ' + (error.message || error)); }
+
 // ── AUTH ──
-if (!sessionStorage.getItem('fco_admin')) window.location.href = 'login.html';
-function logout() { sessionStorage.removeItem('fco_admin'); window.location.href = 'login.html'; }
+async function guard() {
+  if (!FCO.ready) { location.href = 'login.html'; return false; }
+  const { data } = await db.auth.getSession();
+  if (!data.session) { location.href = 'login.html'; return false; }
+  const { data: isAdmin } = await db.rpc('is_admin');
+  if (!isAdmin) { await db.auth.signOut(); location.href = 'login.html'; return false; }
+  document.getElementById('userEmail').textContent = data.session.user.email;
+  document.getElementById('loadingScreen').remove();
+  return true;
+}
+async function logout() { await db.auth.signOut(); location.href = 'login.html'; }
 
 // ── NAV ──
-function showPanel(id, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  if (el) el.classList.add('active');
-  const labels = { dashboard:'대시보드', notices:'공지사항', press:'보도자료', projects:'사업 관리', applications:'지원 신청', supporters:'후원 현황', settings:'설정' };
-  document.getElementById('pageTitle').textContent = labels[id] || '';
-  if (id === 'notices') renderNotices();
-  if (id === 'press') renderPress();
-  if (id === 'projects') renderProjects();
-  if (id === 'applications') renderApps();
-  if (id === 'supporters') renderSupporters();
-  if (id === 'dashboard') renderDashboard();
+const LABELS = { dashboard: '대시보드', hero: '메인 히어로', projects: '프로젝트', posts: '공지·보도자료', obadiah: '오바댜 문학상', hackathon: '해커톤2027', applications: '사업 지원신청', supporters: '후원 신청', settings: '설정' };
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.panel === id));
+  document.getElementById('pageTitle').textContent = LABELS[id] || '';
+  ({ dashboard: loadDashboard, hero: loadHero, projects: loadProjects, posts: loadPosts, obadiah: loadObadiah, hackathon: () => loadList('hackathon'),
+     applications: () => loadList('applications'), supporters: () => loadList('supporters'), settings: loadOrgInfo })[id]?.();
 }
+document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => showPanel(n.dataset.panel)));
 
-// ── STORAGE ──
-function getNotices() { return JSON.parse(localStorage.getItem('fco_notices') || '[]'); }
-function saveNotices(d) { localStorage.setItem('fco_notices', JSON.stringify(d)); }
-function getPress() { return JSON.parse(localStorage.getItem('fco_press') || '[]'); }
-function savePress(d) { localStorage.setItem('fco_press', JSON.stringify(d)); }
-function getProjects() { return JSON.parse(localStorage.getItem('fco_projects') || JSON.stringify([
-  { id:1, icon:'📚', name:'기독교 도서 지원사업', desc:'기독교 창의 작가 출판 지원', status:'진행중' },
-  { id:2, icon:'🏆', name:'오버다 문학상', desc:'기독교 창의 문학 공모', status:'진행중' },
-  { id:3, icon:'🎬', name:'Film・드라마 지원사업', desc:'기독교 영상 제작 지원', status:'모집중' },
-  { id:4, icon:'✍️', name:'문장 강사 양성', desc:'기독교 글쓰기 강사 무료 교육', status:'진행중' },
-])); }
-function saveProjects(d) { localStorage.setItem('fco_projects', JSON.stringify(d)); }
-function getApps() { return JSON.parse(localStorage.getItem('fco_applications') || '[]'); }
-function getSupporters() { return JSON.parse(localStorage.getItem('fco_supporters') || '[]'); }
-function saveSupporters(d) { localStorage.setItem('fco_supporters', JSON.stringify(d)); }
+async function fetchAll(key, order = 'created_at') {
+  const table = key === 'posts' ? 'posts' : TABLE[key];
+  const { data, error } = await db.from(table).select('*').order(order, { ascending: false });
+  if (error) { fail(error); return []; }
+  state[key] = data; return data;
+}
 
 // ── DASHBOARD ──
-function renderDashboard() {
-  const notices = getNotices(); const press = getPress(); const apps = getApps(); const supporters = getSupporters();
-  document.getElementById('stat-notices').textContent = notices.length;
-  document.getElementById('stat-press').textContent = press.length;
-  document.getElementById('stat-apps').textContent = apps.length;
-  document.getElementById('stat-support').textContent = supporters.length;
-
-  const dn = document.getElementById('dash-notices');
-  if (notices.length === 0) dn.innerHTML = '<li><span class="title" style="color:#999">등록된 공지사항이 없습니다</span></li>';
-  else dn.innerHTML = notices.slice(0,5).map(n => `
-    <li><span class="title">${n.title}</span><span class="date">${n.date}</span></li>
-  `).join('');
-
-  const da = document.getElementById('dash-apps');
-  if (apps.length === 0) da.innerHTML = '<li><span class="title" style="color:#999">신청 내역이 없습니다</span></li>';
-  else da.innerHTML = apps.slice(0,5).map(a => `
-    <li><span class="title">${a.programName}</span><span class="badge badge-yellow">${a.status}</span><span class="date">${a.date}</span></li>
-  `).join('');
+async function loadDashboard() {
+  const [ob, hk, ap, sp] = await Promise.all(['obadiah', 'hackathon', 'applications', 'supporters'].map(k => fetchAll(k)));
+  const curRound = obadiahRound(new Date());
+  document.getElementById('stat-obadiah').textContent = ob.filter(e => obadiahRound(e.created_at) === curRound).length;
+  document.getElementById('stat-hackathon').textContent = hk.length;
+  document.getElementById('stat-apps').textContent = ap.filter(a => a.status === '검토중').length;
+  document.getElementById('stat-support').textContent = sp.filter(a => a.status === '신청').length;
+  const li = (title, badge, date) => `<li><span class="title">${esc(title)}</span>${badge ? `<span class="badge badge-yellow">${esc(badge)}</span>` : ''}<span class="date">${fmtDate(date)}</span></li>`;
+  const empty = t => `<li><span class="title" style="color:#999">${t}</span></li>`;
+  document.getElementById('dash-obadiah').innerHTML = ob.length ? ob.slice(0, 5).map(e => li(e.title, e.status, e.created_at)).join('') : empty('응모 내역이 없습니다');
+  const mixed = [...ap.map(a => ({ t: `[${a.program_name}] ${a.project_title}`, s: a.status, d: a.created_at })),
+                 ...hk.map(h => ({ t: `[해커톤] ${h.team_name || h.name}`, s: h.status, d: h.created_at }))]
+                .sort((a, b) => b.d.localeCompare(a.d)).slice(0, 5);
+  document.getElementById('dash-apps').innerHTML = mixed.length ? mixed.map(m => li(m.t, m.s, m.d)).join('') : empty('신청 내역이 없습니다');
 }
 
-// ── NOTICES ──
-function renderNotices() {
-  const q = (document.getElementById('noticeSearch')?.value || '').toLowerCase();
-  const data = getNotices().filter(n => !q || n.title.toLowerCase().includes(q));
-  const tb = document.getElementById('noticeTable');
-  if (data.length === 0) {
-    tb.innerHTML = '<tr class="empty-row"><td colspan="6">등록된 공지사항이 없습니다</td></tr>';
-    return;
-  }
-  tb.innerHTML = data.map((n, i) => `
+// ── POSTS ──
+async function loadPosts() { await fetchAll('posts', 'published_on'); renderPosts(); }
+function renderPosts() {
+  const q = document.getElementById('postSearch').value.toLowerCase();
+  const f = document.getElementById('postFilter').value;
+  const data = state.posts.filter(p => (!f || p.category === f) && (!q || p.title.toLowerCase().includes(q)));
+  const tb = document.getElementById('postTable');
+  if (!data.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="6">등록된 글이 없습니다</td></tr>'; return; }
+  tb.innerHTML = data.map((p, i) => `
     <tr>
       <td style="color:#999">${data.length - i}</td>
-      <td>${n.title}</td>
-      <td><span class="badge badge-blue">${n.cat || '공지'}</span></td>
-      <td>${n.date}</td>
-      <td>${n.isNew ? '<span class="badge badge-red">NEW</span>' : '-'}</td>
+      <td>${esc(p.title)} ${p.is_new ? '<span class="badge badge-red">NEW</span>' : ''}</td>
+      <td><span class="badge badge-blue">${CAT[p.category]}</span></td>
+      <td>${fmtDate(p.published_on)}</td>
+      <td>${p.published ? '공개' : '<span style="color:#999">비공개</span>'}</td>
       <td style="display:flex;gap:6px;">
-        <button class="btn btn-sm btn-secondary" onclick="editItem('notice', ${n.id})">수정</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteItem('notice', ${n.id})">삭제</button>
+        <button class="btn btn-sm btn-secondary" onclick="openPostModal(${p.id})">수정</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteRow('posts', ${p.id})">삭제</button>
       </td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 }
 
-// ── PRESS ──
-function renderPress() {
-  const q = (document.getElementById('pressSearch')?.value || '').toLowerCase();
-  const data = getPress().filter(n => !q || n.title.toLowerCase().includes(q));
-  const tb = document.getElementById('pressTable');
-  if (data.length === 0) {
-    tb.innerHTML = '<tr class="empty-row"><td colspan="5">등록된 보도자료가 없습니다</td></tr>';
-    return;
-  }
-  tb.innerHTML = data.map((n, i) => `
+function openPostModal(id) {
+  const p = state.posts.find(x => x.id === id) || { category: 'notice', published: true, published_on: new Date().toISOString().slice(0, 10) };
+  openModal(id ? '글 수정' : '새 글 작성', `
+    <div class="form-group"><label>분류</label>
+      <select id="f_cat">${Object.entries(CAT).map(([k, v]) => `<option value="${k}" ${p.category === k ? 'selected' : ''}>${v}</option>`).join('')}</select></div>
+    <div class="form-group"><label>제목 *</label><input type="text" id="f_title" value="${esc(p.title)}"></div>
+    <div class="form-group"><label>요약 (목록에 보이는 한두 줄)</label><input type="text" id="f_excerpt" value="${esc(p.excerpt)}"></div>
+    <div class="form-group"><label>내용</label><textarea id="f_content" style="min-height:200px">${esc(p.content)}</textarea></div>
+    <div class="form-group"><label>게시일</label><input type="date" id="f_date" value="${esc(p.published_on)}"></div>
+    <div class="form-group" style="display:flex;gap:20px;">
+      <label style="display:flex;gap:6px;align-items:center;font-weight:400"><input type="checkbox" id="f_new" ${p.is_new ? 'checked' : ''}> NEW 표시</label>
+      <label style="display:flex;gap:6px;align-items:center;font-weight:400"><input type="checkbox" id="f_pub" ${p.published ? 'checked' : ''}> 홈페이지에 공개</label>
+    </div>`,
+    `<button class="btn btn-secondary" onclick="closeModal()">취소</button><button class="btn btn-primary" onclick="savePost(${id || 'null'})">저장</button>`);
+}
+
+async function savePost(id) {
+  const v = k => document.getElementById(k).value.trim();
+  const row = { category: v('f_cat'), title: v('f_title'), excerpt: v('f_excerpt') || null, content: v('f_content') || null,
+    published_on: v('f_date') || new Date().toISOString().slice(0, 10),
+    is_new: document.getElementById('f_new').checked, published: document.getElementById('f_pub').checked };
+  if (!row.title) { toast('제목을 입력하세요.'); return; }
+  const { error } = id ? await db.from('posts').update(row).eq('id', id) : await db.from('posts').insert(row);
+  if (error) return fail(error);
+  closeModal(); loadPosts();
+}
+
+// ── OBADIAH ──
+async function loadObadiah() {
+  await fetchAll('obadiah');
+  const sel = document.getElementById('obRound');
+  const prev = sel.value;
+  const rounds = [...new Set(state.obadiah.map(e => obadiahRound(e.created_at)))];
+  const cur = obadiahRound(new Date());
+  if (!rounds.includes(cur)) rounds.unshift(cur);
+  sel.innerHTML = '<option value="">전체 회차</option>' + rounds.map(r => `<option ${r === (prev || cur) ? 'selected' : ''}>${r}</option>`).join('');
+  renderObadiah();
+}
+function renderObadiah() {
+  const r = document.getElementById('obRound').value, st = document.getElementById('obStatus').value;
+  const q = document.getElementById('obSearch').value.toLowerCase();
+  const data = state.obadiah.filter(e => (!r || obadiahRound(e.created_at) === r) && (!st || e.status === st)
+    && (!q || (e.title + e.name + (e.pen_name || '')).toLowerCase().includes(q)));
+  const tb = document.getElementById('obTable');
+  if (!data.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="9">응모작이 없습니다</td></tr>'; return; }
+  tb.innerHTML = data.map((e, i) => `
     <tr>
       <td style="color:#999">${data.length - i}</td>
-      <td>${n.title}</td>
-      <td>${n.date}</td>
-      <td>${n.isNew ? '<span class="badge badge-red">NEW</span>' : '-'}</td>
-      <td style="display:flex;gap:6px;">
-        <button class="btn btn-sm btn-secondary" onclick="editItem('press', ${n.id})">수정</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteItem('press', ${n.id})">삭제</button>
-      </td>
-    </tr>
-  `).join('');
+      <td class="clickable" onclick="viewRow('obadiah', ${e.id})">${esc(e.title)}</td>
+      <td>${esc(e.name)}${e.pen_name ? `<br><span style="color:#999;font-size:12px">필명 ${esc(e.pen_name)}</span>` : ''}</td>
+      <td>${esc(e.genre)}</td>
+      <td>${e.body.length}</td>
+      <td>${fmtDate(e.created_at)}</td>
+      <td>${statusSelect('obadiah', e)}</td>
+      <td><input type="checkbox" ${e.is_public ? 'checked' : ''} ${['오바댜상', '2등'].includes(e.status) ? '' : 'disabled title="당선작만 공개할 수 있습니다"'} onchange="updateField('obadiah', ${e.id}, { is_public: this.checked })"></td>
+      <td><button class="btn btn-sm btn-danger" onclick="deleteRow('obadiah', ${e.id})">삭제</button></td>
+    </tr>`).join('');
 }
 
-// ── PROJECTS ──
-function renderProjects() {
-  const data = getProjects();
-  const tb = document.getElementById('projectTable');
-  tb.innerHTML = data.map(p => `
-    <tr>
-      <td style="font-size:22px">${p.icon}</td>
-      <td><strong>${p.name}</strong></td>
-      <td style="color:#666;font-size:13px">${p.desc}</td>
-      <td><span class="badge ${p.status==='진행중'?'badge-green':p.status==='모집중'?'badge-blue':'badge-yellow'}">${p.status}</span></td>
-      <td style="display:flex;gap:6px;">
-        <button class="btn btn-sm btn-secondary" onclick="editItem('project', ${p.id})">수정</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteItem('project', ${p.id})">삭제</button>
-      </td>
-    </tr>
-  `).join('');
+// ── GENERIC LISTS ──
+async function loadList(key) { await fetchAll(key); renderList(key); }
+const won = n => (n || 0).toLocaleString('ko-KR') + '원';
+const ROWS = {
+  hackathon: (h, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('hackathon', ${h.id})">${esc(h.team_name || '(개인)')}</td><td>${esc(h.name)}</td><td>${h.member_count || '-'}</td><td>${esc(h.organization || '-')}</td><td>${fmtDate(h.created_at)}</td>`,
+  applications: (a, n) => `<td style="color:#999">${n}</td><td>${esc(a.program_name)}</td><td class="clickable" onclick="viewRow('applications', ${a.id})">${esc(a.project_title)}</td><td>${esc(a.name)}</td><td>${fmtDate(a.created_at)}</td>`,
+  supporters: (s, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('supporters', ${s.id})">${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.support_type)}</td><td>${won(s.amount)}</td><td>${fmtDate(s.created_at)}</td>`,
+};
+const TBODY = { hackathon: 'hkTable', applications: 'appTable', supporters: 'supporterTable' };
+function renderList(key) {
+  const data = state[key], tb = document.getElementById(TBODY[key]);
+  const cols = tb.closest('table').querySelectorAll('th').length;
+  if (!data.length) { tb.innerHTML = `<tr class="empty-row"><td colspan="${cols}">접수된 내역이 없습니다</td></tr>`; return; }
+  tb.innerHTML = data.map((r, i) => `<tr>${ROWS[key](r, data.length - i)}<td>${statusSelect(key, r)}</td>
+    <td><button class="btn btn-sm btn-danger" onclick="deleteRow('${key}', ${r.id})">삭제</button></td></tr>`).join('');
 }
 
-// ── APPS ──
-function renderApps() {
-  const data = getApps();
-  const tb = document.getElementById('appTable');
-  if (data.length === 0) {
-    tb.innerHTML = '<tr class="empty-row"><td colspan="5">접수된 신청이 없습니다</td></tr>';
-    return;
-  }
-  tb.innerHTML = data.map((a, i) => `
-    <tr>
-      <td style="color:#999">${data.length - i}</td>
-      <td>${a.programName}</td>
-      <td>${a.date}</td>
-      <td>
-        <select class="badge" onchange="updateAppStatus(${a.id}, this.value)" style="border:none;cursor:pointer;font-family:inherit;font-size:12px;padding:4px 8px;border-radius:3px;background:#fff3e0;color:#f97316;">
-          <option ${a.status==='검토중'?'selected':''}>검토중</option>
-          <option ${a.status==='서류심사'?'selected':''}>서류심사</option>
-          <option ${a.status==='합격'?'selected':''}>합격</option>
-          <option ${a.status==='불합격'?'selected':''}>불합격</option>
-        </select>
-      </td>
-      <td><button class="btn btn-sm btn-danger" onclick="deleteApp(${a.id})">삭제</button></td>
-    </tr>
-  `).join('');
+function statusSelect(key, r) {
+  return `<select class="status-select" onchange="updateField('${key}', ${r.id}, { status: this.value })">
+    ${STATUS[key].map(s => `<option ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select>`;
 }
 
-function updateAppStatus(id, status) {
-  const apps = getApps().map(a => a.id === id ? {...a, status} : a);
-  localStorage.setItem('fco_applications', JSON.stringify(apps));
+async function updateField(key, id, patch) {
+  if (key === 'obadiah' && patch.status && !['오바댜상', '2등'].includes(patch.status)) patch.is_public = false;
+  const { error } = await db.from(TABLE[key]).update(patch).eq('id', id);
+  if (error) return fail(error);
+  const row = state[key].find(r => r.id === id); Object.assign(row, patch);
+  key === 'obadiah' ? renderObadiah() : renderList(key);
 }
 
-function deleteApp(id) {
-  if (!confirm('삭제하시겠습니까?')) return;
-  localStorage.setItem('fco_applications', JSON.stringify(getApps().filter(a => a.id !== id)));
-  renderApps();
-  renderDashboard();
+async function deleteRow(key, id) {
+  if (!confirm('삭제하면 되돌릴 수 없습니다. 삭제하시겠습니까?')) return;
+  const { error } = await db.from(key === 'posts' ? 'posts' : TABLE[key]).delete().eq('id', id);
+  if (error) return fail(error);
+  showPanel(key);
 }
 
-function exportCSV() {
-  const apps = getApps();
-  if (apps.length === 0) { alert('신청 내역이 없습니다.'); return; }
-  const rows = [['번호','사업명','신청일','상태'], ...apps.map((a,i) => [i+1, a.programName, a.date, a.status])];
-  const csv = rows.map(r => r.join(',')).join('\n');
+// ── DETAIL VIEW ──
+const FIELDS = {
+  obadiah: [['name', '응모자'], ['pen_name', '필명'], ['phone', '연락처'], ['email', '이메일'], ['genre', '부문'], ['created_at', '접수일'], ['status', '상태']],
+  hackathon: [['team_name', '팀명'], ['name', '대표자'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['member_count', '인원'], ['role', '분야/역할'], ['created_at', '신청일']],
+  applications: [['program_name', '사업'], ['name', '신청자'], ['phone', '연락처'], ['email', '이메일'], ['genre', '장르/분류'], ['created_at', '신청일'], ['summary', '작품 소개'], ['plan', '활용 계획']],
+  supporters: [['name', '성명'], ['phone', '연락처'], ['email', '이메일'], ['support_type', '유형'], ['amount', '금액'], ['created_at', '신청일']],
+};
+function viewRow(key, id) {
+  const r = state[key].find(x => x.id === id);
+  const val = (k) => k === 'created_at' ? fmtDate(r[k]) : k === 'amount' ? won(r[k]) : (r[k] ?? '-');
+  const title = { obadiah: r.title, hackathon: r.team_name || r.name, applications: r.project_title, supporters: r.name + ' 님 후원' }[key];
+  let html = `<dl class="detail-grid">${FIELDS[key].map(([k, l]) => `<dt>${l}</dt><dd>${esc(val(k))}</dd>`).join('')}</dl>`;
+  if (key === 'obadiah') html += `<div class="detail-body">${esc(r.body)}</div><p class="char-count">${r.body.length}자</p>`;
+  if (key === 'hackathon' && r.idea) html += `<div class="detail-body">${esc(r.idea)}</div>`;
+  html += `<div class="form-group" style="margin-top:16px"><label>관리자 메모</label><textarea id="f_memo">${esc(r.admin_memo)}</textarea></div>`;
+  openModal(title, html, `<button class="btn btn-secondary" onclick="closeModal()">닫기</button>
+    <button class="btn btn-primary" onclick="saveMemo('${key}', ${id})">메모 저장</button>`);
+}
+async function saveMemo(key, id) { await updateField(key, id, { admin_memo: document.getElementById('f_memo').value }); closeModal(); }
+
+// ── CSV ──
+function exportCSV(key) {
+  const rows = state[key];
+  if (!rows.length) { toast('내보낼 내역이 없습니다.'); return; }
+  const cols = Object.keys(rows[0]);
+  const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const csv = [cols.join(','), ...rows.map(r => cols.map(c => cell(r[c])).join(','))].join('\r\n');
   const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent('﻿' + csv);
-  a.download = 'FCO_지원신청_' + new Date().toLocaleDateString('ko-KR').replace(/\./g,'-') + '.csv';
+  a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = `FCO_${LABELS[key]}_${new Date().toISOString().slice(0, 10)}.csv`;
   a.click();
 }
 
-// ── SUPPORTERS ──
-function renderSupporters() {
-  const data = getSupporters();
-  const tb = document.getElementById('supporterTable');
-  if (data.length === 0) {
-    tb.innerHTML = '<tr class="empty-row"><td colspan="6">등록된 후원자가 없습니다</td></tr>';
-    return;
-  }
-  tb.innerHTML = data.map((s, i) => `
-    <tr>
-      <td style="color:#999">${data.length - i}</td>
-      <td>${s.name}</td>
-      <td>${s.tel || '-'}</td>
-      <td><span class="badge badge-green">${s.type}</span></td>
-      <td>${s.date}</td>
-      <td style="display:flex;gap:6px;">
-        <button class="btn btn-sm btn-danger" onclick="deleteSupporter(${s.id})">삭제</button>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function deleteSupporter(id) {
-  if (!confirm('삭제하시겠습니까?')) return;
-  saveSupporters(getSupporters().filter(s => s.id !== id));
-  renderSupporters(); renderDashboard();
-}
-
 // ── MODAL ──
-let modalType = null;
-let editId = null;
-
-const modalForms = {
-  notice: `
-    <div class="form-group"><label>제목 *</label><input type="text" id="f_title" placeholder="공지 제목"></div>
-    <div class="form-group"><label>카테고리</label>
-      <select id="f_cat"><option value="공지">공지</option><option value="모집">모집</option><option value="시상">시상</option></select>
-    </div>
-    <div class="form-group"><label>내용</label><textarea id="f_content" placeholder="내용을 입력하세요"></textarea></div>
-    <div class="form-group"><label>날짜</label><input type="date" id="f_date"></div>
-    <div class="form-group" style="display:flex;align-items:center;gap:10px;">
-      <input type="checkbox" id="f_new"><label for="f_new" style="font-size:13px;font-weight:400;">NEW 표시</label>
-    </div>`,
-  press: `
-    <div class="form-group"><label>제목 *</label><input type="text" id="f_title" placeholder="보도자료 제목"></div>
-    <div class="form-group"><label>내용</label><textarea id="f_content" placeholder="내용을 입력하세요"></textarea></div>
-    <div class="form-group"><label>날짜</label><input type="date" id="f_date"></div>
-    <div class="form-group" style="display:flex;align-items:center;gap:10px;">
-      <input type="checkbox" id="f_new"><label for="f_new" style="font-size:13px;font-weight:400;">NEW 표시</label>
-    </div>`,
-  project: `
-    <div class="form-group"><label>이모지 아이콘</label><input type="text" id="f_icon" placeholder="📚"></div>
-    <div class="form-group"><label>사업명 *</label><input type="text" id="f_title" placeholder="사업명"></div>
-    <div class="form-group"><label>설명</label><input type="text" id="f_desc" placeholder="간단한 설명"></div>
-    <div class="form-group"><label>상태</label>
-      <select id="f_status"><option>진행중</option><option>모집중</option><option>종료</option></select>
-    </div>`,
-  supporter: `
-    <div class="form-group"><label>성명 *</label><input type="text" id="f_name" placeholder="홍길동"></div>
-    <div class="form-group"><label>연락처</label><input type="tel" id="f_tel" placeholder="010-0000-0000"></div>
-    <div class="form-group"><label>후원 유형</label>
-      <select id="f_type"><option>정기후원</option><option>일시후원</option><option>물품후원</option></select>
-    </div>
-    <div class="form-group"><label>날짜</label><input type="date" id="f_date"></div>`,
-};
-
-function openModal(type, id) {
-  modalType = type; editId = id || null;
-  const labels = { notice:'공지사항', press:'보도자료', project:'사업', supporter:'후원자' };
-  document.getElementById('modalTitle').textContent = (id ? '수정 — ' : '새 ') + labels[type];
-  document.getElementById('modalBody').innerHTML = modalForms[type];
-
-  const today = new Date().toISOString().split('T')[0];
-  const dateEl = document.getElementById('f_date');
-  if (dateEl) dateEl.value = today;
-
-  if (id) {
-    let item;
-    if (type === 'notice') item = getNotices().find(n => n.id === id);
-    else if (type === 'press') item = getPress().find(n => n.id === id);
-    else if (type === 'project') item = getProjects().find(n => n.id === id);
-    if (item) {
-      if (document.getElementById('f_title')) document.getElementById('f_title').value = item.title || item.name || '';
-      if (document.getElementById('f_content')) document.getElementById('f_content').value = item.content || '';
-      if (document.getElementById('f_date') && item.date) {
-        const parts = item.date.split('.');
-        if (parts.length === 3) document.getElementById('f_date').value = `${parts[0]}-${parts[1].padStart(2,'0')}-${parts[2].padStart(2,'0')}`;
-      }
-      if (document.getElementById('f_new')) document.getElementById('f_new').checked = !!item.isNew;
-      if (document.getElementById('f_cat') && item.cat) document.getElementById('f_cat').value = item.cat;
-      if (document.getElementById('f_icon')) document.getElementById('f_icon').value = item.icon || '';
-      if (document.getElementById('f_desc')) document.getElementById('f_desc').value = item.desc || '';
-      if (document.getElementById('f_status') && item.status) document.getElementById('f_status').value = item.status;
-    }
-  }
+function openModal(title, body, footer) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modalFooter').innerHTML = footer || '';
   document.getElementById('overlay').classList.add('open');
 }
-
 function closeModal() { document.getElementById('overlay').classList.remove('open'); }
-function closeOverlay(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
 
-function saveModal() {
-  const title = document.getElementById('f_title')?.value?.trim();
-  if (!title) { alert('제목 또는 사업명을 입력하세요.'); return; }
 
-  const dateRaw = document.getElementById('f_date')?.value || '';
-  const date = dateRaw ? dateRaw.replace(/-/g, '.') : new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\.\s/g,'.').replace(/\./g,'.');
-
-  if (modalType === 'notice') {
-    const notices = getNotices();
-    if (editId) {
-      const idx = notices.findIndex(n => n.id === editId);
-      if (idx > -1) notices[idx] = { ...notices[idx], title, cat: document.getElementById('f_cat')?.value, content: document.getElementById('f_content')?.value, date, isNew: document.getElementById('f_new')?.checked };
-    } else {
-      notices.unshift({ id: Date.now(), title, cat: document.getElementById('f_cat')?.value || '공지', content: document.getElementById('f_content')?.value || '', date, isNew: document.getElementById('f_new')?.checked || false });
-    }
-    saveNotices(notices); renderNotices();
-  } else if (modalType === 'press') {
-    const press = getPress();
-    if (editId) {
-      const idx = press.findIndex(n => n.id === editId);
-      if (idx > -1) press[idx] = { ...press[idx], title, content: document.getElementById('f_content')?.value, date, isNew: document.getElementById('f_new')?.checked };
-    } else {
-      press.unshift({ id: Date.now(), title, content: document.getElementById('f_content')?.value || '', date, isNew: document.getElementById('f_new')?.checked || false });
-    }
-    savePress(press); renderPress();
-  } else if (modalType === 'project') {
-    const projects = getProjects();
-    if (editId) {
-      const idx = projects.findIndex(p => p.id === editId);
-      if (idx > -1) projects[idx] = { ...projects[idx], icon: document.getElementById('f_icon')?.value || '📁', name: title, desc: document.getElementById('f_desc')?.value || '', status: document.getElementById('f_status')?.value || '진행중' };
-    } else {
-      projects.push({ id: Date.now(), icon: document.getElementById('f_icon')?.value || '📁', name: title, desc: document.getElementById('f_desc')?.value || '', status: document.getElementById('f_status')?.value || '진행중' });
-    }
-    saveProjects(projects); renderProjects();
-  } else if (modalType === 'supporter') {
-    const supporters = getSupporters();
-    supporters.unshift({ id: Date.now(), name: document.getElementById('f_name')?.value?.trim(), tel: document.getElementById('f_tel')?.value, type: document.getElementById('f_type')?.value || '정기후원', date });
-    saveSupporters(supporters); renderSupporters();
-  }
-
-  closeModal(); renderDashboard();
+// ── UPLOAD ──
+async function uploadMedia(file, folder) {
+  if (file.size > 50 * 1024 * 1024) throw new Error('파일이 50MB를 넘습니다. 용량을 줄여서 올려 주세요.');
+  const ext = (file.name.split('.').pop() || 'bin').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const { error } = await db.storage.from('site-media').upload(path, file, { cacheControl: '31536000', contentType: file.type });
+  if (error) throw error;
+  return db.storage.from('site-media').getPublicUrl(path).data.publicUrl;
+}
+async function getSetting(key) {
+  const { data } = await db.from('site_settings').select('value').eq('key', key).maybeSingle();
+  return data?.value || null;
+}
+async function setSetting(key, value) {
+  const { error } = await db.from('site_settings').upsert({ key, value, updated_at: new Date().toISOString() });
+  if (error) throw error;
 }
 
-function editItem(type, id) { openModal(type, id); }
+// ── HERO (1~5 slides) ──
+const HERO_MAX = 5;
+const HERO_DEFAULT_SLIDE = { type: 'video', url: '../images/brush-ink.mp4', poster: '../images/brush-ink-poster.jpg', title: 'Originality.', isDefault: true };
+let heroSlides = [];
 
-function deleteItem(type, id) {
-  if (!confirm('삭제하시겠습니까?')) return;
-  if (type === 'notice') { saveNotices(getNotices().filter(n => n.id !== id)); renderNotices(); }
-  else if (type === 'press') { savePress(getPress().filter(n => n.id !== id)); renderPress(); }
-  else if (type === 'project') { saveProjects(getProjects().filter(p => p.id !== id)); renderProjects(); }
-  renderDashboard();
+function normalizeHero(v) {
+  if (v?.slides?.length) return { interval: v.interval || 6, slides: v.slides };
+  if (v?.url) return { interval: 6, slides: [{ type: v.type, url: v.url, title: v.title }] };   // 이전 단일 형식
+  return { interval: v?.interval || 6, slides: [{ ...HERO_DEFAULT_SLIDE, title: v?.title || HERO_DEFAULT_SLIDE.title }] };
 }
+async function loadHero() {
+  const h = normalizeHero(await getSetting('hero'));
+  heroSlides = h.slides.map(x => x.builtin ? { ...HERO_DEFAULT_SLIDE, title: x.title } : { ...x });
+  document.getElementById('heroInterval').value = h.interval;
+  renderHeroSlides();
+}
+function slideMedia(sl) {
+  const url = sl.localUrl || sl.url;
+  if (!url) return '<div class="cap" style="font-size:16px;font-weight:400">이미지 또는 영상을 선택하세요</div>';
+  return sl.type === 'image' ? `<img src="${esc(url)}" alt="">`
+    : `<video src="${esc(url)}" ${sl.poster && !sl.localUrl ? `poster="${esc(sl.poster)}"` : ''} autoplay muted loop playsinline></video>`;
+}
+function renderHeroSlides() {
+  document.getElementById('heroAddBtn').disabled = heroSlides.length >= HERO_MAX;
+  document.getElementById('heroSlides').innerHTML = heroSlides.map((sl, i) => `
+    <div class="settings-card" style="max-width:880px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0">슬라이드 ${i + 1}${sl.isDefault ? ' <span style="font-size:12px;color:#999;font-weight:400">(기본 영상)</span>' : ''}</h3>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div class="order-btns"><button ${i === 0 ? 'disabled' : ''} onclick="moveHeroSlide(${i}, -1)" title="앞으로">▲</button><button ${i === heroSlides.length - 1 ? 'disabled' : ''} onclick="moveHeroSlide(${i}, 1)" title="뒤로">▼</button></div>
+          <button class="btn btn-sm btn-danger" ${heroSlides.length <= 1 ? 'disabled title="최소 1개는 있어야 합니다"' : ''} onclick="removeHeroSlide(${i})">삭제</button>
+        </div>
+      </div>
+      <div class="media-preview">${slideMedia(sl)}<div class="cap" data-cap="${i}">${esc(sl.title || '')}</div></div>
+      <div class="form-row">
+        <div class="form-group"><label>가운데 문구</label><input type="text" maxlength="40" value="${esc(sl.title || '')}" oninput="heroSlides[${i}].title=this.value;document.querySelector('[data-cap=\\'${i}\\']').textContent=this.value"></div>
+        <div class="form-group"><label>이미지 / 영상 ${sl.url || sl.localUrl ? '바꾸기' : '선택'}</label><input type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" onchange="pickHeroFile(${i}, this.files[0])"></div>
+      </div>
+      <p class="help">이미지: 가로 1920px 이상 권장 &nbsp;|&nbsp; 영상: MP4·WebM, 50MB 이하, 10~30초 권장</p>
+    </div>`).join('');
+}
+function pickHeroFile(i, f) {
+  if (!f) return;
+  if (f.size > 50 * 1024 * 1024) { toast('파일이 50MB를 넘습니다. 용량을 줄여서 올려 주세요.'); return; }
+  Object.assign(heroSlides[i], { file: f, localUrl: URL.createObjectURL(f), type: f.type.startsWith('image/') ? 'image' : 'video', isDefault: false, poster: null });
+  renderHeroSlides();
+}
+function addHeroSlide() {
+  if (heroSlides.length >= HERO_MAX) return;
+  heroSlides.push({ type: 'image', url: '', title: 'Originality.' });
+  renderHeroSlides();
+}
+function removeHeroSlide(i) {
+  if (heroSlides.length <= 1) return;
+  if (!confirm(`슬라이드 ${i + 1}을(를) 뺄까요? 저장을 눌러야 홈페이지에 반영됩니다.`)) return;
+  heroSlides.splice(i, 1); renderHeroSlides();
+}
+function moveHeroSlide(i, dir) {
+  const j = i + dir; [heroSlides[i], heroSlides[j]] = [heroSlides[j], heroSlides[i]]; renderHeroSlides();
+}
+async function saveHero() {
+  const empty = heroSlides.findIndex(sl => !sl.url && !sl.file && !sl.isDefault);
+  if (empty > -1) { toast(`슬라이드 ${empty + 1}에 이미지나 영상을 선택하거나, 그 슬라이드를 삭제하세요.`); return; }
+  const interval = Math.min(30, Math.max(3, parseInt(document.getElementById('heroInterval').value, 10) || 6));
+  const btn = document.getElementById('heroSaveBtn'); btn.disabled = true;
+  try {
+    const slides = [];
+    for (const [k, sl] of heroSlides.entries()) {
+      btn.textContent = sl.file ? `업로드 중… (${k + 1}/${heroSlides.length})` : '저장 중…';
+      const title = (sl.title || '').trim();
+      if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, builtin: true });
+      else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title });
+    }
+    await setSetting('hero', { interval, slides });
+    toast('메인 히어로가 저장되었습니다. 홈페이지를 새로고침하면 반영됩니다.');
+    loadHero();
+  } catch (e) { fail(e); }
+  finally { btn.disabled = false; btn.textContent = '저장'; }
+}
+async function resetHero() {
+  if (!confirm('모든 슬라이드를 지우고 기본 영상(붓 잉크) 1개로 되돌릴까요?')) return;
+  try { await setSetting('hero', { interval: 6, slides: [] }); loadHero(); } catch (e) { fail(e); }
+}
+
+// ── PROJECTS ──
+async function loadProjects() {
+  const { data, error } = await db.from('projects').select('*').order('sort_order').order('id');
+  if (error) return fail(error);
+  state.projects = data;
+  const ps = await getSetting('projects_section') || {};
+  document.getElementById('psLabel').value = ps.label || '';
+  document.getElementById('psTitle').value = ps.title || '';
+  document.getElementById('psDesc').value = ps.desc || '';
+  renderProjects();
+}
+function renderProjects() {
+  const data = state.projects, tb = document.getElementById('projectTable');
+  if (!data.length) { tb.innerHTML = '<tr class="empty-row"><td colspan="7">등록된 프로젝트가 없습니다</td></tr>'; return; }
+  tb.innerHTML = data.map((p, i) => `
+    <tr>
+      <td><div class="order-btns"><button ${i === 0 ? 'disabled' : ''} onclick="moveProject(${i}, -1)" title="위로">▲</button><button ${i === data.length - 1 ? 'disabled' : ''} onclick="moveProject(${i}, 1)" title="아래로">▼</button></div></td>
+      <td>${p.image_url ? `<img class="thumb-sm" src="${esc(p.image_url)}" alt="">` : '<span style="color:#ccc">없음</span>'}</td>
+      <td><strong>${esc(p.title)}</strong></td>
+      <td style="color:#666;font-size:13px;max-width:320px">${esc(p.description)}</td>
+      <td style="font-size:12px;color:#999">${esc(p.link_url || '-')}</td>
+      <td><input type="checkbox" ${p.published ? 'checked' : ''} onchange="toggleProject(${p.id}, this.checked)"></td>
+      <td style="display:flex;gap:6px;">
+        <button class="btn btn-sm btn-secondary" onclick="openProjectModal(${p.id})">수정</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteProject(${p.id})">삭제</button>
+      </td>
+    </tr>`).join('');
+}
+async function moveProject(i, dir) {
+  const list = state.projects.slice(); const j = i + dir;
+  [list[i], list[j]] = [list[j], list[i]];
+  const results = await Promise.all(list.map((p, k) => db.from('projects').update({ sort_order: k + 1 }).eq('id', p.id)));
+  const err = results.find(r => r.error); if (err) return fail(err.error);
+  loadProjects();
+}
+async function toggleProject(id, published) {
+  const { error } = await db.from('projects').update({ published }).eq('id', id);
+  if (error) return fail(error);
+  state.projects.find(p => p.id === id).published = published;
+}
+async function deleteProject(id) {
+  if (!confirm('이 프로젝트를 삭제할까요? 되돌릴 수 없습니다. (잠시 숨기려면 "공개" 체크만 해제하세요)')) return;
+  const { error } = await db.from('projects').delete().eq('id', id);
+  if (error) return fail(error);
+  loadProjects();
+}
+function openProjectModal(id) {
+  const p = state.projects?.find(x => x.id === id) || { published: true };
+  openModal(id ? '프로젝트 수정' : '프로젝트 추가', `
+    <div class="form-group"><label>제목 *</label><input type="text" id="p_title" maxlength="100" value="${esc(p.title)}"></div>
+    <div class="form-group"><label>설명</label><textarea id="p_desc" maxlength="500">${esc(p.description)}</textarea></div>
+    <div class="form-group"><label>링크 (카드를 누르면 이동할 주소)</label><input type="text" id="p_link" value="${esc(p.link_url)}" placeholder="projects.html#book 또는 https://…"></div>
+    <div class="form-group"><label>이미지 (선택)</label>
+      ${p.image_url ? `<img src="${esc(p.image_url)}" alt="" style="width:100%;max-height:180px;object-fit:cover;border-radius:6px;margin-bottom:8px">
+        <label style="display:flex;gap:6px;align-items:center;font-weight:400;margin-bottom:8px"><input type="checkbox" id="p_rmimg"> 이미지 빼기</label>` : ''}
+      <input type="file" id="p_img" accept="image/jpeg,image/png,image/webp">
+      <p class="help">카드 위쪽에 표시됩니다. 가로 800px 이상 권장. 비워 두면 글만 표시됩니다.</p>
+    </div>
+    <label style="display:flex;gap:6px;align-items:center;font-weight:400"><input type="checkbox" id="p_pub" ${p.published ? 'checked' : ''}> 홈페이지에 공개</label>`,
+    `<button class="btn btn-secondary" onclick="closeModal()">취소</button><button class="btn btn-primary" id="p_save" onclick="saveProject(${id || 'null'})">저장</button>`);
+}
+async function saveProject(id) {
+  const v = k => document.getElementById(k).value.trim();
+  const row = { title: v('p_title'), description: v('p_desc') || null, link_url: v('p_link') || null, published: document.getElementById('p_pub').checked };
+  if (!row.title) { toast('제목을 입력하세요.'); return; }
+  const btn = document.getElementById('p_save'); btn.disabled = true; btn.textContent = '저장 중…';
+  try {
+    const f = document.getElementById('p_img').files[0];
+    if (f) row.image_url = await uploadMedia(f, 'projects');
+    else if (document.getElementById('p_rmimg')?.checked) row.image_url = null;
+    if (!id) row.sort_order = (state.projects?.length || 0) + 1;
+    const { error } = id ? await db.from('projects').update(row).eq('id', id) : await db.from('projects').insert(row);
+    if (error) throw error;
+    closeModal(); loadProjects();
+  } catch (e) { fail(e); btn.disabled = false; btn.textContent = '저장'; }
+}
+async function saveProjectSection() {
+  try {
+    await setSetting('projects_section', { label: v2('psLabel'), title: v2('psTitle'), desc: v2('psDesc') });
+    toast('영역 제목이 저장되었습니다.');
+  } catch (e) { fail(e); }
+}
+function v2(id) { return document.getElementById(id).value.trim(); }
 
 // ── SETTINGS ──
-function changeCreds() {
-  const id = document.getElementById('newId').value.trim();
-  const pw = document.getElementById('newPw').value;
-  const pw2 = document.getElementById('newPwConfirm').value;
-  if (!id || !pw) { alert('아이디와 비밀번호를 입력하세요.'); return; }
-  if (pw !== pw2) { alert('비밀번호가 일치하지 않습니다.'); return; }
-  localStorage.setItem('fco_admin_creds', JSON.stringify({id, pw}));
-  alert('계정 정보가 변경되었습니다.');
-  document.getElementById('newId').value = '';
-  document.getElementById('newPw').value = '';
-  document.getElementById('newPwConfirm').value = '';
+async function changePassword() {
+  const pw = document.getElementById('newPw').value, pw2 = document.getElementById('newPwConfirm').value;
+  if (pw.length < 8) { toast('비밀번호는 8자 이상으로 입력하세요.'); return; }
+  if (pw !== pw2) { toast('비밀번호가 일치하지 않습니다.'); return; }
+  const { error } = await db.auth.updateUser({ password: pw });
+  if (error) return fail(error);
+  document.getElementById('newPw').value = document.getElementById('newPwConfirm').value = '';
+  toast('비밀번호가 변경되었습니다.');
+}
+const ORG = { orgName: 'name', orgTel: 'tel', orgEmail: 'email', orgAddr: 'address', orgBizno: 'bizno' };
+async function loadOrgInfo() {
+  const { data } = await db.from('site_settings').select('value').eq('key', 'org').maybeSingle();
+  const v = data?.value || {};
+  Object.entries(ORG).forEach(([id, k]) => document.getElementById(id).value = v[k] || '');
+}
+async function saveOrgInfo() {
+  const value = {};
+  Object.entries(ORG).forEach(([id, k]) => value[k] = document.getElementById(id).value.trim());
+  const { error } = await db.from('site_settings').upsert({ key: 'org', value, updated_at: new Date().toISOString() });
+  if (error) return fail(error);
+  toast('재단 정보가 저장되었습니다.');
 }
 
-function saveOrgInfo() {
-  const info = {
-    name: document.getElementById('orgName').value,
-    tel: document.getElementById('orgTel').value,
-    email: document.getElementById('orgEmail').value,
-    addr: document.getElementById('orgAddr').value,
-  };
-  localStorage.setItem('fco_org_info', JSON.stringify(info));
-  alert('재단 정보가 저장되었습니다.');
-}
-
-function loadOrgInfo() {
-  const info = JSON.parse(localStorage.getItem('fco_org_info') || '{}');
-  if (info.name) document.getElementById('orgName').value = info.name;
-  if (info.tel) document.getElementById('orgTel').value = info.tel;
-  if (info.email) document.getElementById('orgEmail').value = info.email;
-  if (info.addr) document.getElementById('orgAddr').value = info.addr;
-}
-
-// ── INIT ──
-renderDashboard();
+guard().then(ok => ok && loadDashboard());
 </script>
 </body>
 </html>

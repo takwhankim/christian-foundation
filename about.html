@@ -14,28 +14,30 @@
   --max: 1180px;
 }
 html { scroll-behavior: smooth; }
-body { font-family: "Pretendard", sans-serif; color: var(--text); }
+body { font-family: "Pretendard", sans-serif; color: var(--text); font-size: 17px; }
 a { color: inherit; text-decoration: none; }
 .container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
 
 .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
-.nav-shell { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.nav-shell { height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .logo { display: flex; align-items: center; }
 .logo-mark { display: flex; flex-direction: column; line-height: 1; }
-.logo-img { height: 28px; width: auto; }
+.logo-img { height: 36px; width: auto; }
 .logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
 .logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
 .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
-.nav-links a { font-size: 14px; font-weight: 500; color: #333; transition: color .2s; }
+.nav-links a { font-size: 19px; font-weight: 700; letter-spacing: 0.06em; color: #333; transition: color .2s; }
 .nav-links a:hover, .nav-links a.active { color: var(--brand); }
-.nav-cta { background: var(--navy); color: #fff !important; font-size: 13px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
 .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
 
 .page-hero { background: linear-gradient(135deg, var(--navy) 0%, #2a3058 100%); color: #fff; padding: 80px 0; }
 .page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; letter-spacing: 0.08em; }
 .page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
-.page-hero p { font-size: 15px; opacity: 0.7; line-height: 1.8; }
+.page-hero p { font-size: 17px; opacity: 0.7; line-height: 1.8; }
 
 .sub-nav { background: #f5f5f5; border-bottom: 1px solid #e8e8e8; }
 .sub-nav ul { display: flex; list-style: none; height: 48px; align-items: center; gap: 0; }
@@ -48,7 +50,7 @@ a { color: inherit; text-decoration: none; }
 .about-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 .about-intro .text h2 { font-size: 32px; font-weight: 700; line-height: 1.4; margin-bottom: 24px; }
 .about-intro .text h2 em { font-style: italic; color: var(--brand); }
-.about-intro .text p { font-size: 15px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
+.about-intro .text p { font-size: 17px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
 .about-intro .visual { background: linear-gradient(135deg, #e8f0fe, #fce8ee); border-radius: 12px; height: 360px; display: flex; align-items: center; justify-content: center; }
 .about-intro .visual .big-text { font-family: "Playfair Display", serif; font-style: italic; font-size: 72px; font-weight: 700; color: var(--brand); opacity: 0.15; }
 
@@ -56,7 +58,7 @@ a { color: inherit; text-decoration: none; }
 .value-card { padding: 32px; background: #f9f9f9; border-radius: 8px; border-top: 3px solid var(--brand); }
 .value-card .num { font-size: 36px; font-weight: 800; color: rgba(107,45,140,0.1); font-family: "Playfair Display", serif; }
 .value-card h3 { font-size: 18px; font-weight: 700; margin: 8px 0 12px; }
-.value-card p { font-size: 14px; color: var(--muted); line-height: 1.9; }
+.value-card p { font-size: 17px; color: var(--muted); line-height: 1.9; }
 
 .section-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
 .section-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; }
@@ -66,7 +68,7 @@ a { color: inherit; text-decoration: none; }
 .history-year:last-child { border-bottom: none; }
 .history-year .year { font-size: 24px; font-weight: 800; color: var(--brand); }
 .history-year .events { display: flex; flex-direction: column; gap: 12px; }
-.history-year .event { font-size: 14px; color: var(--text); display: flex; gap: 12px; }
+.history-year .event { font-size: 17px; color: var(--text); display: flex; gap: 12px; }
 .history-year .event .month { color: var(--muted); min-width: 36px; font-size: 13px; }
 
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
@@ -83,7 +85,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 900px) {
   .nav-links { display: none; }
-  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
   .nav-toggle { display: flex; }
   .about-intro { grid-template-columns: 1fr; }
   .values-grid { grid-template-columns: 1fr; }
@@ -102,7 +104,7 @@ a { color: inherit; text-decoration: none; }
         <li><a href="projects.html">사업소개</a></li>
         <li><a href="news.html">보도자료</a></li>
         <li><a href="support.html">후원하기</a></li>
-        <li><a href="apply.html" class="nav-cta">지원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
     </nav>
@@ -183,10 +185,10 @@ a { color: inherit; text-decoration: none; }
         <div class="history-year">
           <div class="year">2024</div>
           <div class="events">
-            <div class="event"><span class="month">11월</span> 오버다 문학상 수상자 발표 및 시상식</div>
+            <div class="event"><span class="month">11월</span> 오바댜 문학상 수상자 발표 및 시상식</div>
             <div class="event"><span class="month">09월</span> 기독교 도서 지원사업 2차 선정 발표</div>
             <div class="event"><span class="month">06월</span> FCO Film 지원사업 1기 프로젝트 시작</div>
-            <div class="event"><span class="month">03월</span> 오버다 문학상 1회 공모 개시</div>
+            <div class="event"><span class="month">03월</span> 오바댜 문학상 1회 공모 개시</div>
             <div class="event"><span class="month">01월</span> 기독교창의지원재단 공식 설립</div>
           </div>
         </div>
@@ -208,22 +210,18 @@ a { color: inherit; text-decoration: none; }
       <p class="section-sub">FCO 기독교창의지원재단을 이끄는 분들입니다.</p>
       <div class="team-grid">
         <div class="team-card">
-          <div class="avatar">👤</div>
           <h4>이사장</h4>
           <p>FCO 기독교창의지원재단</p>
         </div>
         <div class="team-card">
-          <div class="avatar">👤</div>
           <h4>상임이사</h4>
           <p>FCO 기독교창의지원재단</p>
         </div>
         <div class="team-card">
-          <div class="avatar">👤</div>
           <h4>사무총장</h4>
           <p>FCO 기독교창의지원재단</p>
         </div>
         <div class="team-card">
-          <div class="avatar">👤</div>
           <h4>감사</h4>
           <p>FCO 기독교창의지원재단</p>
         </div>
@@ -250,5 +248,9 @@ document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
 });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
+<script src="js/fco-edit.js"></script>
 </body>
 </html>
