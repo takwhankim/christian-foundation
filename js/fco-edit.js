@@ -43,7 +43,7 @@
   const byKey = Object.fromEntries(items.map(el => [el.dataset.fcoKey, el]));
 
   function setText(el, text) { el.innerHTML = esc(text).replace(/\n/g, '<br>'); }
-  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight'];
+  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle'];
   function applyStyle(el, st) {
     STYLE_KEYS.forEach(k => { el.style[k] = (st && st[k]) || ''; });
   }
@@ -112,10 +112,11 @@
     sbar.id = 'fco-style-bar';
     sbar.innerHTML = `
       <span>크기</span><button data-s="dec" title="작게">−</button><input type="number" min="8" max="160" data-s="size"><button data-s="inc" title="크게">+</button>
-      <span class="sep"></span><button data-s="bold" title="굵게">B</button>
+      <span class="sep"></span><button data-s="bold" title="굵게 (700)">B</button><button data-s="normal" title="일반 (400)" style="font-weight:400">B</button>
+      <span class="sep"></span><button data-s="italic" title="이탤릭" style="font-style:italic">I</button>
       <span class="sep"></span>${SWATCHES.map(c => `<button class="sw" data-s="color" data-c="${c}" style="background:${c}" title="${c}"></button>`).join('')}
       <input type="color" data-s="pick" title="다른 색 고르기">
-      <span class="sep"></span><button data-s="reset" title="크기·색상·굵기를 원래대로">원래 스타일</button>`;
+      <span class="sep"></span><button data-s="reset" title="크기·색상·굵기·이탤릭을 원래대로">원래 스타일</button>`;
     document.body.appendChild(sbar);
     let cur = null;
     const getStyle = el => (el.dataset.fcoStyle ? JSON.parse(el.dataset.fcoStyle) : {});
@@ -131,6 +132,8 @@
       const cs = getComputedStyle(cur);
       sbar.querySelector('[data-s=size]').value = Math.round(parseFloat(cs.fontSize));
       sbar.querySelector('[data-s=bold]').classList.toggle('on', parseInt(cs.fontWeight, 10) >= 600);
+      sbar.querySelector('[data-s=normal]').classList.toggle('on', parseInt(cs.fontWeight, 10) < 600);
+      sbar.querySelector('[data-s=italic]').classList.toggle('on', cs.fontStyle === 'italic');
       const rgb = cs.color.match(/\d+/g) || [0, 0, 0];
       sbar.querySelector('[data-s=pick]').value = '#' + rgb.slice(0, 3).map(n => (+n).toString(16).padStart(2, '0')).join('');
     }
@@ -149,7 +152,9 @@
       const size = parseFloat(getComputedStyle(cur).fontSize);
       if (b.dataset.s === 'dec') setStyle(cur, { fontSize: Math.max(8, Math.round(size) - 1) + 'px' });
       if (b.dataset.s === 'inc') setStyle(cur, { fontSize: Math.min(160, Math.round(size) + 1) + 'px' });
-      if (b.dataset.s === 'bold') setStyle(cur, { fontWeight: parseInt(getComputedStyle(cur).fontWeight, 10) >= 600 ? '400' : '700' });
+      if (b.dataset.s === 'bold') setStyle(cur, { fontWeight: '700' });
+      if (b.dataset.s === 'normal') setStyle(cur, { fontWeight: '400' });
+      if (b.dataset.s === 'italic') setStyle(cur, { fontStyle: getComputedStyle(cur).fontStyle === 'italic' ? 'normal' : 'italic' });
       if (b.dataset.s === 'color') setStyle(cur, { color: b.dataset.c });
       if (b.dataset.s === 'reset') { delete cur.dataset.fcoStyle; applyStyle(cur, null); cur.dataset.fcoDirty = '1'; dirty.add(cur); render(); syncBar(); }
     });
