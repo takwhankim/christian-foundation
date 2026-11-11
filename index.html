@@ -931,6 +931,13 @@ async function loadHero() {
       ? `rgba(0,0,0,${a})`
       : `linear-gradient(to bottom,rgba(0,0,0,${+(a * 0.15).toFixed(3)}) 0%,rgba(0,0,0,${a}) 100%)`;
     titleEl.classList.toggle('no-shadow', sl.type === 'color');
+    titleEl.style.color = sl.titleColor || '';
+    if (sl.titleSize && sl.titleSize !== 110) {
+      const s = sl.titleSize;
+      titleEl.style.fontSize = `clamp(${Math.round(s * 0.44)}px,${(s * 0.0833).toFixed(1)}vw,${s}px)`;
+    } else {
+      titleEl.style.fontSize = '';
+    }
   };
 
   let slides = h?.slides?.length ? h.slides : (h?.url ? [{ type: h.type, url: h.url, title: h.title }] : []);

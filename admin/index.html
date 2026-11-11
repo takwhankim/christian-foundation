@@ -748,6 +748,22 @@ function renderHeroSlides() {
           oninput="heroSlides[${i}].dim=+this.value;document.getElementById('heroDimVal${i}').textContent=this.value">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:2px"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span></div>
       </div>
+      <div class="form-row" style="margin-top:4px">
+        <div class="form-group">
+          <label>문구 색상</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="color" value="${sl.titleColor||'#ffffff'}" onchange="heroSlides[${i}].titleColor=this.value;renderHeroSlides()" style="width:48px;height:36px;padding:2px;border:1px solid #e5e5e5;border-radius:6px;cursor:pointer">
+            <code style="font-size:13px;color:#555">${sl.titleColor||'#ffffff'}</code>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>문구 크기 &nbsp;<strong id="heroTitleSzVal${i}">${sl.titleSize||110}</strong>px</label>
+          <input type="range" min="24" max="180" step="4" value="${sl.titleSize||110}"
+            style="width:100%;accent-color:var(--brand);cursor:pointer"
+            oninput="heroSlides[${i}].titleSize=+this.value;document.getElementById('heroTitleSzVal${i}').textContent=this.value">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:2px"><span>24</span><span>60</span><span>110</span><span>150</span><span>180</span></div>
+        </div>
+      </div>
       ${sl.type!=='color' ? '<p class="help">이미지: 가로 1920px 이상 권장 &nbsp;|&nbsp; 영상: MP4·WebM, 50MB 이하, 10~30초 권장</p>' : ''}
     </div>`).join('');
 }
@@ -788,9 +804,11 @@ async function saveHero() {
       btn.textContent = sl.file ? `업로드 중… (${k + 1}/${heroSlides.length})` : '저장 중…';
       const title = (sl.title || '').trim();
       const dim = sl.dim !== undefined ? sl.dim : (sl.type === 'color' ? 0 : 35);
-      if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, dim, builtin: true });
-      else if (sl.type === 'color') slides.push({ type: 'color', color: sl.color || '#1a1f3c', title, dim });
-      else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title, dim });
+      const titleColor = sl.titleColor || '#ffffff';
+      const titleSize = sl.titleSize || 110;
+      if (sl.isDefault) slides.push({ type: 'video', url: 'images/brush-ink.mp4', poster: 'images/brush-ink-poster.jpg', title, dim, titleColor, titleSize, builtin: true });
+      else if (sl.type === 'color') slides.push({ type: 'color', color: sl.color || '#1a1f3c', title, dim, titleColor, titleSize });
+      else slides.push({ type: sl.type, url: sl.file ? await uploadMedia(sl.file, 'hero') : sl.url, title, dim, titleColor, titleSize });
     }
     await setSetting('hero', { interval, height, slides });
     toast('메인 히어로가 저장되었습니다. 홈페이지를 새로고침하면 반영됩니다.');
