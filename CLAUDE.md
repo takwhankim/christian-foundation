@@ -30,7 +30,7 @@
 ## 콘텐츠
 - 문학상 명칭은 **오바댜 문학상 (Obadiah Literary Award)** — "오버다" 아님
 - 오바댜 문학상: 5~1200자, 소설·시·카피라이트·에세이·시나리오, 격월 연 6회(2·4·6·8·10·12월), 오바댜상 1명 30만원·2등 2명 각 10만원, 상패·도서
-- 사업 4개 + 상세 페이지: 거투르드 스타인(`gertrude-stein.html`), 오바댜 문학상(`obadiah.html`, 공개 당선작 자동 표시), Film 15'(`film15.html`), 빈 방 있수다(`christmas.html`). 메인 카드·사업소개 '자세히 보기'는 각 상세 페이지로
+- 사업 4개 + 상세 페이지: 거투르드 스타인(`gertrude-stein.html`), 오바댜 문학상(`obadiah.html`, 공개 당선작 자동 표시), Film 15'(`film15.html`), 빈 방 있수다(`christmas.html`). 메인 카드·사업소개 '자세히 보기'는 각 상세 페이지로. **GNB '사업소개'는 이 4개 사업 드롭다운**(모든 페이지)
 - 해커톤2027(`hackathon.html`): 5탭(소개·도전과제·참여하기·운영방식·FAQ), 폼 3개 → `hackathon_challenges`·`hackathon_applications`·`hackathon_mentors`, 히어로 색상은 `site_settings.hackathon_hero`(관리자 편집)
 - 원본 자료: `~/Library/CloudStorage/OneDrive-개인/기독교창의지원재단` (로고, 포스터 PSD, 키비주얼, 해커톤 참고자료, 4K 바다 영상)
 
