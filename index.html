@@ -746,21 +746,21 @@ a.project-card { display: block; color: inherit; text-decoration: none; }
         <p>글을 쓰고, 그림을 그리고, 문화운동을 기획하는 모든 크리스천 창작자들의 지원을 환대합니다.</p>
         <span class="more">자세히 보기 →</span>
       </a>
-      <div class="project-card">
+      <a href="projects.html#award" class="project-card">
         <h3>오바댜 문학상</h3>
         <p>짧은 서사로 창조주 하나님의 세계관을 담는 기독교 문학상입니다.</p>
         <span class="more">자세히 보기 →</span>
-      </div>
-      <div class="project-card">
+      </a>
+      <a href="projects.html#film" class="project-card">
         <h3>Film 15'</h3>
         <p>기독교 정신을 바탕으로 사회, 문화, 환경, 교육 등 다양한 분야에서 하나님의 사랑을 담은 15분 분량의 다큐멘터리 제작 팀을 지원합니다.</p>
         <span class="more">자세히 보기 →</span>
-      </div>
-      <div class="project-card">
+      </a>
+      <a href="projects.html#christmas" class="project-card">
         <h3>빈 방 있수다.</h3>
         <p>전통적인 성탄 이야기를 현대적으로 재해석하거나, 예수님의 탄생이 오늘날 우리의 삶에 주는 의미를 깊이 있게 성찰하는 작품들을 기다리고 있습니다.</p>
         <span class="more">자세히 보기 →</span>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1046,10 +1046,9 @@ async function loadProjects() {
   ]);
   const v = sec?.value;
   if (v) {
-    const noEdit = el => !el.dataset.fcoSaved;
-    if (v.label !== undefined && noEdit(document.getElementById('psLabel'))) document.getElementById('psLabel').textContent = v.label;
-    if (v.title !== undefined && noEdit(document.getElementById('psTitle'))) document.getElementById('psTitle').textContent = v.title;
-    if (v.desc !== undefined && noEdit(document.getElementById('psDesc'))) document.getElementById('psDesc').textContent = v.desc;
+    // 요소가 없거나(디자인 변경) 페이지 편집으로 고친 글이면 건너뜀
+    const put = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined && !el.dataset.fcoSaved) el.textContent = val; };
+    put('psLabel', v.label); put('psTitle', v.title); put('psDesc', v.desc);
   }
   if (error) return console.error(error);
   document.getElementById('projectsGrid').innerHTML = rows.map(p => `
