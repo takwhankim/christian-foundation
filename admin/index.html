@@ -222,7 +222,9 @@ td.clickable:hover { text-decoration: underline; }
     <div class="nav-section">
       <div class="nav-section-label">접수</div>
       <div class="nav-item" data-panel="obadiah"><span class="icon">🏆</span><span>오바댜 문학상</span></div>
-      <div class="nav-item" data-panel="hackathon"><span class="icon">💡</span><span>해커톤2027</span></div>
+      <div class="nav-item" data-panel="hackathon"><span class="icon">💡</span><span>해커톤 참가 신청</span></div>
+      <div class="nav-item" data-panel="challenges"><span class="icon">🌍</span><span>해커톤 문제 제안</span></div>
+      <div class="nav-item" data-panel="mentors"><span class="icon">🤝</span><span>해커톤 멘토·협력</span></div>
       <div class="nav-item" data-panel="applications"><span class="icon">📝</span><span>사업 지원신청</span></div>
       <div class="nav-item" data-panel="supporters"><span class="icon">💛</span><span>후원 신청</span></div>
     </div>
@@ -252,7 +254,7 @@ td.clickable:hover { text-decoration: underline; }
     <div class="panel active" id="panel-dashboard">
       <div class="stats-grid">
         <div class="stat-card red"><div class="label">오바댜 문학상</div><div class="value" id="stat-obadiah">-</div><div class="sub">이번 회차 응모</div></div>
-        <div class="stat-card navy"><div class="label">해커톤2027</div><div class="value" id="stat-hackathon">-</div><div class="sub">총 참가 신청</div></div>
+        <div class="stat-card navy"><div class="label">해커톤2027</div><div class="value" id="stat-hackathon">-</div><div class="sub" id="stat-hackathon-sub">총 참가 신청</div></div>
         <div class="stat-card green"><div class="label">사업 지원신청</div><div class="value" id="stat-apps">-</div><div class="sub">검토중</div></div>
         <div class="stat-card orange"><div class="label">후원 신청</div><div class="value" id="stat-support">-</div><div class="sub">확인 대기</div></div>
       </div>
@@ -458,6 +460,34 @@ td.clickable:hover { text-decoration: underline; }
       </div>
     </div>
 
+    <!-- HACKATHON CHALLENGES -->
+    <div class="panel" id="panel-challenges">
+      <div class="section-header-row">
+        <h2>해커톤 선교현장 문제 제안</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('challenges')">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>문제 제목</th><th>분야</th><th>현장</th><th>제안자</th><th>긴급도</th><th>접수일</th><th>상태</th><th>관리</th></tr></thead>
+          <tbody id="chTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HACKATHON MENTORS -->
+    <div class="panel" id="panel-mentors">
+      <div class="section-header-row">
+        <h2>해커톤 멘토·협력 신청</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('mentors')">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>이름</th><th>소속</th><th>협력 유형</th><th>전문 분야</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
+          <tbody id="mtTable"></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- APPLICATIONS -->
     <div class="panel" id="panel-applications">
       <div class="section-header-row">
@@ -528,12 +558,14 @@ td.clickable:hover { text-decoration: underline; }
 <script>
 const { esc, fmtDate, obadiahRound } = FCO;
 const db = FCO.client;
-const state = { posts: [], obadiah: [], hackathon: [], applications: [], supporters: [] };
+const state = { posts: [], obadiah: [], hackathon: [], challenges: [], mentors: [], applications: [], supporters: [] };
 const CAT = { notice: '공지사항', press: '보도자료', award: '시상' };
-const TABLE = { obadiah: 'obadiah_entries', hackathon: 'hackathon_applications', applications: 'applications', supporters: 'supporters' };
+const TABLE = { obadiah: 'obadiah_entries', hackathon: 'hackathon_applications', challenges: 'hackathon_challenges', mentors: 'hackathon_mentors', applications: 'applications', supporters: 'supporters' };
 const STATUS = {
   obadiah: ['접수', '오바댜상', '2등', '미선정'],
   hackathon: ['접수', '확정', '대기', '취소'],
+  challenges: ['접수', '검토중', '도전과제 채택', '보류'],
+  mentors: ['접수', '연락함', '확정', '보류'],
   applications: ['검토중', '서류심사', '면접', '선정', '미선정'],
   supporters: ['신청', '확인완료', '보류'],
 };
@@ -555,13 +587,14 @@ async function guard() {
 async function logout() { await db.auth.signOut(); location.href = 'login.html'; }
 
 // ── NAV ──
-const LABELS = { dashboard: '대시보드', hero: '메인 히어로', projects: '프로젝트', posts: '공지·보도자료', obadiah: '오바댜 문학상', hackathon: '해커톤2027', applications: '사업 지원신청', supporters: '후원 신청', settings: '설정' };
+const LABELS = { dashboard: '대시보드', hero: '메인 히어로', projects: '프로젝트', posts: '공지·보도자료', obadiah: '오바댜 문학상', hackathon: '해커톤 참가 신청', challenges: '해커톤 문제 제안', mentors: '해커톤 멘토·협력', applications: '사업 지원신청', supporters: '후원 신청', settings: '설정' };
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.panel === id));
   document.getElementById('pageTitle').textContent = LABELS[id] || '';
   ({ dashboard: loadDashboard, hero: loadHero, projects: loadProjects, posts: loadPosts, obadiah: loadObadiah,
      hackathon: () => { loadList('hackathon'); loadHkHero(); },
+     challenges: () => loadList('challenges'), mentors: () => loadList('mentors'),
      applications: () => loadList('applications'), supporters: () => loadList('supporters'), settings: loadOrgInfo })[id]?.();
 }
 document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => showPanel(n.dataset.panel)));
@@ -575,17 +608,20 @@ async function fetchAll(key, order = 'created_at') {
 
 // ── DASHBOARD ──
 async function loadDashboard() {
-  const [ob, hk, ap, sp] = await Promise.all(['obadiah', 'hackathon', 'applications', 'supporters'].map(k => fetchAll(k)));
+  const [ob, hk, ap, sp, ch, mt] = await Promise.all(['obadiah', 'hackathon', 'applications', 'supporters', 'challenges', 'mentors'].map(k => fetchAll(k)));
   const curRound = obadiahRound(new Date());
   document.getElementById('stat-obadiah').textContent = ob.filter(e => obadiahRound(e.created_at) === curRound).length;
   document.getElementById('stat-hackathon').textContent = hk.length;
+  document.getElementById('stat-hackathon-sub').textContent = `참가 ${hk.length} · 문제 제안 ${ch.length} · 멘토 ${mt.length}`;
   document.getElementById('stat-apps').textContent = ap.filter(a => a.status === '검토중').length;
   document.getElementById('stat-support').textContent = sp.filter(a => a.status === '신청').length;
   const li = (title, badge, date) => `<li><span class="title">${esc(title)}</span>${badge ? `<span class="badge badge-yellow">${esc(badge)}</span>` : ''}<span class="date">${fmtDate(date)}</span></li>`;
   const empty = t => `<li><span class="title" style="color:#999">${t}</span></li>`;
   document.getElementById('dash-obadiah').innerHTML = ob.length ? ob.slice(0, 5).map(e => li(e.title, e.status, e.created_at)).join('') : empty('응모 내역이 없습니다');
   const mixed = [...ap.map(a => ({ t: `[${a.program_name}] ${a.project_title}`, s: a.status, d: a.created_at })),
-                 ...hk.map(h => ({ t: `[해커톤] ${h.team_name || h.name}`, s: h.status, d: h.created_at }))]
+                 ...hk.map(h => ({ t: `[해커톤 참가] ${h.team_name || h.name}`, s: h.status, d: h.created_at })),
+                 ...ch.map(c => ({ t: `[문제 제안] ${c.challenge_title || c.name}`, s: c.status, d: c.created_at })),
+                 ...mt.map(m => ({ t: `[멘토·협력] ${m.name}`, s: m.status, d: m.created_at }))]
                 .sort((a, b) => b.d.localeCompare(a.d)).slice(0, 5);
   document.getElementById('dash-apps').innerHTML = mixed.length ? mixed.map(m => li(m.t, m.s, m.d)).join('') : empty('신청 내역이 없습니다');
 }
@@ -701,11 +737,13 @@ function renderObadiah() {
 async function loadList(key) { await fetchAll(key); renderList(key); }
 const won = n => (n || 0).toLocaleString('ko-KR') + '원';
 const ROWS = {
+  challenges: (c, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('challenges', ${c.id})">${esc(c.challenge_title || '(제목 없음)')}</td><td>${esc(c.challenge_category || '-')}</td><td>${esc(c.location || '-')}</td><td>${esc(c.name)}${c.organization ? `<br><span style="color:#999;font-size:12px">${esc(c.organization)}</span>` : ''}</td><td>${esc(c.urgency || '-')}</td><td>${fmtDate(c.created_at)}</td>`,
+  mentors: (m, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('mentors', ${m.id})">${esc(m.name)}</td><td>${esc(m.organization || '-')}</td><td>${esc(m.partnership_type || '-')}</td><td>${esc(m.expertise || '-')}</td><td>${fmtDate(m.created_at)}</td>`,
   hackathon: (h, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('hackathon', ${h.id})">${esc(h.team_name || '(개인)')}</td><td>${esc(h.name)}</td><td>${h.member_count || '-'}</td><td>${esc(h.organization || '-')}</td><td>${fmtDate(h.created_at)}</td>`,
   applications: (a, n) => `<td style="color:#999">${n}</td><td>${esc(a.program_name)}</td><td class="clickable" onclick="viewRow('applications', ${a.id})">${esc(a.project_title)}</td><td>${esc(a.name)}</td><td>${fmtDate(a.created_at)}</td>`,
   supporters: (s, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('supporters', ${s.id})">${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.support_type)}</td><td>${won(s.amount)}</td><td>${fmtDate(s.created_at)}</td>`,
 };
-const TBODY = { hackathon: 'hkTable', applications: 'appTable', supporters: 'supporterTable' };
+const TBODY = { hackathon: 'hkTable', challenges: 'chTable', mentors: 'mtTable', applications: 'appTable', supporters: 'supporterTable' };
 function renderList(key) {
   const data = state[key], tb = document.getElementById(TBODY[key]);
   const cols = tb.closest('table').querySelectorAll('th').length;
@@ -736,6 +774,8 @@ async function deleteRow(key, id) {
 
 // ── DETAIL VIEW ──
 const FIELDS = {
+  challenges: [['name', '제안자'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['location', '현장 국가·지역'], ['challenge_category', '분야'], ['urgency', '긴급도'], ['created_at', '접수일']],
+  mentors: [['name', '이름'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['partnership_type', '협력 유형'], ['expertise', '전문 분야'], ['created_at', '신청일']],
   obadiah: [['name', '응모자'], ['pen_name', '필명'], ['phone', '연락처'], ['email', '이메일'], ['genre', '부문'], ['created_at', '접수일'], ['status', '상태']],
   hackathon: [['team_name', '팀명'], ['name', '대표자'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['member_count', '인원'], ['role', '분야/역할'], ['created_at', '신청일']],
   applications: [['program_name', '사업'], ['name', '신청자'], ['phone', '연락처'], ['email', '이메일'], ['genre', '장르/분류'], ['created_at', '신청일'], ['summary', '작품 소개'], ['plan', '활용 계획']],
@@ -744,10 +784,12 @@ const FIELDS = {
 function viewRow(key, id) {
   const r = state[key].find(x => x.id === id);
   const val = (k) => k === 'created_at' ? fmtDate(r[k]) : k === 'amount' ? won(r[k]) : (r[k] ?? '-');
-  const title = { obadiah: r.title, hackathon: r.team_name || r.name, applications: r.project_title, supporters: r.name + ' 님 후원' }[key];
+  const title = { obadiah: r.title, hackathon: r.team_name || r.name, challenges: r.challenge_title || r.name, mentors: r.name + ' (' + (r.partnership_type || '멘토·협력') + ')', applications: r.project_title, supporters: r.name + ' 님 후원' }[key];
   let html = `<dl class="detail-grid">${FIELDS[key].map(([k, l]) => `<dt>${l}</dt><dd>${esc(val(k))}</dd>`).join('')}</dl>`;
   if (key === 'obadiah') html += `<div class="detail-body">${esc(r.body)}</div><p class="char-count">${r.body.length}자</p>`;
   if (key === 'hackathon' && r.idea) html += `<div class="detail-body">${esc(r.idea)}</div>`;
+  if (key === 'challenges' && r.description) html += `<div class="detail-body">${esc(r.description)}</div>`;
+  if (key === 'mentors' && r.bio) html += `<div class="detail-body">${esc(r.bio)}</div>`;
   html += `<div class="form-group" style="margin-top:16px"><label>관리자 메모</label><textarea id="f_memo">${esc(r.admin_memo)}</textarea></div>`;
   openModal(title, html, `<button class="btn btn-secondary" onclick="closeModal()">닫기</button>
     <button class="btn btn-primary" onclick="saveMemo('${key}', ${id})">메모 저장</button>`);

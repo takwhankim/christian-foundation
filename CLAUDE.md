@@ -35,6 +35,7 @@
 - 원본 자료: `~/Library/CloudStorage/OneDrive-개인/기독교창의지원재단` (로고, 포스터 PSD, 키비주얼, 해커톤 참고자료, 4K 바다 영상)
 
 ## 다음에 할 일
-- ⚠️ `hackathon_challenges`·`hackathon_mentors` 테이블은 DB에는 있으나 **생성 SQL이 저장소에 없음** → `supabase/04_hackathon.sql`로 기록 필요
-- ⚠️ 관리자 화면에 **문제 제안·멘토 신청 목록 메뉴가 없음** → 접수돼도 관리자가 볼 수 없음 (추가 필요)
+- (11-12) 관리자에 '해커톤 문제 제안'·'해커톤 멘토·협력' 메뉴 추가, 테이블 기록 `supabase/05_hackathon_forms.sql` — **사용자 SQL 실행 확인 필요**(status·admin_memo 컬럼)
+- (11-12) `supabase/04_sync_projects_2027.sql`(DB 프로젝트 카드를 새 4개로) — **사용자 SQL 실행 확인 필요**. 실행 전엔 실제 사이트 메인에 예전 카드 4개가 보임
+- 메인 프로젝트 부제 'CREATIVE OR ORIGINALITY' 오타 여부 사용자 확인 대기 (원래 문구 CREATIVE ON ORIGINALITY)
 - 후원하기 "정기후원 (매월)" 라디오 라벨 줄바꿈 깨짐 / 개인정보처리방침·이용약관 페이지 / 오바댜 포스터 PSD로 2027판 재제작 / 히어로 4K 바다 영상 검토
