@@ -2,7 +2,9 @@
 // - 모든 방문자: 관리자가 고친 문구를 불러와 페이지에 적용
 // - 관리자 로그인 상태: 오른쪽 아래 [✏️ 페이지 편집] 버튼 → 글을 클릭해 고치고 저장
 (function () {
-  if (!window.FCO?.ready) return;
+  // 페이지 깜빡임 방지: <head>에서 숨겨 둔 화면을 수정 내용 적용 뒤에 보여줌
+  const reveal = () => document.documentElement.classList.remove('fco-wait');
+  if (!window.FCO?.ready) return reveal();
   const db = FCO.client;
   const PAGE = (location.pathname.split('/').pop() || 'index.html');
 
@@ -48,17 +50,37 @@
     STYLE_KEYS.forEach(k => { el.style[k] = (st && st[k]) || ''; });
   }
 
-  // 저장된 수정 내용 적용
-  (async () => {
-    const { data, error } = await db.from('page_content').select('key,original,content,style').eq('page', PAGE);
-    if (error) return; // 테이블이 아직 없으면 원래 내용 그대로
-    data.forEach(r => {
+  // 저장된 수정 내용 적용 (이 브라우저에 기억해 둔 것 먼저 → DB 최신본으로 갱신)
+  const CACHE_KEY = 'fco_pc:' + PAGE;
+  const applied = new Set();
+  function applyRows(rows) {
+    const keys = new Set(rows.map(r => r.key));
+    applied.forEach(k => {           // 이전에 적용했지만 지금은 없어진 수정 → 원래대로
+      if (keys.has(k)) return;
+      const el = byKey[k]; if (!el) return;
+      setText(el, el.dataset.fcoOrig); applyStyle(el, null);
+      delete el.dataset.fcoStyle; delete el.dataset.fcoSaved; applied.delete(k);
+    });
+    rows.forEach(r => {
       const el = byKey[r.key];
       if (!el || el.dataset.fcoOrig !== r.original) return;
       if (norm(r.content) !== r.original) setText(el, r.content);
       if (r.style) { applyStyle(el, r.style); el.dataset.fcoStyle = JSON.stringify(r.style); }
-      el.dataset.fcoSaved = '1';
+      el.dataset.fcoSaved = '1'; applied.add(r.key);
     });
+  }
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+    if (Array.isArray(cached)) { applyRows(cached); reveal(); }
+  } catch (e) { /* 저장소 사용 불가 → DB 응답을 기다림 */ }
+  (async () => {
+    try {
+      const { data, error } = await db.from('page_content').select('key,original,content,style').eq('page', PAGE);
+      if (!error) {
+        applyRows(data);
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) {}
+      }
+    } finally { reveal(); }
   })();
 
   // ── 관리자 편집 도구 ──

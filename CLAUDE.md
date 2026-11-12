@@ -16,6 +16,7 @@
 ## 관리자가 직접 바꾸는 것 (코드로 덮어쓰지 말 것)
 - 관리자 화면: 메인 히어로(1~5 슬라이드, `site_settings.hero`), 프로젝트 카드(`projects`), 공지·보도자료(`posts`), 재단 정보(`site_settings.org`), 응모·신청 관리
 - 공개 페이지 **✏️ 페이지 편집**: 글·크기·색상 → `page_content` (키 = 원래 문구 해시 + 순번, `original` 이 HTML 원문과 같을 때만 적용).
+  깜빡임 방지: 각 공개 페이지 `<head>`의 `fco-wait`(최대 1.5초 숨김) + `fco-edit.js`가 수정본을 localStorage(`fco_pc:<page>`)에 기억해 재방문 시 즉시 적용.
   ⚠️ HTML 원문 문구를 바꾸면 그 문구에 대한 관리자 수정본은 적용되지 않음 → 문구 변경 전 `page_content` 확인.
 
 ## 디자인 기준 (사용자 확정)
