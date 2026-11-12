@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기도후원 | FCO 기독교창의지원재단</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --brand: #6B2D8C; --navy: #1a1f3c; --text: #1a1a1a; --muted: #666; --max: 1180px; }
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fafafa; font-size: 17px; }
+a { color: inherit; text-decoration: none; }
+.container { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+
+.site-header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nav-shell { height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.logo-mark { display: flex; flex-direction: column; line-height: 1; }
+.logo-img { height: 36px; width: auto; }
+.logo-fco { font-weight: 800; font-size: 22px; color: var(--brand); letter-spacing: 0.04em; }
+.logo-full { font-size: 9.5px; font-weight: 500; color: var(--brand); }
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a { font-size: 19px; font-weight: 700; letter-spacing: 0.06em; color: #333; transition: color .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--brand); }
+.nav-cta { background: var(--navy); color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 20px; border-radius: 4px; }
+.nav-pill { background: #2563EB; letter-spacing: normal; color: #fff !important; font-size: 18px !important; font-weight: 600 !important; padding: 9px 22px; border-radius: 999px; transition: opacity .2s; }
+.nav-pill:hover, .nav-pill.active { background: #1D4ED8; color: #fff !important; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); }
+
+.page-hero { background: linear-gradient(135deg, #6B2D8C 0%, #57226E 100%); color: #fff; padding: 80px 0; text-align: center; }
+.page-hero .breadcrumb { font-size: 12px; opacity: 0.5; margin-bottom: 16px; }
+.page-hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+.page-hero p { font-size: 17px; opacity: 0.8; line-height: 1.8; }
+
+.support-why { padding: 72px 0; background: #fff; }
+.section-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+.section-desc { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 56px; }
+
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.why-card { text-align: center; padding: 36px 24px; }
+.why-card .icon { font-size: 48px; margin-bottom: 20px; }
+.why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.why-card p { font-size: 17px; color: var(--muted); line-height: 1.9; }
+
+.support-form-section { padding: 72px 0; background: #fafafa; }
+.support-layout { display: grid; grid-template-columns: 1fr 360px; gap: 40px; }
+
+.support-card { background: #fff; border-radius: 12px; padding: 36px; border: 1px solid #eee; }
+.form-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+
+.amount-select { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+.amount-btn { padding: 12px 8px; border: 1.5px solid #e0e0e0; border-radius: 6px; background: #fff; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: .2s; text-align: center; }
+.amount-btn:hover { border-color: var(--brand); color: var(--brand); }
+.amount-btn.active { border-color: var(--brand); background: rgba(107,45,140,0.04); color: var(--brand); }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 7px; }
+.form-group label .req { color: var(--brand); }
+.form-group input, .form-group select {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 6px;
+  font-size: 17px; font-family: inherit; outline: none; transition: border .2s;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--brand); }
+.form-group input[type=radio], .form-group input[type=checkbox] { width: auto; padding: 0; margin: 0; flex-shrink: 0; }
+.support-type { display: flex; gap: 24px; flex-wrap: wrap; }
+.support-type label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 400; font-size: 17px; margin: 0; white-space: nowrap; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-check { display: flex; align-items: flex-start; gap: 10px; }
+.form-check input[type=checkbox] { margin-top: 2px; accent-color: var(--brand); }
+.form-check label { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.btn-submit { width: 100%; padding: 16px; background: var(--brand); color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: background .2s; }
+.btn-submit:hover { background: #57226E; }
+
+.bank-info { background: var(--navy); color: #fff; border-radius: 8px; padding: 24px; margin-top: 20px; }
+.bank-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; opacity: 0.7; letter-spacing: 0.08em; }
+.bank-info .bank-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 17px; }
+.bank-info .bank-row:last-child { border-bottom: none; }
+.bank-info .bank-row .label { opacity: 0.6; }
+.bank-info .bank-row .value { font-weight: 600; }
+
+.sidebar-box { background: #fff; border-radius: 12px; padding: 28px; border: 1px solid #eee; margin-bottom: 20px; }
+.sidebar-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+.impact-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.impact-list li { font-size: 17px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; line-height: 1.6; }
+.impact-list li .amount { color: var(--brand); font-weight: 700; min-width: 60px; font-size: 12px; }
+
+.success-msg { display: none; text-align: center; padding: 48px 24px; }
+.success-msg .icon { font-size: 56px; margin-bottom: 16px; }
+.success-msg h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.success-msg p { font-size: 17px; color: var(--muted); line-height: 1.8; }
+
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 36px 0; margin-top: 72px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .why-grid { grid-template-columns: 1fr; }
+  .support-layout { grid-template-columns: 1fr; }
+  .amount-select { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ── GNB 사업소개 드롭다운 ── */
+.nav-links .has-sub { position: relative; }
+.nav-links .has-sub > a::after { content: "▾"; font-size: .7em; margin-left: 6px; vertical-align: 2px; }
+.nav-links .sub-menu { position: absolute; top: 100%; left: 50%; transform: translate(-50%, 6px); min-width: 250px;
+  background: #fff; border-radius: 12px; box-shadow: 0 14px 40px rgba(26,31,60,.14); padding: 10px; margin: 0;
+  list-style: none; opacity: 0; visibility: hidden; transition: opacity .18s, transform .18s; z-index: 300; }
+.nav-links .sub-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
+.nav-links .has-sub:hover .sub-menu, .nav-links .has-sub:focus-within .sub-menu { opacity: 1; visibility: visible; transform: translate(-50%, 14px); }
+.nav-links .sub-menu li { display: block; }
+.nav-links .sub-menu a { display: block; padding: 11px 16px; font-size: 17px; font-weight: 600; letter-spacing: normal;
+  color: #1a1f3c; border-radius: 8px; white-space: nowrap; text-decoration: none; }
+.nav-links .sub-menu a:hover, .nav-links .sub-menu a.active { background: #eef2fd; color: #2563EB; }
+@media (max-width: 900px) {
+  .nav-links .sub-menu { position: static; transform: none; opacity: 1; visibility: visible; box-shadow: none;
+    padding: 6px 0 0 14px; min-width: 0; background: none; }
+  .nav-links .has-sub:hover .sub-menu, .nav-links .has-sub:focus-within .sub-menu { transform: none; }
+  .nav-links .sub-menu::before { display: none; }
+  .nav-links .sub-menu a { padding: 8px 0; font-size: 16px; }
+  .nav-links .has-sub > a::after { content: none; }
+}
+
+/* ── THEME: 옐로우 + 블루 (보라 대체) ── */
+:root { --brand: #2563EB; --brand-soft: #1D4ED8; --key: #fff71a; --key-dark: #f2e600; --key-ink: #2563EB; }
+/* 서브 히어로: 노란 바탕 + 파란 글씨, 모든 서브 페이지 같은 높이 */
+.page-hero { background: var(--key) !important; color: var(--key-ink) !important; padding: 0 !important; height: 300px; display: flex; align-items: center; text-align: left !important; }
+.page-hero .breadcrumb { opacity: .75 !important; color: var(--key-ink); }
+.page-hero h1 { color: var(--key-ink); }
+.page-hero p { opacity: 1 !important; color: var(--key-ink); }
+.gs-hero { min-height: 0 !important; height: 300px; }
+.gs-hero-content { padding: 0 40px !important; }
+.gs-banner { background: var(--key) !important; color: var(--key-ink) !important; }
+.gs-banner .gs-banner-attr { color: var(--key-ink) !important; opacity: .8; }
+/* 버튼: 노란 바탕 + 파란 글씨 */
+.btn-primary, .btn-submit, .btn-brand, .search-box button, .pagination .active,
+.project-detail .text .apply-btn:not(.apply-btn-blue), .amount-btn.active, .join-card.primary-card .btn-brand {
+  background: var(--key) !important; color: var(--key-ink) !important; border-color: var(--key) !important; font-weight: 700; }
+.btn-primary:hover, .btn-submit:hover, .btn-brand:hover, .search-box button:hover, .pagination a:hover,
+.project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
+  background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
+.amount-btn.active { border-color: var(--key-ink) !important; }
+
+.prayer-section { padding: 72px 0 96px; background: #fafafa; }
+.prayer-card { max-width: 640px; margin: 0 auto; background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 40px; }
+.prayer-card .form-group label { font-size: 15px; }
+.prayer-card .form-check label { font-size: 14px; color: #333; line-height: 1.45; }
+.prayer-card .form-check input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; }
+.prayer-error { display: none; color: #c0392b; font-size: 15px; margin: 4px 0 12px; }
+.prayer-done { display: none; max-width: 640px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 48px 32px; text-align: center; }
+.prayer-done h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.prayer-done p { color: var(--muted); margin-bottom: 24px; }
+.prayer-done .links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.prayer-done .links a { padding: 12px 22px; border-radius: 999px; border: 1px solid #dfe5f7; color: #1a1f3c; font-weight: 700; text-decoration: none; }
+.prayer-done .links a.pri { background: var(--key); border-color: var(--key); color: var(--key-ink); }
+@media (max-width: 600px) { .prayer-card { padding: 28px 22px; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo"><img src="logo.png" alt="FCO 기독교창의지원재단" class="logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li class="has-sub"><a href="projects.html">사업소개</a>
+          <ul class="sub-menu">
+            <li><a href="gertrude-stein.html">거투르드 스타인 프로젝트</a></li>
+            <li><a href="obadiah.html">오바댜 문학상</a></li>
+            <li><a href="film15.html">Film 15'</a></li>
+            <li><a href="christmas.html">빈 방 있수다.</a></li>
+          </ul>
+        </li>
+        <li><a href="news.html">보도자료</a></li>
+        <li class="has-sub"><a href="support.html" class="active">후원</a>
+          <ul class="sub-menu">
+            <li><a href="support.html">재정후원</a></li>
+            <li><a href="prayer.html" class="active">기도후원</a></li>
+          </ul>
+        </li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="breadcrumb">HOME · 후원 · 기도후원</p>
+    <h1>기도후원</h1>
+    <p>이름, 전화번호, 출석교회를 남겨 주시면 기도후원자로 함께합니다.</p>
+  </div>
+</div>
+
+<section class="prayer-section">
+  <div class="container">
+    <div class="prayer-card" id="prayerCard">
+      <div class="form-title">기도후원 신청</div>
+      <div class="form-group">
+        <label for="pName">이름 <span class="req">*</span></label>
+        <input type="text" id="pName" maxlength="50" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="pPhone">전화번호 <span class="req">*</span></label>
+        <input type="tel" id="pPhone" maxlength="30" placeholder="010-0000-0000" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label for="pChurch">출석교회 <span class="req">*</span></label>
+        <input type="text" id="pChurch" maxlength="100">
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input type="checkbox" id="pAgree">
+          <label for="pAgree">개인정보(이름·전화번호·출석교회) 수집 및 이용에 동의합니다. 수집된 정보는 기도후원 안내에만 사용됩니다. (필수)</label>
+        </div>
+      </div>
+      <p class="prayer-error" id="pError"></p>
+      <button class="btn-submit" id="pSubmit" onclick="submitPrayer()">기도후원 신청하기</button>
+    </div>
+
+    <div class="prayer-done" id="prayerDone" data-no-edit>
+      <h3>기도후원에 함께해 주셔서 감사합니다</h3>
+      <p>문의: info@fco.or.kr</p>
+      <div class="links">
+        <a class="pri" href="support.html">재정후원 하기</a>
+        <a href="projects.html">사업 둘러보기</a>
+        <a href="index.html">홈으로</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <a href="admin/login.html">관리자</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
+<script>
+async function submitPrayer() {
+  const $ = id => document.getElementById(id);
+  const v = id => $(id).value.trim();
+  const err = m => { $('pError').textContent = m; $('pError').style.display = 'block'; };
+  $('pError').style.display = 'none';
+  for (const id of ['pName', 'pPhone', 'pChurch']) if (!v(id)) { $(id).focus(); return err('이름, 전화번호, 출석교회를 모두 입력해 주세요.'); }
+  if (!$('pAgree').checked) return err('개인정보 수집 및 이용에 동의해 주세요.');
+  const btn = $('pSubmit'); btn.disabled = true; btn.textContent = '신청 중…';
+  try {
+    await FCO.submit('prayer_supporters', { name: v('pName'), phone: v('pPhone'), church: v('pChurch') });
+    $('prayerCard').style.display = 'none'; $('prayerDone').style.display = 'block';
+  } catch (e) { err(e.message); }
+  finally { btn.disabled = false; btn.textContent = '기도후원 신청하기'; }
+}
+document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
+</script>
+<script src="js/fco-edit.js"></script>
+</body>
+</html>

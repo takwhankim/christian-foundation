@@ -33,10 +33,13 @@
 - 문학상 명칭은 **오바댜 문학상 (Obadiah Literary Award)** — "오버다" 아님
 - 오바댜 문학상: 5~1200자, 소설·시·카피라이트·에세이·시나리오, 격월 연 6회(2·4·6·8·10·12월), 오바댜상 1명 30만원·2등 2명 각 10만원, 상패·도서
 - 사업 4개 + 상세 페이지: 거투르드 스타인(`gertrude-stein.html`), 오바댜 문학상(`obadiah.html`, 공개 당선작 자동 표시), Film 15'(`film15.html`), 빈 방 있수다(`christmas.html`). 메인 카드·사업소개 '자세히 보기'는 각 상세 페이지로. **GNB '사업소개'는 이 4개 사업 드롭다운**(모든 페이지)
+- GNB '후원' 드롭다운: 재정후원(`support.html`) / 기도후원(`prayer.html`: 이름·전화번호·출석교회 → `prayer_supporters`, 관리자 '기도후원' 메뉴)
 - 해커톤2027(`hackathon.html`): 5탭(소개·도전과제·참여하기·운영방식·FAQ), 폼 3개 → `hackathon_challenges`·`hackathon_applications`·`hackathon_mentors`, 히어로 색상은 `site_settings.hackathon_hero`(관리자 편집)
 - 원본 자료: `~/Library/CloudStorage/OneDrive-개인/기독교창의지원재단` (로고, 포스터 PSD, 키비주얼, 해커톤 참고자료, 4K 바다 영상)
 
 ## 다음에 할 일
+- (11-12) `supabase/09_prayer_supporters.sql` **사용자 실행 확인 필요** — 실행 전엔 기도후원 신청 저장 실패·관리자 대시보드 오류 알림
+- 재정후원 '후원링크': 외부 결제/정기후원 링크가 있으면 support.html 에 연결 (사용자 확인 필요)
 - (11-12 완료) `06_project_links.sql` 실행됨 → 메인 카드 4개 모두 상세 페이지로 연결
 - Film 15'·빈 방 있수다 상세: 지원 내용·일정·신청 방법이 "추후 공지됩니다" → 사용자가 ✏️ 페이지 편집으로 채우거나 자료 받아 작성
 - (11-12) 지원하기 탭 = 4개 사업(gertrude/award/film15/christmas), 각 상세 페이지에 지원·응모 버튼. `07_programs_2027.sql` 실행·검증 완료

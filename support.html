@@ -67,7 +67,7 @@ a { color: inherit; text-decoration: none; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-check { display: flex; align-items: flex-start; gap: 10px; }
 .form-check input[type=checkbox] { margin-top: 2px; accent-color: var(--brand); }
-.form-check label { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.form-check label { font-size: 14px; color: #333; line-height: 1.45; }
 .btn-submit { width: 100%; padding: 16px; background: var(--brand); color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; transition: background .2s; }
 .btn-submit:hover { background: #57226E; }
 
@@ -163,7 +163,12 @@ a { color: inherit; text-decoration: none; }
           </ul>
         </li>
         <li><a href="news.html">보도자료</a></li>
-        <li><a href="support.html" class="active">후원하기</a></li>
+        <li class="has-sub"><a href="support.html" class="active">후원</a>
+          <ul class="sub-menu">
+            <li><a href="support.html" class="active">재정후원</a></li>
+            <li><a href="prayer.html">기도후원</a></li>
+          </ul>
+        </li>
         <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
@@ -173,7 +178,7 @@ a { color: inherit; text-decoration: none; }
 
 <div class="page-hero">
   <div class="container">
-    <p class="breadcrumb">HOME · 후원하기</p>
+    <p class="breadcrumb">HOME · 후원 · 재정후원</p>
     <h1>함께 창의의 씨앗을 심어주세요</h1>
     <p>후원자 한 분 한 분의 사랑이 기독교 창작자들에게<br>날개가 됩니다.</p>
   </div>

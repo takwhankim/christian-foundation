@@ -226,7 +226,8 @@ td.clickable:hover { text-decoration: underline; }
       <div class="nav-item" data-panel="challenges"><span class="icon">🌍</span><span>해커톤 문제 제안</span></div>
       <div class="nav-item" data-panel="mentors"><span class="icon">🤝</span><span>해커톤 멘토·협력</span></div>
       <div class="nav-item" data-panel="applications"><span class="icon">📝</span><span>사업 지원신청</span></div>
-      <div class="nav-item" data-panel="supporters"><span class="icon">💛</span><span>후원 신청</span></div>
+      <div class="nav-item" data-panel="supporters"><span class="icon">💛</span><span>재정후원</span></div>
+      <div class="nav-item" data-panel="prayers"><span class="icon">🙏</span><span>기도후원</span></div>
     </div>
     <div class="nav-section">
       <div class="nav-section-label">설정</div>
@@ -256,7 +257,7 @@ td.clickable:hover { text-decoration: underline; }
         <div class="stat-card red"><div class="label">오바댜 문학상</div><div class="value" id="stat-obadiah">-</div><div class="sub">이번 회차 응모</div></div>
         <div class="stat-card navy"><div class="label">해커톤2027</div><div class="value" id="stat-hackathon">-</div><div class="sub" id="stat-hackathon-sub">총 참가 신청</div></div>
         <div class="stat-card green"><div class="label">사업 지원신청</div><div class="value" id="stat-apps">-</div><div class="sub">검토중</div></div>
-        <div class="stat-card orange"><div class="label">후원 신청</div><div class="value" id="stat-support">-</div><div class="sub">확인 대기</div></div>
+        <div class="stat-card orange"><div class="label">후원자</div><div class="value" id="stat-support">-</div><div class="sub" id="stat-support-sub">재정 · 기도</div></div>
       </div>
       <div class="dash-grid">
         <div class="widget">
@@ -516,6 +517,20 @@ td.clickable:hover { text-decoration: underline; }
       </div>
     </div>
 
+    <!-- PRAYER SUPPORTERS -->
+    <div class="panel" id="panel-prayers">
+      <div class="section-header-row">
+        <h2>기도후원</h2>
+        <button class="btn btn-secondary" onclick="exportCSV('prayers')">CSV 내보내기</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>이름</th><th>전화번호</th><th>출석교회</th><th>신청일</th><th>상태</th><th>관리</th></tr></thead>
+          <tbody id="prTable"></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div class="panel" id="panel-settings">
       <h2 style="margin-bottom:24px;">설정</h2>
@@ -558,9 +573,9 @@ td.clickable:hover { text-decoration: underline; }
 <script>
 const { esc, fmtDate, obadiahRound } = FCO;
 const db = FCO.client;
-const state = { posts: [], obadiah: [], hackathon: [], challenges: [], mentors: [], applications: [], supporters: [] };
+const state = { prayers: [], posts: [], obadiah: [], hackathon: [], challenges: [], mentors: [], applications: [], supporters: [] };
 const CAT = { notice: '공지사항', press: '보도자료', award: '시상' };
-const TABLE = { obadiah: 'obadiah_entries', hackathon: 'hackathon_applications', challenges: 'hackathon_challenges', mentors: 'hackathon_mentors', applications: 'applications', supporters: 'supporters' };
+const TABLE = { obadiah: 'obadiah_entries', hackathon: 'hackathon_applications', challenges: 'hackathon_challenges', mentors: 'hackathon_mentors', applications: 'applications', supporters: 'supporters', prayers: 'prayer_supporters' };
 const STATUS = {
   obadiah: ['접수', '오바댜상', '2등', '미선정'],
   hackathon: ['접수', '확정', '대기', '취소'],
@@ -568,6 +583,7 @@ const STATUS = {
   mentors: ['접수', '연락함', '확정', '보류'],
   applications: ['검토중', '서류심사', '면접', '선정', '미선정'],
   supporters: ['신청', '확인완료', '보류'],
+  prayers: ['접수', '안내함', '보류'],
 };
 
 function toast(msg) { alert(msg); }
@@ -587,7 +603,7 @@ async function guard() {
 async function logout() { await db.auth.signOut(); location.href = 'login.html'; }
 
 // ── NAV ──
-const LABELS = { dashboard: '대시보드', hero: '메인 히어로', projects: '프로젝트', posts: '공지·보도자료', obadiah: '오바댜 문학상', hackathon: '해커톤 참가 신청', challenges: '해커톤 문제 제안', mentors: '해커톤 멘토·협력', applications: '사업 지원신청', supporters: '후원 신청', settings: '설정' };
+const LABELS = { dashboard: '대시보드', hero: '메인 히어로', projects: '프로젝트', posts: '공지·보도자료', obadiah: '오바댜 문학상', hackathon: '해커톤 참가 신청', challenges: '해커톤 문제 제안', mentors: '해커톤 멘토·협력', applications: '사업 지원신청', supporters: '재정후원', prayers: '기도후원', settings: '설정' };
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.panel === id));
@@ -595,7 +611,7 @@ function showPanel(id) {
   ({ dashboard: loadDashboard, hero: loadHero, projects: loadProjects, posts: loadPosts, obadiah: loadObadiah,
      hackathon: () => { loadList('hackathon'); loadHkHero(); },
      challenges: () => loadList('challenges'), mentors: () => loadList('mentors'),
-     applications: () => loadList('applications'), supporters: () => loadList('supporters'), settings: loadOrgInfo })[id]?.();
+     applications: () => loadList('applications'), supporters: () => loadList('supporters'), prayers: () => loadList('prayers'), settings: loadOrgInfo })[id]?.();
 }
 document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => showPanel(n.dataset.panel)));
 
@@ -608,13 +624,14 @@ async function fetchAll(key, order = 'created_at') {
 
 // ── DASHBOARD ──
 async function loadDashboard() {
-  const [ob, hk, ap, sp, ch, mt] = await Promise.all(['obadiah', 'hackathon', 'applications', 'supporters', 'challenges', 'mentors'].map(k => fetchAll(k)));
+  const [ob, hk, ap, sp, ch, mt, pr] = await Promise.all(['obadiah', 'hackathon', 'applications', 'supporters', 'challenges', 'mentors', 'prayers'].map(k => fetchAll(k)));
   const curRound = obadiahRound(new Date());
   document.getElementById('stat-obadiah').textContent = ob.filter(e => obadiahRound(e.created_at) === curRound).length;
   document.getElementById('stat-hackathon').textContent = hk.length;
   document.getElementById('stat-hackathon-sub').textContent = `참가 ${hk.length} · 문제 제안 ${ch.length} · 멘토 ${mt.length}`;
   document.getElementById('stat-apps').textContent = ap.filter(a => a.status === '검토중').length;
-  document.getElementById('stat-support').textContent = sp.filter(a => a.status === '신청').length;
+  document.getElementById('stat-support').textContent = sp.length + pr.length;
+  document.getElementById('stat-support-sub').textContent = `재정 ${sp.length} · 기도 ${pr.length}`;
   const li = (title, badge, date) => `<li><span class="title">${esc(title)}</span>${badge ? `<span class="badge badge-yellow">${esc(badge)}</span>` : ''}<span class="date">${fmtDate(date)}</span></li>`;
   const empty = t => `<li><span class="title" style="color:#999">${t}</span></li>`;
   document.getElementById('dash-obadiah').innerHTML = ob.length ? ob.slice(0, 5).map(e => li(e.title, e.status, e.created_at)).join('') : empty('응모 내역이 없습니다');
@@ -737,13 +754,14 @@ function renderObadiah() {
 async function loadList(key) { await fetchAll(key); renderList(key); }
 const won = n => (n || 0).toLocaleString('ko-KR') + '원';
 const ROWS = {
+  prayers: (r, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('prayers', ${r.id})">${esc(r.name)}</td><td>${esc(r.phone)}</td><td>${esc(r.church)}</td><td>${fmtDate(r.created_at)}</td>`,
   challenges: (c, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('challenges', ${c.id})">${esc(c.challenge_title || '(제목 없음)')}</td><td>${esc(c.challenge_category || '-')}</td><td>${esc(c.location || '-')}</td><td>${esc(c.name)}${c.organization ? `<br><span style="color:#999;font-size:12px">${esc(c.organization)}</span>` : ''}</td><td>${esc(c.urgency || '-')}</td><td>${fmtDate(c.created_at)}</td>`,
   mentors: (m, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('mentors', ${m.id})">${esc(m.name)}</td><td>${esc(m.organization || '-')}</td><td>${esc(m.partnership_type || '-')}</td><td>${esc(m.expertise || '-')}</td><td>${fmtDate(m.created_at)}</td>`,
   hackathon: (h, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('hackathon', ${h.id})">${esc(h.team_name || '(개인)')}</td><td>${esc(h.name)}</td><td>${h.member_count || '-'}</td><td>${esc(h.organization || '-')}</td><td>${fmtDate(h.created_at)}</td>`,
   applications: (a, n) => `<td style="color:#999">${n}</td><td>${esc(a.program_name)}</td><td class="clickable" onclick="viewRow('applications', ${a.id})">${esc(a.project_title)}</td><td>${esc(a.name)}</td><td>${fmtDate(a.created_at)}</td>`,
   supporters: (s, n) => `<td style="color:#999">${n}</td><td class="clickable" onclick="viewRow('supporters', ${s.id})">${esc(s.name)}</td><td>${esc(s.phone)}</td><td>${esc(s.support_type)}</td><td>${won(s.amount)}</td><td>${fmtDate(s.created_at)}</td>`,
 };
-const TBODY = { hackathon: 'hkTable', challenges: 'chTable', mentors: 'mtTable', applications: 'appTable', supporters: 'supporterTable' };
+const TBODY = { prayers: 'prTable', hackathon: 'hkTable', challenges: 'chTable', mentors: 'mtTable', applications: 'appTable', supporters: 'supporterTable' };
 function renderList(key) {
   const data = state[key], tb = document.getElementById(TBODY[key]);
   const cols = tb.closest('table').querySelectorAll('th').length;
@@ -774,6 +792,7 @@ async function deleteRow(key, id) {
 
 // ── DETAIL VIEW ──
 const FIELDS = {
+  prayers: [['name', '이름'], ['phone', '전화번호'], ['church', '출석교회'], ['created_at', '신청일']],
   challenges: [['name', '제안자'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['location', '현장 국가·지역'], ['challenge_category', '분야'], ['urgency', '긴급도'], ['created_at', '접수일']],
   mentors: [['name', '이름'], ['phone', '연락처'], ['email', '이메일'], ['organization', '소속'], ['partnership_type', '협력 유형'], ['expertise', '전문 분야'], ['created_at', '신청일']],
   obadiah: [['name', '응모자'], ['pen_name', '필명'], ['phone', '연락처'], ['email', '이메일'], ['genre', '부문'], ['created_at', '접수일'], ['status', '상태']],
@@ -784,7 +803,7 @@ const FIELDS = {
 function viewRow(key, id) {
   const r = state[key].find(x => x.id === id);
   const val = (k) => k === 'created_at' ? fmtDate(r[k]) : k === 'amount' ? won(r[k]) : (r[k] ?? '-');
-  const title = { obadiah: r.title, hackathon: r.team_name || r.name, challenges: r.challenge_title || r.name, mentors: r.name + ' (' + (r.partnership_type || '멘토·협력') + ')', applications: r.project_title, supporters: r.name + ' 님 후원' }[key];
+  const title = { prayers: r.name + ' 님 기도후원', obadiah: r.title, hackathon: r.team_name || r.name, challenges: r.challenge_title || r.name, mentors: r.name + ' (' + (r.partnership_type || '멘토·협력') + ')', applications: r.project_title, supporters: r.name + ' 님 후원' }[key];
   let html = `<dl class="detail-grid">${FIELDS[key].map(([k, l]) => `<dt>${l}</dt><dd>${esc(val(k))}</dd>`).join('')}</dl>`;
   if (key === 'obadiah') html += `<div class="detail-body">${esc(r.body)}</div><p class="char-count">${r.body.length}자</p>`;
   if (key === 'hackathon' && r.idea) html += `<div class="detail-body">${esc(r.idea)}</div>`;
