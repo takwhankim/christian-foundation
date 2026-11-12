@@ -114,6 +114,12 @@ a { color: inherit; text-decoration: none; }
   .nav-links .sub-menu a { padding: 8px 0; font-size: 16px; }
   .nav-links .has-sub > a::after { content: none; }
 }
+.program-info { background: #eef2fd; border-left: 4px solid #2563EB; border-radius: 10px; padding: 26px 30px; margin: 28px 0 20px; }
+.program-info h3 { font-size: 20px; font-weight: 800; color: #1a1f3c; margin-bottom: 10px; }
+.program-info p { font-size: 17px; line-height: 1.8; color: #1a1a1a; margin-bottom: 6px; }
+.program-info ul { margin: 8px 0 4px 1.1em; font-size: 17px; line-height: 1.8; }
+.program-info a { display: inline-block; margin-top: 10px; font-weight: 700; color: #2563EB; text-decoration: none; }
+.program-info a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -182,6 +188,12 @@ a { color: inherit; text-decoration: none; }
             </div>
             <span class="arrow">›</span>
           </div>
+        </div>
+
+        <div class="program-info" id="programInfo" data-no-edit>
+          <h3 id="piTitle"></h3>
+          <div id="piBody"></div>
+          <a id="piLink" href="#">사업 자세히 보기 →</a>
         </div>
 
         <div class="apply-form" id="applyForm">
@@ -333,6 +345,21 @@ a { color: inherit; text-decoration: none; }
 <script src="js/supabase-config.js"></script>
 <script src="js/fco-db.js"></script>
 <script>
+// 지원 박스 위 설명 (각 사업 상세 페이지의 문구)
+const programInfo = {
+  gertrude: { page: 'gertrude-stein.html', html: `
+    <p>글을 쓰고, 그림을 그리고, 문화운동을 기획하는 모든 크리스천 창작자들의 지원을 환대합니다.</p>
+    <ul><li>장학금과 자금 지원</li><li>예술적 개발 프로그램</li><li>창작자 네트워킹</li><li>창작 홍보와 전시 기회</li></ul>` },
+  award: { page: 'obadiah.html', html: `
+    <p>짧은 서사로 창조주 하나님의 세계관을 담는 기독교 문학상입니다.</p>
+    <ul><li>5자 이상 1200자 이내의 짧은 글 · 소설, 시, 카피라이트, 에세이, 시나리오</li>
+    <li>격월 연 6회 (2월, 4월, 6월, 8월, 10월, 12월) · 다음 회차 10일 홈페이지 발표</li>
+    <li>오바댜상 1명 30만원, 2등 2명 각 10만원 · 상패 및 도서</li></ul>` },
+  film15: { page: 'film15.html', html: `
+    <p>기독교 정신을 바탕으로 사회, 문화, 환경, 교육 등 다양한 분야에서 하나님의 사랑을 담은 15분 분량의 다큐멘터리 제작 팀을 지원합니다.</p>` },
+  christmas: { page: 'christmas.html', html: `
+    <p>전통적인 성탄 이야기를 현대적으로 재해석하거나, 예수님의 탄생이 오늘날 우리의 삶에 주는 의미를 깊이 있게 성찰하는 작품들을 기다리고 있습니다.</p>` },
+};
 const programs = {
   gertrude: { title:'거투르드 스타인 프로젝트', titleLabel:'작품/프로젝트명', genreLabel:'분야', genres: ['문학','미술','음악','영화·영상','문화기획','기타'] },
   award: { title:'오바댜 문학상' },
@@ -346,6 +373,9 @@ function selectProgram(key, el) {
   document.querySelectorAll('.program-tab').forEach(t => t.classList.toggle('active', t === el));
   selectedProgram = key;
   const p = programs[key], isAward = key === 'award';
+  $('piTitle').textContent = p.title;
+  $('piBody').innerHTML = programInfo[key].html;
+  $('piLink').href = programInfo[key].page;
   $('formTitle').textContent = p.title + (isAward ? ' 응모' : ' 신청');
   $('generalFields').style.display = isAward ? 'none' : '';
   $('obadiahFields').style.display = isAward ? '' : 'none';
@@ -398,6 +428,7 @@ async function submitApply() {
     }
     $('applyForm').style.display = 'none';
     document.querySelector('.programs').style.display = 'none';
+    $('programInfo').style.display = 'none';
     $('successMsg').style.display = 'block';
     $('successMsg').scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (e) {
