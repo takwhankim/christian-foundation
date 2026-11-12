@@ -3,6 +3,7 @@
 ## 작업 규칙 (두 대의 Mac에서 번갈아 작업)
 - **작업 시작 전 항상 `git pull`**, 작업 단위가 끝나면 **바로 commit + push** (따로 요청을 기다리지 않음).
 - main 에 push 하면 GitHub Actions 가 GitHub Pages 로 자동 배포 → https://takwhankim.github.io/christian-foundation/
+- **JS/CSS를 고치면 커밋 전에 반드시 `python3 tools/bust-cache.py`** — 스크립트 주소에 ?v=해시를 붙여 브라우저 10분 캐시 문제 방지 (워크플로 자동화는 gh 토큰에 workflow 권한이 없어 보류)
 - 미리보기: 프로젝트 폴더에서 `python3 -m http.server 8765` → http://localhost:8765 (브라우저 캐시 주의: ⌘⇧R)
 
 ## 구조
