@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v4
+      - name: 스크립트 버전 태그 (브라우저 캐시 방지)
+        run: python3 tools/bust-cache.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
