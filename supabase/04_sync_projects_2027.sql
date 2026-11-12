@@ -8,5 +8,5 @@ insert into public.projects (title, description, link_url, sort_order) values
 
 -- 영역 제목 (새 디자인: 큰 제목 / 아래 작은 글씨)
 insert into public.site_settings (key, value)
-values ('projects_section', '{"title":"2027'' FCO PROJECT","label":"CREATIVE OR ORIGINALITY"}')
+values ('projects_section', '{"title":"2027'' FCO PROJECT","label":"CREATIVE ON ORIGINALITY"}')
 on conflict (key) do update set value = excluded.value, updated_at = now();
