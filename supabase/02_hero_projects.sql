@@ -30,7 +30,7 @@ grant insert, update, delete on public.projects to authenticated;
 insert into public.projects (title, description, link_url, sort_order)
 select * from (values
   ('기독교 도서 지원사업', '기독교 창의 작가들의 출판을 지원하여 양질의 기독교 문학이 세상에 나올 수 있도록 돕습니다.', 'projects.html#book', 1),
-  ('오바댜 문학상', '짧은 서사로 창조주 하나님의 세계관을 담는 기독교 문학상입니다.', 'projects.html#award', 2),
+  ('오바댜 문학상', '짧은 서사로 창조주 하나님의 메시지를 담는 기독교 문학상입니다.', 'projects.html#award', 2),
   ('Film・드라마', '기독교적 가치를 담은 영상 콘텐츠 제작을 지원하여 미디어 선교의 새 길을 열어갑니다.', 'projects.html#film', 3),
   ('문장 강사 양성', '기독교 작가와 강사를 양성하는 교육 프로그램으로 차세대 창의 인재를 키웁니다.', 'projects.html#edu', 4)
 ) as v(title, description, link_url, sort_order)
