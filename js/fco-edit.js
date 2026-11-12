@@ -45,9 +45,9 @@
   const byKey = Object.fromEntries(items.map(el => [el.dataset.fcoKey, el]));
 
   function setText(el, text) { el.innerHTML = esc(text).replace(/\n/g, '<br>'); }
-  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle'];
+  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle', 'lineHeight'];
   // 관리자가 지정한 스타일은 사이트 기본 스타일(!important 포함)보다 항상 우선
-  const CSS_PROP = { fontSize: 'font-size', color: 'color', fontWeight: 'font-weight', fontStyle: 'font-style' };
+  const CSS_PROP = { fontSize: 'font-size', color: 'color', fontWeight: 'font-weight', fontStyle: 'font-style', lineHeight: 'line-height' };
   const rgbOf = c => (c.match(/[\d.]+/g) || []).map(Number);
   function bgOf(el) {           // 실제로 보이는 배경색 (투명이면 부모로 올라감)
     for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
@@ -154,6 +154,7 @@
     sbar.id = 'fco-style-bar';
     sbar.innerHTML = `
       <span>크기</span><button data-s="dec" title="작게">−</button><input type="number" min="8" max="160" data-s="size"><button data-s="inc" title="크게">+</button>
+      <span class="sep"></span><span>행간</span><button data-s="lhdec" title="행간 좁게">−</button><input type="number" min="0.8" max="3" step="0.1" data-s="lh" style="width:52px"><button data-s="lhinc" title="행간 넓게">+</button>
       <span class="sep"></span><button data-s="bold" title="굵게 (700)">B</button><button data-s="normal" title="일반 (400)" style="font-weight:400">B</button>
       <span class="sep"></span><button data-s="italic" title="이탤릭" style="font-style:italic">I</button>
       <span class="sep"></span>${SWATCHES.map(c => `<button class="sw" data-s="color" data-c="${c}" style="background:${c}" title="${c}"></button>`).join('')}
@@ -169,11 +170,18 @@
       applyStyle(el, st);
       el.dataset.fcoDirty = '1'; dirty.add(el); render(); syncBar();
     }
+    function lhRatio(el) {
+      const cs = getComputedStyle(el);
+      const lh = parseFloat(cs.lineHeight), fs = parseFloat(cs.fontSize);
+      return isNaN(lh) ? 1.2 : lh / fs;
+    }
+    const setLh = v => setStyle(cur, { lineHeight: String(Math.round(Math.min(3, Math.max(0.8, v)) * 10) / 10) });
     function syncBar() {
       if (!cur) return;
       const cs = getComputedStyle(cur);
       sbar.querySelector('[data-s=size]').value = Math.round(parseFloat(cs.fontSize));
       sbar.querySelector('[data-s=bold]').classList.toggle('on', parseInt(cs.fontWeight, 10) >= 600);
+      sbar.querySelector('[data-s=lh]').value = lhRatio(cur).toFixed(1);
       sbar.querySelector('[data-s=normal]').classList.toggle('on', parseInt(cs.fontWeight, 10) < 600);
       sbar.querySelector('[data-s=italic]').classList.toggle('on', cs.fontStyle === 'italic');
       const rgb = cs.color.match(/\d+/g) || [0, 0, 0];
@@ -194,6 +202,8 @@
       const size = parseFloat(getComputedStyle(cur).fontSize);
       if (b.dataset.s === 'dec') setStyle(cur, { fontSize: Math.max(8, Math.round(size) - 1) + 'px' });
       if (b.dataset.s === 'inc') setStyle(cur, { fontSize: Math.min(160, Math.round(size) + 1) + 'px' });
+      if (b.dataset.s === 'lhdec') setLh(lhRatio(cur) - 0.1);
+      if (b.dataset.s === 'lhinc') setLh(lhRatio(cur) + 0.1);
       if (b.dataset.s === 'bold') setStyle(cur, { fontWeight: '700' });
       if (b.dataset.s === 'normal') setStyle(cur, { fontWeight: '400' });
       if (b.dataset.s === 'italic') setStyle(cur, { fontStyle: getComputedStyle(cur).fontStyle === 'italic' ? 'normal' : 'italic' });
@@ -203,6 +213,7 @@
     sbar.querySelector('[data-s=size]').addEventListener('change', e => {
       const v = Math.min(160, Math.max(8, parseInt(e.target.value, 10) || 0)); if (cur && v) setStyle(cur, { fontSize: v + 'px' });
     });
+    sbar.querySelector('[data-s=lh]').addEventListener('change', e => { const v = parseFloat(e.target.value); if (cur && v) setLh(v); });
     sbar.querySelector('[data-s=pick]').addEventListener('input', e => { if (cur) setStyle(cur, { color: e.target.value }); });
     window.addEventListener('scroll', placeBar, { passive: true });
     window.addEventListener('resize', placeBar);
