@@ -119,7 +119,7 @@
       #fco-edit-bar .pri { background: #2563EB; color: #fff; }
       #fco-edit-bar .sec { background: #fff; color: #1a1f3c; }
       #fco-edit-bar .msg { background: #1a1f3c; color: #fff; border-radius: 999px; padding: 10px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.2); }
-      body.fco-editing [data-fco-key] { outline: 1px dashed rgba(37,99,235,.55); outline-offset: 3px; cursor: text; border-radius: 2px; }
+      body.fco-editing [data-fco-key] { outline: 2px dashed #2563EB; outline-offset: 3px; cursor: text; border-radius: 2px; box-shadow: 0 0 0 5px rgba(255,255,255,.55); }
       body.fco-editing [data-fco-key]:hover { outline: 2px solid #2563EB; background: rgba(37,99,235,.06); }
       body.fco-editing [data-fco-key]:focus { outline: 2px solid #2563EB; background: rgba(37,99,235,.08); }
       body.fco-editing [data-fco-dirty] { outline: 2px solid #f97316 !important; }
