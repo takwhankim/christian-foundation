@@ -74,7 +74,7 @@
         font-family: "Pretendard", sans-serif; font-size: 14px; }
       #fco-edit-bar button { border: 0; border-radius: 999px; padding: 12px 20px; font: inherit; font-weight: 700; cursor: pointer;
         box-shadow: 0 6px 24px rgba(0,0,0,.2); }
-      #fco-edit-bar .pri { background: #6B2D8C; color: #fff; }
+      #fco-edit-bar .pri { background: #2563EB; color: #fff; }
       #fco-edit-bar .sec { background: #fff; color: #1a1f3c; }
       #fco-edit-bar .msg { background: #1a1f3c; color: #fff; border-radius: 999px; padding: 10px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.2); }
       body.fco-editing [data-fco-key] { outline: 1px dashed rgba(37,99,235,.55); outline-offset: 3px; cursor: text; border-radius: 2px; }

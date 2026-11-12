@@ -286,6 +286,26 @@ body { font-family: "Pretendard", sans-serif; color: var(--text); background: #f
 .pd-cta2 a { display: inline-block; padding: 15px 34px; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none; }
 .pd-cta2 .pri { background: #2563EB; color: #fff; }
 .pd-cta2 .sec { background: #fff; color: #1a1f3c; }
+
+/* ── THEME: 옐로우 + 블루 (보라 대체) ── */
+:root { --brand: #2563EB; --brand-soft: #1D4ED8; --key: #fff71a; --key-dark: #f2e600; --key-ink: #2563EB; }
+/* 서브 히어로: 노란 바탕 + 파란 글씨, 모든 서브 페이지 같은 높이 */
+.page-hero { background: var(--key) !important; color: var(--key-ink) !important; padding: 0 !important; height: 300px; display: flex; align-items: center; text-align: left !important; }
+.page-hero .breadcrumb { opacity: .75 !important; color: var(--key-ink); }
+.page-hero h1 { color: var(--key-ink); }
+.page-hero p { opacity: 1 !important; color: var(--key-ink); }
+.gs-hero { min-height: 0 !important; height: 300px; }
+.gs-hero-content { padding: 0 40px !important; }
+.gs-banner { background: var(--key) !important; color: var(--key-ink) !important; }
+.gs-banner .gs-banner-attr { color: var(--key-ink) !important; opacity: .8; }
+/* 버튼: 노란 바탕 + 파란 글씨 */
+.btn-primary, .btn-submit, .btn-brand, .search-box button, .pagination .active,
+.project-detail .text .apply-btn:not(.apply-btn-blue), .amount-btn.active, .join-card.primary-card .btn-brand {
+  background: var(--key) !important; color: var(--key-ink) !important; border-color: var(--key) !important; font-weight: 700; }
+.btn-primary:hover, .btn-submit:hover, .btn-brand:hover, .search-box button:hover, .pagination a:hover,
+.project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
+  background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
+.amount-btn.active { border-color: var(--key-ink) !important; }
 </style>
 </head>
 <body>
