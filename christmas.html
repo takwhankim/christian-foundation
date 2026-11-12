@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>빈 방 있수다. | FCO 기독교창의지원재단</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand: #6B2D8C;
+  --navy: #1a1f3c;
+  --blue: #2563EB;
+  --text: #1a1a1a;
+  --muted: #555;
+  --bg-gray: #f5f5f5;
+  --max: 1180px;
+}
+
+body { font-family: "Pretendard", sans-serif; color: var(--text); background: #fff; font-size: 17px; line-height: 1.8; }
+
+.container { max-width: var(--max); margin: 0 auto; padding: 0 40px; }
+
+/* ── NAV ── */
+.site-header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.07); height: 88px; display: flex; align-items: center; }
+.nav-shell { display: flex; align-items: center; gap: 40px; }
+.logo-img { height: 36px; width: auto; }
+.nav-links { display: flex; list-style: none; gap: 32px; margin-left: auto; }
+.nav-links a { font-size: 19px; font-weight: 700; color: var(--navy); text-decoration: none; letter-spacing: 0.06em; transition: color .2s; }
+.nav-links a:hover { color: var(--brand); }
+.nav-pill { background: var(--blue); color: #fff !important; padding: 9px 22px; border-radius: 999px; font-size: 18px !important; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-left: auto; }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--navy); border-radius: 2px; }
+
+/* ── HERO ── */
+.gs-hero {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: #111;
+}
+.gs-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('images/gertrude-stein-bg.jpg') center/cover no-repeat;
+  opacity: 0.45;
+}
+.gs-hero-content {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 80px 40px;
+  max-width: 860px;
+}
+.gs-hero-quote {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+.gs-hero-attr {
+  font-size: 15px;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.04em;
+}
+
+/* ── SECTION COMMON ── */
+.section-title-block {
+  text-align: center;
+  padding: 80px 0 56px;
+}
+.section-title-block h1 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.title-divider {
+  width: 56px;
+  height: 2px;
+  background: var(--text);
+  margin: 0 auto;
+}
+
+/* ── INTRO ── */
+.gs-intro {
+  padding: 0 0 80px;
+}
+.gs-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.gs-intro-img {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #222;
+}
+.gs-intro-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gs-intro-text h2 {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+.gs-intro-text p {
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.9;
+}
+.gs-bullets {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid #e8e8e8;
+  padding-top: 28px;
+}
+.gs-bullets li {
+  list-style: none;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.gs-bullets li strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ── CALL TEXT ── */
+.gs-call {
+  padding: 0 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+.gs-call p {
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+/* ── MAGENTA BANNER ── */
+.gs-banner {
+  background: #E91E8C;
+  color: #fff;
+  padding: 100px 40px;
+  text-align: center;
+}
+.gs-banner-quote {
+  font-size: clamp(24px, 3.5vw, 40px);
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.gs-banner-attr {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── BIOGRAPHY ── */
+.gs-bio {
+  padding: 80px 0;
+  background: #fff;
+}
+.gs-bio p {
+  color: var(--muted);
+  margin-bottom: 24px;
+  max-width: 820px;
+  line-height: 1.9;
+}
+.gs-bio-box {
+  margin-top: 56px;
+  background: var(--bg-gray);
+  border-radius: 12px;
+  padding: 40px 48px;
+}
+.gs-bio-box p {
+  max-width: none;
+}
+
+/* ── FOOTER ── */
+.site-footer { background: #111; color: rgba(255,255,255,0.6); padding: 56px 0 36px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand .logo-txt { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: 0.04em; }
+.footer-brand p { font-size: 13px; margin-top: 12px; line-height: 1.8; }
+.footer-col h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 16px; letter-spacing: 0.08em; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color .2s; }
+.footer-col ul a:hover { color: #fff; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
+  .nav-toggle { display: flex; }
+  .gs-intro-grid, .gs-call { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .gs-bio-box { padding: 28px 24px; }
+}
+
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .gs-banner { padding: 72px 24px; }
+}
+
+/* ── 사업 상세 공통 ── */
+.pd-hero-bg { position: absolute; inset: 0; background-position: center; background-size: cover; opacity: 0.5; }
+.pd-hero-title { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.15; margin-bottom: 18px; letter-spacing: -0.01em; }
+.pd-poster { aspect-ratio: auto !important; background: none !important; box-shadow: 0 12px 40px rgba(0,0,0,.15); }
+.pd-poster img { height: auto !important; }
+.pd-info { padding: 0 0 80px; }
+.pd-info-box { background: var(--bg-gray); border-radius: 12px; padding: 44px 48px; }
+.pd-info-box h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; }
+.pd-table { display: grid; grid-template-columns: 140px 1fr; gap: 16px 24px; }
+.pd-table dt { font-weight: 700; color: var(--text); }
+.pd-table dd { color: var(--text); }
+.pd-table dd .note { display: block; color: var(--muted); font-size: 15px; margin-top: 4px; }
+.pd-tbd { color: var(--muted); }
+.pd-notes { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e2e2; color: var(--muted); font-size: 15px; list-style: none; }
+.pd-notes li::before { content: "* "; }
+.pd-cta { background: var(--navy); color: #fff; text-align: center; padding: 80px 40px; }
+.pd-cta h2 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; margin-bottom: 14px; }
+.pd-cta p { color: rgba(255,255,255,.75); margin-bottom: 32px; }
+.pd-cta .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.pd-btn { display: inline-block; padding: 15px 34px; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none; }
+.pd-btn.pri { background: var(--blue); color: #fff; }
+.pd-btn.sec { background: #fff; color: var(--navy); }
+.pd-winners { padding: 0 0 80px; }
+.pd-winners h3 { font-size: 22px; font-weight: 800; margin-bottom: 20px; }
+.pd-winner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.pd-winner { border: 1px solid #e8e8e8; border-radius: 12px; padding: 28px; }
+.pd-winner .tag { display: inline-block; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; padding: 3px 12px; border-radius: 999px; margin-bottom: 12px; }
+.pd-winner h4 { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+.pd-winner .by { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+.pd-winner .body { white-space: pre-wrap; line-height: 1.9; }
+.pd-back { display: inline-block; margin: 0 0 48px; color: var(--blue); font-weight: 700; text-decoration: none; }
+@media (max-width: 900px) {
+  .pd-info-box { padding: 28px 24px; }
+  .pd-table { grid-template-columns: 1fr; gap: 4px; }
+  .pd-table dd { margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="site-header">
+  <div class="container">
+    <nav class="nav-shell">
+      <a href="index.html" class="logo"><img src="logo.png" alt="FCO 기독교창의지원재단" class="logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">재단소개</a></li>
+        <li><a href="projects.html" class="active">사업소개</a></li>
+        <li><a href="news.html">보도자료</a></li>
+        <li><a href="support.html">후원하기</a></li>
+        <li><a href="hackathon.html" class="nav-pill">해커톤2027</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="gs-hero">
+  <div class="pd-hero-bg" style="background-image:url('images/christmas-hero.jpg')"></div>
+  <div class="gs-hero-content">
+    <p class="pd-hero-title">빈 방 있수다.</p>
+    <p class="gs-hero-attr">성탄 이야기, 오늘을 사는 우리에게</p>
+  </div>
+</section>
+
+<!-- TITLE -->
+<div class="section-title-block">
+  <h1>빈 방 있수다.</h1>
+  <div class="title-divider"></div>
+</div>
+
+<!-- INTRO -->
+<section class="gs-intro">
+  <div class="container">
+    <div class="gs-intro-grid">
+      <div class="gs-intro-img">
+        <img src="images/christmas-hero.jpg" alt="빈 방 있수다 대표 이미지">
+      </div>
+      <div class="gs-intro-text">
+        <h2>성탄 이야기를 오늘의 언어로 다시 씁니다.</h2>
+        <p>전통적인 성탄 이야기를 현대적으로 재해석하거나, 예수님의 탄생이 오늘날 우리의 삶에 주는 의미를 깊이 있게 성찰하는 작품들을 기다리고 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section class="pd-info">
+  <div class="container">
+    <div class="pd-info-box">
+      <h3>공모 안내</h3>
+      <dl class="pd-table">
+        <dt>공모 주제</dt><dd>전통적인 성탄 이야기의 현대적 재해석, 또는 예수님의 탄생이 오늘날 우리의 삶에 주는 의미에 대한 성찰</dd>
+        <dt>응모 분야</dt><dd><span class="pd-tbd">추후 공지됩니다.</span></dd>
+        <dt>응모 기간</dt><dd><span class="pd-tbd">추후 공지됩니다.</span></dd>
+        <dt>시상 내역</dt><dd><span class="pd-tbd">추후 공지됩니다.</span></dd>
+        <dt>응모 방법</dt><dd><span class="pd-tbd">추후 공지됩니다.</span></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<section class="gs-banner">
+  <p class="gs-banner-quote">“여관에 있을 곳이 없음이러라”</p>
+  <p class="gs-banner-attr">누가복음 2:7 (개역개정)</p>
+</section>
+
+<!-- CTA -->
+<section class="pd-cta">
+  <h2>당신의 성탄 이야기를 들려주세요</h2>
+  <p>세부 공모 일정은 공지사항으로 안내합니다. 궁금한 점은 info@fco.or.kr 로 문의해 주세요.</p>
+  <div class="btns">
+    <a class="pd-btn pri" href="mailto:info@fco.or.kr">문의하기 →</a>
+    <a class="pd-btn sec" href="projects.html">다른 사업 보기</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-txt">FCO</div>
+        <p>기독교창의지원재단<br>Christian Foundation for Creative Originality</p>
+      </div>
+      <div class="footer-col">
+        <h4>재단</h4>
+        <ul>
+          <li><a href="about.html">재단소개</a></li>
+          <li><a href="projects.html">사업소개</a></li>
+          <li><a href="news.html">보도자료</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>참여</h4>
+        <ul>
+          <li><a href="apply.html">지원하기</a></li>
+          <li><a href="support.html">후원하기</a></li>
+          <li><a href="hackathon.html">해커톤2027</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>문의</h4>
+        <ul>
+          <li><a href="mailto:info@fco.or.kr">info@fco.or.kr</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 FCO 기독교창의지원재단. All rights reserved.</p>
+      <a href="admin/login.html">관리자</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/fco-db.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+<script src="js/fco-edit.js"></script>
+</body>
+</html>
