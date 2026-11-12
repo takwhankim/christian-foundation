@@ -252,15 +252,24 @@
       });
       const btn = bar.querySelector('[data-act=save]'); btn.disabled = true; btn.textContent = '저장 중…';
       try {
+        // 로그인 상태 확인 (만료됐으면 저장이 거부되므로 먼저 안내)
+        const { data: ok } = await db.rpc('is_admin');
+        if (!ok) throw new Error('관리자 로그인이 만료되었습니다. 관리자 페이지에서 다시 로그인한 뒤 저장해 주세요. (수정 내용은 이 창을 닫기 전까지 남아 있습니다)');
         if (rows.length) { const { error } = await db.from('page_content').upsert(rows); if (error) throw error; }
         if (removes.length) { const { error } = await db.from('page_content').delete().eq('page', PAGE).in('key', removes); if (error) throw error; }
+        // 저장 확인: DB에서 다시 읽어 실제로 들어갔는지 검사
+        if (rows.length) {
+          const { data: back, error: e2 } = await db.from('page_content').select('key,content').eq('page', PAGE).in('key', rows.map(r => r.key));
+          if (e2 || (back || []).length !== rows.length) throw new Error('저장 확인에 실패했습니다. 잠시 후 다시 저장해 주세요.');
+        }
+        try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
         dirty.forEach(el => delete el.dataset.fcoDirty);
         dirty.clear();
         render();
         toastMsg('저장되었습니다. 방문자에게 바로 보입니다.');
       } catch (err) {
         console.error(err);
-        alert('저장하지 못했습니다: ' + (err.message || err));
+        alert('저장하지 못했습니다.\n' + (err.code === '42501' ? '관리자 권한이 확인되지 않습니다. 다시 로그인해 주세요.' : (err.message || err)));
         render();
       }
     }
