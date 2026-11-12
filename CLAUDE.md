@@ -35,7 +35,6 @@
 - 원본 자료: `~/Library/CloudStorage/OneDrive-개인/기독교창의지원재단` (로고, 포스터 PSD, 키비주얼, 해커톤 참고자료, 4K 바다 영상)
 
 ## 다음에 할 일
-- (11-12) 관리자에 '해커톤 문제 제안'·'해커톤 멘토·협력' 메뉴 추가, 테이블 기록 `supabase/05_hackathon_forms.sql` — **사용자 SQL 실행 확인 필요**(status·admin_memo 컬럼)
-- (11-12) `supabase/04_sync_projects_2027.sql`(DB 프로젝트 카드를 새 4개로) — **사용자 SQL 실행 확인 필요**. 실행 전엔 실제 사이트 메인에 예전 카드 4개가 보임
+- (11-12 완료) 관리자 '해커톤 문제 제안'·'멘토·협력' 메뉴 + `05_hackathon_forms.sql` 실행됨 / `04_sync_projects_2027.sql` 실행됨 → 메인 카드 = 새 4개(DB)
 - 메인 프로젝트 부제 'CREATIVE OR ORIGINALITY' 오타 여부 사용자 확인 대기 (원래 문구 CREATIVE ON ORIGINALITY)
 - 후원하기 "정기후원 (매월)" 라디오 라벨 줄바꿈 깨짐 / 개인정보처리방침·이용약관 페이지 / 오바댜 포스터 PSD로 2027판 재제작 / 히어로 4K 바다 영상 검토
