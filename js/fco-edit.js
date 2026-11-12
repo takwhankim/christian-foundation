@@ -16,7 +16,7 @@
     '#newsList', '.category-list', '.news-toolbar', '.programs', '.amount-select', '#fco-edit-bar',
     '[data-no-edit]',
   ].join(',');
-  const TAGS = 'h1,h2,h3,h4,h5,h6,p,li,span,strong,em,b,a,dt,dd,td,th,div,label,small,blockquote,figcaption';
+  const TAGS = 'h1,h2,h3,h4,h5,h6,p,li,span,strong,em,b,a,dt,dd,td,th,div,label,small,blockquote,figcaption,fco-t';
 
   const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
   const norm = s => s.replace(/\s+/g, ' ').trim();
@@ -24,7 +24,22 @@
   const esc = FCO.esc;
 
   // 글자만 들어 있는(하위 태그가 <br> 뿐인) 요소를 편집 대상으로
+  // 라벨 옆에 붙은 글처럼 다른 요소와 섞여 있는 글자 조각을 <fco-t>로 감싸 따로 편집 가능하게
+  // (예: <div><span class="month">11월</span> 오바댜 문학상 …</div> 에서 '오바댜 문학상 …')
+  function wrapLooseText() {
+    document.querySelectorAll(TAGS).forEach(el => {
+      if (el.closest(EXCLUDE) || el.tagName === 'FCO-T') return;
+      if (![...el.children].some(c => c.tagName !== 'BR')) return;
+      [...el.childNodes].forEach(n => {
+        if (n.nodeType === 3 && n.textContent.trim()) {
+          const w = document.createElement('fco-t');
+          n.replaceWith(w); w.appendChild(n);
+        }
+      });
+    });
+  }
   function collect() {
+    wrapLooseText();
     const seen = {};
     const items = [];
     document.querySelectorAll(TAGS).forEach(el => {
