@@ -154,10 +154,10 @@ a { color: inherit; text-decoration: none; }
     <div class="apply-layout">
       <div>
         <div class="programs">
-          <div class="program-tab active" data-program="book" onclick="selectProgram('book', this)">
+          <div class="program-tab active" data-program="gertrude" onclick="selectProgram('gertrude', this)">
             <div class="info">
-              <h4>기독교 도서 지원사업</h4>
-              <p>기독교 작가 출판 지원 (최대 500만원)</p>
+              <h4>거투르드 스타인 프로젝트</h4>
+              <p>크리스천 창작자 지원 (문학·미술·음악·영상·문화기획)</p>
             </div>
             <span class="arrow">›</span>
           </div>
@@ -168,17 +168,17 @@ a { color: inherit; text-decoration: none; }
             </div>
             <span class="arrow">›</span>
           </div>
-          <div class="program-tab" data-program="film" onclick="selectProgram('film', this)">
+          <div class="program-tab" data-program="film15" onclick="selectProgram('film15', this)">
             <div class="info">
-              <h4>Film・드라마 지원사업</h4>
-              <p>기독교 영상 제작 지원 (최대 2,000만원)</p>
+              <h4>Film 15'</h4>
+              <p>15분 분량 다큐멘터리 제작 팀 지원</p>
             </div>
             <span class="arrow">›</span>
           </div>
-          <div class="program-tab" data-program="edu" onclick="selectProgram('edu', this)">
+          <div class="program-tab" data-program="christmas" onclick="selectProgram('christmas', this)">
             <div class="info">
-              <h4>문장 강사 양성 프로그램</h4>
-              <p>기독교 글쓰기 강사 무료 교육</p>
+              <h4>빈 방 있수다.</h4>
+              <p>성탄 이야기 작품 공모</p>
             </div>
             <span class="arrow">›</span>
           </div>
@@ -334,12 +334,12 @@ a { color: inherit; text-decoration: none; }
 <script src="js/fco-db.js"></script>
 <script>
 const programs = {
-  book: { title:'기독교 도서 지원사업', genres: ['소설','시','에세이','청소년 도서','어린이 도서','기타'] },
+  gertrude: { title:'거투르드 스타인 프로젝트', titleLabel:'작품/프로젝트명', genreLabel:'분야', genres: ['문학','미술','음악','영화·영상','문화기획','기타'] },
   award: { title:'오바댜 문학상' },
-  film: { title:'Film・드라마 지원사업', genres: ['단편영화','웹드라마','다큐멘터리','기타'] },
-  edu: { title:'문장 강사 양성 프로그램', genres: ['기초반','심화반'] },
+  film15: { title:"Film 15'", titleLabel:'팀명 및 작품명(가제)', genreLabel:'주제 분야', genres: ['사회','문화','환경','교육','기타'] },
+  christmas: { title:'빈 방 있수다.', titleLabel:'작품 제목', genreLabel:'작품 형식', genres: null },
 };
-let selectedProgram = 'book';
+let selectedProgram = 'gertrude';
 const $ = id => document.getElementById(id);
 
 function selectProgram(key, el) {
@@ -353,7 +353,19 @@ function selectProgram(key, el) {
     ? '당선작은 교계의 선교·전도 목적으로 활용될 수 있으며, 그 외 상업적 용도로는 사용되지 않음을 확인합니다. (필수)'
     : '제출된 서류는 심사 목적으로만 사용됨을 확인합니다. (필수)';
   $('submitBtn').textContent = isAward ? '작품 응모하기' : '신청서 제출하기';
-  if (!isAward) $('aGenre').innerHTML = '<option value="">선택하세요</option>' + p.genres.map(g => `<option>${g}</option>`).join('');
+  if (!isAward) {
+    document.querySelector('label[for=aTitle]').firstChild.textContent = p.titleLabel + ' ';
+    const g = $('aGenre'), gl = document.querySelector('label[for=aGenre]');
+    gl.textContent = p.genreLabel;
+    if (p.genres) {
+      const sel = document.createElement('select'); sel.id = 'aGenre';
+      sel.innerHTML = '<option value="">선택하세요</option>' + p.genres.map(x => `<option>${x}</option>`).join('');
+      g.replaceWith(sel);
+    } else {
+      const inp = document.createElement('input'); inp.type = 'text'; inp.id = 'aGenre'; inp.maxLength = 50;
+      g.replaceWith(inp);
+    }
+  }
   $('formError').style.display = 'none';
 }
 
@@ -399,7 +411,7 @@ async function submitApply() {
 (() => {
   const key = new URLSearchParams(location.search).get('program');
   const tab = key && document.querySelector(`.program-tab[data-program="${key}"]`);
-  selectProgram(tab ? key : 'book', tab || document.querySelector('.program-tab'));
+  selectProgram(tab ? key : 'gertrude', tab || document.querySelector('.program-tab'));
 })();
 
 document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
