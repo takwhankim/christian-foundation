@@ -46,8 +46,28 @@
 
   function setText(el, text) { el.innerHTML = esc(text).replace(/\n/g, '<br>'); }
   const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle'];
+  // 관리자가 지정한 스타일은 사이트 기본 스타일(!important 포함)보다 항상 우선
+  const CSS_PROP = { fontSize: 'font-size', color: 'color', fontWeight: 'font-weight', fontStyle: 'font-style' };
+  const rgbOf = c => (c.match(/[\d.]+/g) || []).map(Number);
+  function bgOf(el) {           // 실제로 보이는 배경색 (투명이면 부모로 올라감)
+    for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
+      const c = rgbOf(getComputedStyle(n).backgroundColor);
+      if (c.length >= 3 && (c[3] === undefined || c[3] > 0.5)) return c;
+    }
+    return [255, 255, 255];
+  }
   function applyStyle(el, st) {
-    STYLE_KEYS.forEach(k => { el.style[k] = (st && st[k]) || ''; });
+    STYLE_KEYS.forEach(k => {
+      const v = st && st[k];
+      if (v) el.style.setProperty(CSS_PROP[k] || k, v, 'important');
+      else el.style.removeProperty(CSS_PROP[k] || k);
+    });
+    // 안전장치: 글자색이 배경색과 거의 같아 안 보이게 되면 그 색 지정은 적용하지 않음
+    if (st && st.color) {
+      const fg = rgbOf(getComputedStyle(el).color), bg = bgOf(el);
+      const d = Math.hypot(fg[0] - bg[0], fg[1] - bg[1], fg[2] - bg[2]);
+      if (d < 60) { el.style.removeProperty('color'); el.dataset.fcoColorSkipped = st.color; }
+    }
   }
 
   // 저장된 수정 내용 적용 (이 브라우저에 기억해 둔 것 먼저 → DB 최신본으로 갱신)
