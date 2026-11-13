@@ -73,12 +73,15 @@ a { color: inherit; text-decoration: none; }
 .about-intro .visual { background: linear-gradient(135deg, #e8f0fe, #fce8ee); border-radius: 12px; height: 360px; display: flex; align-items: center; justify-content: center; }
 .about-intro .visual .big-text { font-family: "Playfair Display", serif; font-style: italic; font-size: 72px; font-weight: 700; color: var(--brand); opacity: 0.15; }
 
-.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
-.value-card { padding: 32px; background: #f9f9f9; border-radius: 8px; border-top: 3px solid var(--brand); }
-.value-card .num { font-size: 36px; font-weight: 800; color: rgba(107,45,140,0.1); font-family: "Playfair Display", serif; }
-.value-card h3 { font-size: 18px; font-weight: 700; margin: 8px 0 12px; }
-.value-card p { font-size: 17px; color: var(--muted); line-height: 1.9; }
+.values-list { margin-top: 56px; }
+.value-row { display: grid; grid-template-columns: 56px 220px 1fr; align-items: start; gap: 48px; padding: 40px 0; border-top: 1px solid #e8e8e8; }
+.value-row:last-child { border-bottom: 1px solid #e8e8e8; }
+.vr-index { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.12em; text-transform: uppercase; padding-top: 6px; }
+.vr-title { font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1.25; }
+.vr-title .vr-en { display: block; font-size: 13px; font-weight: 500; color: var(--blue); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px; }
+.vr-desc { font-size: 17px; color: var(--muted); line-height: 1.9; padding-top: 4px; }
 
+.section-label { display: block; font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
 .section-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
 .section-sub { font-size: 14px; color: var(--muted); margin-bottom: 40px; }
 
@@ -107,7 +110,8 @@ a { color: inherit; text-decoration: none; }
   .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 88px; left: 0; right: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 16px 24px 24px; gap: 16px; z-index: 99; }
   .nav-toggle { display: flex; }
   .about-intro { grid-template-columns: 1fr; }
-  .values-grid { grid-template-columns: 1fr; }
+  .value-row { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+  .vr-index { padding-top: 0; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -229,25 +233,25 @@ a { color: inherit; text-decoration: none; }
     </div>
   </section>
 
-  <section class="section" id="values" style="background:#fafafa;">
+  <section class="section" id="values">
     <div class="container">
+      <span class="section-label">CORE VALUES</span>
       <h2 class="section-title">핵심 가치</h2>
-      <p class="section-sub">FCO가 추구하는 세 가지 핵심 가치입니다.</p>
-      <div class="values-grid">
-        <div class="value-card">
-          <div class="num">01</div>
-          <h3>독창성 (Originality)</h3>
-          <p>하나님이 각자에게 주신 고유한 목소리와 재능을 발굴합니다. 획일화된 콘텐츠가 아닌, 각자의 독특한 창의성이 꽃필 수 있도록 지원합니다.</p>
+      <div class="values-list">
+        <div class="value-row">
+          <div class="vr-index">01</div>
+          <div class="vr-title">독창성<span class="vr-en">Originality</span></div>
+          <p class="vr-desc">하나님이 각자에게 주신 고유한 목소리와 재능을 발굴합니다. 획일화된 콘텐츠가 아닌, 각자의 독특한 창의성이 꽃필 수 있도록 지원합니다.</p>
         </div>
-        <div class="value-card">
-          <div class="num">02</div>
-          <h3>탁월성 (Excellence)</h3>
-          <p>기독교 작품도 세상 최고 수준의 완성도를 추구해야 합니다. 복음의 내용뿐 아니라 예술적 형식에서도 탁월함을 지향합니다.</p>
+        <div class="value-row">
+          <div class="vr-index">02</div>
+          <div class="vr-title">탁월성<span class="vr-en">Excellence</span></div>
+          <p class="vr-desc">기독교 작품도 세상 최고 수준의 완성도를 추구해야 합니다. 복음의 내용뿐 아니라 예술적 형식에서도 탁월함을 지향합니다.</p>
         </div>
-        <div class="value-card">
-          <div class="num">03</div>
-          <h3>영향력 (Impact)</h3>
-          <p>창작물이 교회 안에만 머물지 않고 세상으로 나가 사람들의 마음을 움직이고 하나님께로 이끄는 선한 영향력을 발휘하도록 돕습니다.</p>
+        <div class="value-row">
+          <div class="vr-index">03</div>
+          <div class="vr-title">영향력<span class="vr-en">Impact</span></div>
+          <p class="vr-desc">창작물이 교회 안에만 머물지 않고 세상으로 나가 사람들의 마음을 움직이고 하나님께로 이끄는 선한 영향력을 발휘하도록 돕습니다.</p>
         </div>
       </div>
     </div>
