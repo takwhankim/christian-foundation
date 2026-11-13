@@ -271,7 +271,7 @@
       if (!dirty.size) { toastMsg('수정한 곳이 없습니다.'); return; }
       const rows = [], removes = [];
       dirty.forEach(el => {
-        const content = textOf(el) || el.dataset.fcoOrig;
+        const content = textOf(el);
         const style = el.dataset.fcoStyle ? JSON.parse(el.dataset.fcoStyle) : null;
         if (norm(content) === el.dataset.fcoOrig && !style) removes.push(el.dataset.fcoKey); // 글·스타일 모두 원래대로
         else rows.push({ page: PAGE, key: el.dataset.fcoKey, original: el.dataset.fcoOrig, content, style, updated_at: new Date().toISOString() });
