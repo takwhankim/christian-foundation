@@ -70,8 +70,8 @@ a { color: inherit; text-decoration: none; }
 .about-intro .text h2 { font-size: 32px; font-weight: 700; line-height: 1.4; margin-bottom: 24px; }
 .about-intro .text h2 em { font-style: italic; color: var(--brand); }
 .about-intro .text p { font-size: 17px; color: var(--muted); line-height: 2; margin-bottom: 16px; }
-.about-intro .visual { background: linear-gradient(135deg, #e8f0fe, #fce8ee); border-radius: 12px; height: 360px; display: flex; align-items: center; justify-content: center; }
-.about-intro .visual .big-text { font-family: "Playfair Display", serif; font-style: italic; font-size: 72px; font-weight: 700; color: var(--brand); opacity: 0.15; }
+.about-intro .visual { border-radius: 12px; height: 400px; overflow: hidden; }
+.about-intro .visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .values-list { margin-top: 56px; }
 .value-row { display: grid; grid-template-columns: 56px 220px 1fr; align-items: start; gap: 48px; padding: 40px 0; border-top: 1px solid #e8e8e8; }
@@ -155,9 +155,8 @@ a { color: inherit; text-decoration: none; }
 .project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
   background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
-/* 소개 제목: 한 덩어리로 편집, 첫 줄 검정 · 둘째 줄 파랑 */
-.about-intro .text h2.two-tone { color: var(--brand); }
-.about-intro .text h2.two-tone::first-line { color: var(--text); }
+/* 소개 제목 */
+.about-intro .text h2.two-tone { color: var(--navy); font-size: 36px; }
 </style>
 </head>
 <body>
@@ -227,7 +226,7 @@ a { color: inherit; text-decoration: none; }
           </p>
         </div>
         <div class="visual">
-          <span class="big-text">FCO</span>
+          <img src="images/brush-ink-poster.jpg" alt="FCO 기독교창의지원재단">
         </div>
       </div>
     </div>
