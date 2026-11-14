@@ -1002,10 +1002,12 @@ async function loadHero() {
     h = data?.value;
   } catch (e) { console.error(e); }
   // 이전 단일 형식 / 슬라이드 형식 모두 지원
+  // 세로 높이 = (화면 높이 − 헤더) × 설정값%. CSS 최소 높이(640px)가 덮어쓰지 않도록 최소값도 함께 낮춘다
   if (h?.height && h.height !== 100) {
     const navH = document.querySelector('.site-header')?.offsetHeight || 88;
-    hero.style.height = `calc(${h.height}vh - ${navH}px)`;
-    hero.style.minHeight = '';
+    const r = Math.min(100, Math.max(30, Number(h.height))) / 100;
+    hero.style.height = `calc((100vh - ${navH}px) * ${r})`;
+    hero.style.minHeight = `${Math.round(640 * r)}px`;
   }
   const overlayEl = document.getElementById('heroOverlay');
   const subEl = document.getElementById('heroSub');
