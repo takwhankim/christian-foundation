@@ -170,7 +170,7 @@
     sbar.innerHTML = `
       <span>크기</span><button data-s="dec" title="작게">−</button><input type="number" min="8" max="160" data-s="size"><button data-s="inc" title="크게">+</button>
       <span class="sep"></span><span>행간</span><button data-s="lhdec" title="행간 좁게">−</button><input type="number" min="0.8" max="3" step="0.1" data-s="lh" style="width:52px"><button data-s="lhinc" title="행간 넓게">+</button>
-      <span class="sep"></span><span>아래 간격</span><button data-s="mbdec" title="아래 간격 좁게">−</button><input type="number" min="0" max="200" step="2" data-s="mb" style="width:52px"><button data-s="mbinc" title="아래 간격 넓게">+</button>
+      <span class="sep"></span><span>아래 간격</span><button data-s="mbdec" title="아래 간격 좁게">−</button><input type="number" min="-150" max="200" step="2" data-s="mb" style="width:52px" title="0보다 작게 하면 아래 내용이 위로 당겨집니다"><button data-s="mbinc" title="아래 간격 넓게">+</button>
       <span class="sep"></span><button data-s="bold" title="굵게 (700)">B</button><button data-s="normal" title="일반 (400)" style="font-weight:400">B</button>
       <span class="sep"></span><button data-s="italic" title="이탤릭" style="font-style:italic">I</button>
       <span class="sep"></span>${SWATCHES.map(c => `<button class="sw" data-s="color" data-c="${c}" style="background:${c}" title="${c}"></button>`).join('')}
@@ -191,7 +191,7 @@
       const lh = parseFloat(cs.lineHeight), fs = parseFloat(cs.fontSize);
       return isNaN(lh) ? 1.2 : lh / fs;
     }
-    const setMb = v => setStyle(cur, { marginBottom: Math.round(Math.min(200, Math.max(0, v))) + 'px' });
+    const setMb = v => setStyle(cur, { marginBottom: Math.round(Math.min(200, Math.max(-150, v))) + 'px' });
     const setLh = v => setStyle(cur, { lineHeight: String(Math.round(Math.min(3, Math.max(0.8, v)) * 10) / 10) });
     function syncBar() {
       if (!cur) return;
