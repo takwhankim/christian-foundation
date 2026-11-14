@@ -1049,7 +1049,7 @@ async function loadHero() {
         el = document.createElement('img'); el.alt = ''; if (i > 0) el.loading = 'lazy';
       } else {
         el = document.createElement('video');
-        el.muted = true; el.loop = true; el.playsInline = true;
+        el.muted = true; el.loop = slides.length < 2; el.playsInline = true;  // 여러 장이면 끝까지 재생 후 다음 화면으로
         el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
         el.preload = i === 0 ? 'auto' : 'metadata';
         if (sl.poster) el.poster = sl.poster;
@@ -1092,11 +1092,33 @@ async function loadHero() {
       if (subEl) subEl.classList.remove('swap');
     }, 500);
   };
+  // 다음 화면으로 넘기는 시점: 이미지·색상 = 전환 간격, 영상 = 끝까지 재생된 뒤(ended)
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const start = () => { if (!reduce) timer = setInterval(() => go((cur + 1) % slides.length), Math.max(3, h.interval || 6) * 1000); };
-  [...dots.children].forEach((b, i) => b.addEventListener('click', () => { clearInterval(timer); go(i); start(); }));
-  document.addEventListener('visibilitychange', () => { clearInterval(timer); if (!document.hidden) start(); });
-  start();
+  const ms = Math.max(3, h.interval || 6) * 1000;
+  const next = () => { go((cur + 1) % slides.length); schedule(); };
+  const schedule = () => {
+    clearTimeout(timer);
+    if (reduce || document.hidden) return;
+    const vid = layers[cur].querySelector('video');
+    if (!vid) { timer = setTimeout(next, ms); return; }
+    // 안전장치: 영상을 못 불러오거나 멈추면 길이+5초(길이 모르면 3분) 뒤 넘어감
+    const d = isFinite(vid.duration) && vid.duration > 0 ? vid.duration : 180;
+    timer = setTimeout(next, (d - vid.currentTime + 5) * 1000);
+  };
+  layers.forEach((l, i) => {
+    const v = l.querySelector('video');
+    if (!v) return;
+    v.addEventListener('ended', () => { if (i === cur) next(); });
+    v.addEventListener('loadedmetadata', () => { if (i === cur) schedule(); });
+    v.addEventListener('error', () => { if (i === cur) { clearTimeout(timer); timer = setTimeout(next, ms); } });
+  });
+  [...dots.children].forEach((b, i) => b.addEventListener('click', () => { go(i); schedule(); }));
+  document.addEventListener('visibilitychange', () => {
+    const v = layers[cur].querySelector('video');
+    if (!document.hidden && v && v.paused) v.play().catch(() => {});
+    schedule();
+  });
+  schedule();
 }
 loadHero();
 
