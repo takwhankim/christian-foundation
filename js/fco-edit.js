@@ -230,11 +230,11 @@
       if (b.dataset.s === 'color') setStyle(cur, { color: b.dataset.c });
       if (b.dataset.s === 'reset') { delete cur.dataset.fcoStyle; applyStyle(cur, null); cur.dataset.fcoDirty = '1'; dirty.add(cur); render(); syncBar(); }
     });
-    sbar.querySelector('[data-s=size]').addEventListener('change', e => {
+    sbar.querySelector('[data-s=size]').addEventListener('input', e => {
       const v = Math.min(160, Math.max(8, parseInt(e.target.value, 10) || 0)); if (cur && v) setStyle(cur, { fontSize: v + 'px' });
     });
-    sbar.querySelector('[data-s=mb]').addEventListener('change', e => { const v = parseFloat(e.target.value); if (cur && !isNaN(v)) setMb(v); });
-    sbar.querySelector('[data-s=lh]').addEventListener('change', e => { const v = parseFloat(e.target.value); if (cur && v) setLh(v); });
+    sbar.querySelector('[data-s=mb]').addEventListener('input', e => { const v = parseFloat(e.target.value); if (cur && !isNaN(v)) setMb(v); });
+    sbar.querySelector('[data-s=lh]').addEventListener('input', e => { const v = parseFloat(e.target.value); if (cur && v) setLh(v); });
     sbar.querySelector('[data-s=pick]').addEventListener('input', e => { if (cur) setStyle(cur, { color: e.target.value }); });
     window.addEventListener('scroll', placeBar, { passive: true });
     window.addEventListener('resize', placeBar);
