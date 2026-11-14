@@ -60,3 +60,38 @@
   setTimeout(fit, 1600);   // 관리자 수정본(page_content) 적용 뒤 한 번 더
   setTimeout(fit, 3500);
 })();
+
+// 모바일 메뉴: 하위 메뉴가 있는 항목(사업소개·후원)을 누르면 이동하지 않고 하위 메뉴를 펼치거나 접는다.
+// 상위 페이지가 하위 목록에 없으면(사업소개 → projects.html) 맨 위에 '전체 보기' 링크를 넣어 그대로 갈 수 있게 한다.
+// PC(901px 이상)에서는 기존처럼 마우스를 올리면 펼쳐지고, 누르면 이동한다.
+(function () {
+  const MOBILE = 900;
+  function prepare() {
+    document.querySelectorAll('.site-header .nav-links .has-sub').forEach(function (li) {
+      if (li.dataset.subReady) return;
+      li.dataset.subReady = '1';
+      const top = li.querySelector(':scope > a');
+      const sub = li.querySelector(':scope > .sub-menu');
+      if (!top || !sub) return;
+      const href = top.getAttribute('href');
+      const has = [...sub.querySelectorAll('a')].some(a => a.getAttribute('href') === href);
+      if (!has) {
+        const item = document.createElement('li');
+        item.className = 'sub-all';
+        item.innerHTML = '<a href="' + href + '">' + top.textContent.trim() + ' 전체 보기</a>';
+        sub.insertBefore(item, sub.firstChild);
+      }
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (window.innerWidth > MOBILE) return;
+    const top = e.target.closest('.site-header .nav-links .has-sub > a');
+    if (!top) return;
+    e.preventDefault();
+    const li = top.parentElement;
+    const willOpen = !li.classList.contains('sub-open');
+    li.parentElement.querySelectorAll(':scope > .has-sub.sub-open').forEach(x => x.classList.remove('sub-open'));
+    if (willOpen) li.classList.add('sub-open');
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', prepare); else prepare();
+})();

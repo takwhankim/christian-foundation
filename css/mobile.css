@@ -7,6 +7,9 @@
 .hk-hero .btn-primary { background: #2563EB !important; color: #fff !important; border-color: #2563EB !important; }
 .hk-hero .btn-primary:hover { background: #1D4ED8 !important; color: #fff !important; border-color: #1D4ED8 !important; }
 
+/* 모바일 메뉴용 '전체 보기' 링크는 PC 드롭다운에서는 숨김 */
+.nav-links .sub-menu .sub-all { display: none; }
+
 @media (max-width: 900px) {
   /* 한글 제목이 글자 중간에서 끊기지 않게 (프로젝/트, 심어주세/요 방지) */
   h1, h2, h3, h4, .tm { word-break: keep-all; overflow-wrap: break-word; }
@@ -18,6 +21,18 @@
   .site-header .nav-links.open > li > a.nav-pill { display: inline-block; padding: 8px 20px; margin-top: 8px; }
   .site-header .nav-links.open .sub-menu { padding: 0 0 4px 14px !important; margin: 0 !important; text-align: left !important; }
   .site-header .nav-links.open .sub-menu a { padding: 8px 0 !important; text-align: left !important; }
+
+  /* 하위 메뉴(사업소개·후원)는 접힌 상태로 시작, 상위 메뉴를 누르면 펼침 (js/fco-fit.js) */
+  .site-header .nav-links.open .has-sub > .sub-menu { display: none !important; }
+  .site-header .nav-links.open .has-sub.sub-open > .sub-menu { display: block !important; }
+  .site-header .nav-links.open .sub-menu .sub-all { display: block; }
+  .site-header .nav-links.open .has-sub > a { display: flex !important; justify-content: space-between; align-items: center; }
+  .site-header .nav-links.open .has-sub > a::after {
+    content: "" !important; width: 9px; height: 9px; margin: 0 4px 0 0;
+    border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-3px); transition: transform .2s;
+  }
+  .site-header .nav-links.open .has-sub.sub-open > a::after { transform: rotate(-135deg) translate(-3px, 0); }
 
   /* 페이지 안 탭 메뉴(재단소개·보도자료): 한 줄 유지, 넘치면 가로로 밀어서 보기 */
   .sub-nav ul { flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
