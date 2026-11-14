@@ -1,0 +1,27 @@
+/* ============================================================
+   모바일 공통 보정 (모든 공개 페이지 </head> 직전에 연결)
+   PC 화면(901px 이상)은 건드리지 않는다. 단, 해커톤 히어로 버튼은 모든 화면.
+   ============================================================ */
+
+/* 해커톤 히어로: 노란 바탕 위 노란 버튼이 보이지 않던 문제 → 파란 버튼 */
+.hk-hero .btn-primary { background: #2563EB !important; color: #fff !important; border-color: #2563EB !important; }
+.hk-hero .btn-primary:hover { background: #1D4ED8 !important; color: #fff !important; border-color: #1D4ED8 !important; }
+
+@media (max-width: 900px) {
+  /* 한글 제목이 글자 중간에서 끊기지 않게 (프로젝/트, 심어주세/요 방지) */
+  h1, h2, h3, h4, .tm { word-break: keep-all; overflow-wrap: break-word; }
+
+  /* 모바일 메뉴: 모든 항목 왼쪽 정렬, 하위 메뉴는 같은 들여쓰기 */
+  .site-header .nav-links.open { align-items: stretch !important; text-align: left !important; gap: 4px !important; padding: 12px 24px 24px !important; }
+  .site-header .nav-links.open > li { width: 100%; text-align: left !important; }
+  .site-header .nav-links.open > li > a { display: block; padding: 10px 0; text-align: left !important; }
+  .site-header .nav-links.open > li > a.nav-pill { display: inline-block; padding: 8px 20px; margin-top: 8px; }
+  .site-header .nav-links.open .sub-menu { padding: 0 0 4px 14px !important; margin: 0 !important; text-align: left !important; }
+  .site-header .nav-links.open .sub-menu a { padding: 8px 0 !important; text-align: left !important; }
+
+  /* 페이지 안 탭 메뉴(재단소개·보도자료): 한 줄 유지, 넘치면 가로로 밀어서 보기 */
+  .sub-nav ul { flex-wrap: nowrap !important; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .sub-nav ul::-webkit-scrollbar { display: none; }
+  .sub-nav ul li { flex-shrink: 0; }
+  .sub-nav ul li a { white-space: nowrap; padding: 0 14px !important; }
+}
