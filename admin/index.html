@@ -303,14 +303,7 @@ td.clickable:hover { text-decoration: underline; }
         <h2>프로젝트</h2>
         <button class="btn btn-primary" onclick="openProjectModal()">+ 프로젝트 추가</button>
       </div>
-      <div class="settings-card" style="margin-bottom:20px">
-        <h3>영역 제목</h3>
-        <div class="form-row">
-          <div class="form-group"><label>제목 (큰 글씨)</label><input type="text" id="psTitle" placeholder="2027' FCO PROJECT"></div>
-          <div class="form-group"><label>부제 (제목 아래 작은 글씨)</label><input type="text" id="psLabel" placeholder="CREATIVE ON ORIGINALITY"></div>
-        </div>
-        <button class="btn btn-primary" onclick="saveProjectSection()">제목 저장</button>
-      </div>
+      <p class="help" style="margin:0 0 16px">영역 제목("2027' FCO PROJECT / CREATIVE ON ORIGINALITY")은 홈페이지에서 ✏️ 페이지 편집으로 고칩니다.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>순서</th><th>이미지</th><th>제목</th><th>설명</th><th>링크</th><th>공개</th><th>관리</th></tr></thead>
@@ -1025,9 +1018,6 @@ async function loadProjects() {
   const { data, error } = await db.from('projects').select('*').order('sort_order').order('id');
   if (error) return fail(error);
   state.projects = data;
-  const ps = await getSetting('projects_section') || {};
-  document.getElementById('psLabel').value = ps.label || '';
-  document.getElementById('psTitle').value = ps.title || '';
   renderProjects();
 }
 function renderProjects() {
