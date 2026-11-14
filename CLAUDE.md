@@ -9,7 +9,7 @@
 ## 구조
 - 정적 HTML: `index.html` `about.html` `projects.html` `news.html` `support.html` `apply.html` `hackathon.html`, 관리자 `admin/`
 - `js/supabase-config.js` (Supabase URL + publishable key — 공개 가능한 값), `js/fco-db.js` (공통 헬퍼), `js/fco-edit.js` (관리자 페이지 직접 편집)
-- `supabase/*.sql` — DB 스키마. **DB 변경은 사용자가 Supabase 대시보드 SQL Editor 에서 실행**(service key·DB 비밀번호는 받지 않음). 새 SQL 은 `pbcopy` 로 클립보드에 넣어 안내.
+- `supabase/*.sql` — DB 스키마. **DB 변경은 사용자가 Supabase 대시보드 SQL Editor 에서 실행**(service key·DB 비밀번호는 받지 않음). 새 SQL 은 `pbcopy` 로 클립보드에 넣고 **채팅에도 SQL 전문을 함께 보여줄 것**(클립보드는 그 컴퓨터에만 있음 — 다른 Mac에서 ⌘V 하면 엉뚱한 SQL이 들어감, 11-14 사례). 실행 후 반드시 DB에서 적용 여부 확인.
   - `schema.sql`(테이블·RLS·권한) → `02_hero_projects.sql`(히어로·프로젝트·storage `site-media`) → `03_page_content.sql`(페이지 글 편집)
   - 새 Supabase 프로젝트는 테이블 GRANT 가 자동이 아님 → 새 테이블마다 grant 필수
   - ⚠️ **DB 컬럼/테이블이 새로 필요한 변경은 사용자가 SQL을 실행한 것을 확인한 뒤에 페이지를 push** (먼저 push하면 폼이 오류 남 — 11-13 기도후원 이메일 사례)
