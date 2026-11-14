@@ -94,6 +94,36 @@
     }
     return [255, 255, 255];
   }
+  // 행간 보정: line-height 는 줄 사이뿐 아니라 첫 줄 위·마지막 줄 아래 여백까지 바꾸므로,
+  // 바깥 여백(margin)으로 그만큼 되돌려 '줄 사이 간격'만 바뀌게 한다.
+  function textEdges(el) {
+    const r = document.createRange(), rects = [];
+    const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let n = tw.nextNode(); n; n = tw.nextNode()) { if (!n.textContent.trim()) continue; r.selectNodeContents(n); rects.push(...r.getClientRects()); }
+    if (!rects.length) return null;
+    const b = el.getBoundingClientRect();
+    return { top: Math.min(...rects.map(x => x.top)) - b.top, bot: b.bottom - Math.max(...rects.map(x => x.bottom)) };
+  }
+  function compensateLineHeight(el, st) {
+    el.style.removeProperty('margin-top'); el.style.removeProperty('padding-top'); el.style.removeProperty('padding-bottom');
+    if (!st || !st.lineHeight) return;
+    const lh = el.style.getPropertyValue('line-height');
+    el.style.removeProperty('line-height');
+    const mb = el.style.getPropertyValue('margin-bottom'); el.style.removeProperty('margin-bottom');
+    const cs0 = getComputedStyle(el), mt0 = parseFloat(cs0.marginTop) || 0, mbBase = parseFloat(cs0.marginBottom) || 0;
+    const e0 = textEdges(el);
+    el.style.setProperty('line-height', lh, 'important');
+    const e1 = textEdges(el);
+    const mbUser = st.marginBottom ? parseFloat(st.marginBottom) : mbBase;
+    if (!e0 || !e1) { if (mb) el.style.setProperty('margin-bottom', mb, 'important'); return; }
+    // 늘어난 만큼은 padding(바깥 여백과 겹쳐 사라지지 않음), 줄어든 만큼은 음수 margin 으로 보정
+    const dTop = e0.top - e1.top, dBot = e0.bot - e1.bot;
+    const pt0 = parseFloat(cs0.paddingTop) || 0, pb0 = parseFloat(cs0.paddingBottom) || 0;
+    if (dTop >= 0) el.style.setProperty('padding-top', (pt0 + dTop) + 'px', 'important');
+    else el.style.setProperty('margin-top', (mt0 + dTop) + 'px', 'important');
+    if (dBot >= 0) { el.style.setProperty('padding-bottom', (pb0 + dBot) + 'px', 'important'); if (st.marginBottom) el.style.setProperty('margin-bottom', st.marginBottom, 'important'); }
+    else el.style.setProperty('margin-bottom', (mbUser + dBot) + 'px', 'important');
+  }
   function applyStyle(el, st) {
     STYLE_KEYS.forEach(k => {
       const v = st && st[k];
@@ -107,6 +137,7 @@
       const d = Math.hypot(fg[0] - bg[0], fg[1] - bg[1], fg[2] - bg[2]);
       if (d < 60) { el.style.removeProperty('color'); el.dataset.fcoColorSkipped = st.color; }
     }
+    compensateLineHeight(el, st);
   }
 
   // 저장된 수정 내용 적용 (이 브라우저에 기억해 둔 것 먼저 → DB 최신본으로 갱신)
@@ -126,6 +157,10 @@
       if (norm(r.content) !== r.original) setText(el, r.content);
       if (r.style) { applyStyle(el, r.style); el.dataset.fcoStyle = JSON.stringify(r.style); }
       el.dataset.fcoSaved = '1'; applied.add(r.key);
+    });
+    // 글꼴이 다 불러와진 뒤 행간 보정을 한 번 더 (글꼴에 따라 줄 높이가 달라지므로)
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
+      rows.forEach(r => { const el = byKey[r.key]; if (el && r.style && r.style.lineHeight) compensateLineHeight(el, r.style); });
     });
   }
   try {
@@ -216,6 +251,16 @@
       const lh = parseFloat(cs.lineHeight), fs = parseFloat(cs.fontSize);
       return isNaN(lh) ? 1.2 : lh / fs;
     }
+    // 아래 간격 기준값: 직접 지정한 값, 없으면 사이트 기본 여백 (행간 보정분은 제외)
+    function baseMb(el) {
+      const st = getStyle(el);
+      if (st.marginBottom) return parseFloat(st.marginBottom) || 0;
+      const inl = el.style.getPropertyValue('margin-bottom'), pr = el.style.getPropertyPriority('margin-bottom');
+      el.style.removeProperty('margin-bottom');
+      const v = parseFloat(getComputedStyle(el).marginBottom) || 0;
+      if (inl) el.style.setProperty('margin-bottom', inl, pr);
+      return Math.round(v);
+    }
     const setMb = v => setStyle(cur, { marginBottom: Math.round(Math.min(200, Math.max(-150, v))) + 'px' });
     const setLh = v => setStyle(cur, { lineHeight: String(Math.round(Math.min(3, Math.max(0.8, v)) * 10) / 10) });
     function syncBar() {
@@ -225,7 +270,7 @@
       sbar.querySelector('[data-s=bold]').classList.toggle('on', parseInt(cs.fontWeight, 10) >= 600);
       sbar.querySelector('[data-s=lh]').value = lhRatio(cur).toFixed(1);
       sbar.querySelector('[data-s=font]').value = getStyle(cur).fontFamily || 'Pretendard';
-      sbar.querySelector('[data-s=mb]').value = Math.round(parseFloat(getComputedStyle(cur).marginBottom) || 0);
+      sbar.querySelector('[data-s=mb]').value = baseMb(cur);
       sbar.querySelector('[data-s=normal]').classList.toggle('on', parseInt(cs.fontWeight, 10) < 600);
       sbar.querySelector('[data-s=italic]').classList.toggle('on', cs.fontStyle === 'italic');
       const rgb = cs.color.match(/\d+/g) || [0, 0, 0];
@@ -246,8 +291,8 @@
       const size = parseFloat(getComputedStyle(cur).fontSize);
       if (b.dataset.s === 'dec') setStyle(cur, { fontSize: Math.max(8, Math.round(size) - 1) + 'px' });
       if (b.dataset.s === 'inc') setStyle(cur, { fontSize: Math.min(160, Math.round(size) + 1) + 'px' });
-      if (b.dataset.s === 'mbdec') setMb((parseFloat(getComputedStyle(cur).marginBottom) || 0) - 2);
-      if (b.dataset.s === 'mbinc') setMb((parseFloat(getComputedStyle(cur).marginBottom) || 0) + 2);
+      if (b.dataset.s === 'mbdec') setMb(baseMb(cur) - 2);
+      if (b.dataset.s === 'mbinc') setMb(baseMb(cur) + 2);
       if (b.dataset.s === 'lhdec') setLh(lhRatio(cur) - 0.1);
       if (b.dataset.s === 'lhinc') setLh(lhRatio(cur) + 0.1);
       if (b.dataset.s === 'bold') setStyle(cur, { fontWeight: '700' });
