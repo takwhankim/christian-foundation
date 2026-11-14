@@ -105,24 +105,22 @@
     return { top: Math.min(...rects.map(x => x.top)) - b.top, bot: b.bottom - Math.max(...rects.map(x => x.bottom)) };
   }
   function compensateLineHeight(el, st) {
-    el.style.removeProperty('margin-top'); el.style.removeProperty('padding-top'); el.style.removeProperty('padding-bottom');
+    // 행간을 바꿔도 첫 줄 위치와 글 박스 아래(=아래 콘텐츠 위치)는 그대로, 줄 사이만 바뀌게
+    ['margin-top', 'padding-top', 'padding-bottom'].forEach(p => el.style.removeProperty(p));
     if (!st || !st.lineHeight) return;
     const lh = el.style.getPropertyValue('line-height');
     el.style.removeProperty('line-height');
-    const mb = el.style.getPropertyValue('margin-bottom'); el.style.removeProperty('margin-bottom');
-    const cs0 = getComputedStyle(el), mt0 = parseFloat(cs0.marginTop) || 0, mbBase = parseFloat(cs0.marginBottom) || 0;
-    const e0 = textEdges(el);
+    const cs0 = getComputedStyle(el);
+    const mt0 = parseFloat(cs0.marginTop) || 0, pt0 = parseFloat(cs0.paddingTop) || 0, pb0 = parseFloat(cs0.paddingBottom) || 0;
+    const e0 = textEdges(el), h0 = el.getBoundingClientRect().height;
     el.style.setProperty('line-height', lh, 'important');
     const e1 = textEdges(el);
-    const mbUser = st.marginBottom ? parseFloat(st.marginBottom) : mbBase;
-    if (!e0 || !e1) { if (mb) el.style.setProperty('margin-bottom', mb, 'important'); return; }
-    // 늘어난 만큼은 padding(바깥 여백과 겹쳐 사라지지 않음), 줄어든 만큼은 음수 margin 으로 보정
-    const dTop = e0.top - e1.top, dBot = e0.bot - e1.bot;
-    const pt0 = parseFloat(cs0.paddingTop) || 0, pb0 = parseFloat(cs0.paddingBottom) || 0;
+    if (!e0 || !e1) return;
+    const dTop = e0.top - e1.top;                       // 첫 줄 위 여백 변화 → 되돌림
     if (dTop >= 0) el.style.setProperty('padding-top', (pt0 + dTop) + 'px', 'important');
     else el.style.setProperty('margin-top', (mt0 + dTop) + 'px', 'important');
-    if (dBot >= 0) { el.style.setProperty('padding-bottom', (pb0 + dBot) + 'px', 'important'); if (st.marginBottom) el.style.setProperty('margin-bottom', st.marginBottom, 'important'); }
-    else el.style.setProperty('margin-bottom', (mbUser + dBot) + 'px', 'important');
+    const h1 = el.getBoundingClientRect().height;      // 줄어든 높이만큼 아래를 채워 박스 높이 유지
+    if (h1 < h0) el.style.setProperty('padding-bottom', (pb0 + h0 - h1) + 'px', 'important');
   }
   function applyStyle(el, st) {
     STYLE_KEYS.forEach(k => {
