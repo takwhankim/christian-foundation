@@ -187,6 +187,10 @@ a { color: inherit; text-decoration: none; }
 .prayer-done .links a { padding: 12px 22px; border-radius: 999px; border: 1px solid #dfe5f7; color: #1a1f3c; font-weight: 700; text-decoration: none; }
 .prayer-done .links a.pri { background: var(--key); border-color: var(--key); color: var(--key-ink); }
 @media (max-width: 600px) { .prayer-card { padding: 28px 22px; } }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-prayer-1, h2.tm.tm-prayer-1, .page-hero h1.tm.tm-prayer-1, .award-label h2.tm.tm-prayer-1{display:block;text-align:left;font-size:17px;font-weight:400;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 0px;}
+h1.tm.tm-prayer-1::first-line, h2.tm.tm-prayer-1::first-line, .page-hero h1.tm.tm-prayer-1::first-line, .award-label h2.tm.tm-prayer-1::first-line{font-size:2.471em;font-weight:700;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -222,8 +226,7 @@ a { color: inherit; text-decoration: none; }
 <div class="page-hero">
   <div class="container">
     <p class="breadcrumb">HOME · 후원 · 기도후원</p>
-    <h1>기도후원</h1>
-    <p>기도로 기독교 창작자들과 함께해 주세요.</p>
+    <h1 class="tm tm-prayer-1">기도후원<br>기도로 기독교 창작자들과 함께해 주세요.</h1>
   </div>
 </div>
 
@@ -329,6 +332,6 @@ async function submitPrayer() {
 }
 document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
 </script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

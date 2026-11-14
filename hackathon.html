@@ -302,6 +302,10 @@ img { max-width: 100%; }
 .project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
   background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-hackathon-1, h2.tm.tm-hackathon-1, .page-hero h1.tm.tm-hackathon-1, .award-label h2.tm.tm-hackathon-1{display:block;text-align:center;font-size:18px;font-weight:400;color:rgba(255,255,255,0.70);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 48px;}
+h1.tm.tm-hackathon-1::first-line, h2.tm.tm-hackathon-1::first-line, .page-hero h1.tm.tm-hackathon-1::first-line, .award-label h2.tm.tm-hackathon-1::first-line{font-size:2.222em;font-weight:800;color:rgb(255,255,255);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -1056,8 +1060,7 @@ img { max-width: 100%; }
 <!-- ── BOTTOM CTA ── -->
 <section class="hk-bottom-cta">
   <div class="container">
-    <h2>지금 바로 시작하세요</h2>
-    <p>현장의 문제를 알고 있다면 먼저 제안해 주세요.<br>함께 해결책을 만들 준비가 된 분들의 신청을 기다립니다.</p>
+    <h2 class="tm tm-hackathon-1">지금 바로 시작하세요<br>현장의 문제를 알고 있다면 먼저 제안해 주세요.<br>함께 해결책을 만들 준비가 된 분들의 신청을 기다립니다.</h2>
     <div class="cta-buttons">
       <a href="#" class="cta-primary" onclick="goTab('apply');scrollToForm('challengeFormWrap');return false;">선교 현장 문제 제안하기</a>
       <a href="#" class="cta-secondary" onclick="goTab('apply');scrollToForm('applyFormWrap');return false;">해커톤 참여 신청하기</a>
@@ -1237,6 +1240,6 @@ document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
 });
 </script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

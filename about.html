@@ -157,6 +157,18 @@ a { color: inherit; text-decoration: none; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
 /* 소개 제목 */
 .about-intro .text h2.two-tone { color: var(--navy); font-size: 36px; }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-about-1, h2.tm.tm-about-1, .page-hero h1.tm.tm-about-1, .award-label h2.tm.tm-about-1{display:block;text-align:left;font-size:17px;font-weight:400;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 0px;}
+h1.tm.tm-about-1::first-line, h2.tm.tm-about-1::first-line, .page-hero h1.tm.tm-about-1::first-line, .award-label h2.tm.tm-about-1::first-line{font-size:2.471em;font-weight:700;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;}
+h1.tm.tm-about-2, h2.tm.tm-about-2, .page-hero h1.tm.tm-about-2, .award-label h2.tm.tm-about-2{display:block;text-align:left;font-size:26px;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 8px;}
+h1.tm.tm-about-2::first-line, h2.tm.tm-about-2::first-line, .page-hero h1.tm.tm-about-2::first-line, .award-label h2.tm.tm-about-2::first-line{font-size:0.423em;font-weight:700;color:rgb(37,99,235);letter-spacing:1.54px;text-transform:uppercase;}
+h1.tm.tm-about-3, h2.tm.tm-about-3, .page-hero h1.tm.tm-about-3, .award-label h2.tm.tm-about-3{display:block;text-align:left;font-size:14px;font-weight:400;color:rgb(102,102,102);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 40px;}
+h1.tm.tm-about-3::first-line, h2.tm.tm-about-3::first-line, .page-hero h1.tm.tm-about-3::first-line, .award-label h2.tm.tm-about-3::first-line{font-size:1.857em;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;}
+h1.tm.tm-about-4, h2.tm.tm-about-4, .page-hero h1.tm.tm-about-4, .award-label h2.tm.tm-about-4{display:block;text-align:left;font-size:14px;font-weight:400;color:rgb(102,102,102);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 40px;}
+h1.tm.tm-about-4::first-line, h2.tm.tm-about-4::first-line, .page-hero h1.tm.tm-about-4::first-line, .award-label h2.tm.tm-about-4::first-line{font-size:1.857em;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;}
+h1.tm.tm-about-5, h2.tm.tm-about-5, .page-hero h1.tm.tm-about-5, .award-label h2.tm.tm-about-5{display:block;text-align:left;font-size:14px;font-weight:400;color:rgb(102,102,102);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 40px;}
+h1.tm.tm-about-5::first-line, h2.tm.tm-about-5::first-line, .page-hero h1.tm.tm-about-5::first-line, .award-label h2.tm.tm-about-5::first-line{font-size:1.857em;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -192,8 +204,7 @@ a { color: inherit; text-decoration: none; }
 <div class="page-hero">
   <div class="container">
     <p class="breadcrumb">HOME · 재단소개</p>
-    <h1>재단소개</h1>
-    <p>FCO 기독교창의지원재단은 그리스도의 사랑으로 창의성을 세상에 흘려보냅니다.</p>
+    <h1 class="tm tm-about-1">재단소개<br>FCO 기독교창의지원재단은 그리스도의 사랑으로 창의성을 세상에 흘려보냅니다.</h1>
   </div>
 </div>
 
@@ -234,8 +245,7 @@ a { color: inherit; text-decoration: none; }
 
   <section class="section" id="values">
     <div class="container">
-      <span class="section-label">CORE VALUES</span>
-      <h2 class="section-title">핵심 가치</h2>
+      <h2 class="tm tm-about-2">CORE VALUES<br>핵심 가치</h2>
       <div class="values-list">
         <div class="value-row">
           <div class="vr-index">01</div>
@@ -258,8 +268,7 @@ a { color: inherit; text-decoration: none; }
 
   <section class="section" id="history">
     <div class="container">
-      <h2 class="section-title">연혁</h2>
-      <p class="section-sub">FCO 기독교창의지원재단의 발자취입니다.</p>
+      <h2 class="tm tm-about-3">연혁<br>FCO 기독교창의지원재단의 발자취입니다.</h2>
       <div class="history-list">
         <div class="history-year">
           <div class="year">2024</div>
@@ -285,8 +294,7 @@ a { color: inherit; text-decoration: none; }
 
   <section class="section" id="team" style="background:#fafafa;">
     <div class="container">
-      <h2 class="section-title">임원진</h2>
-      <p class="section-sub">FCO 기독교창의지원재단을 이끄는 분들입니다.</p>
+      <h2 class="tm tm-about-4">임원진<br>FCO 기독교창의지원재단을 이끄는 분들입니다.</h2>
       <div class="team-grid">
         <div class="team-card">
           <h4>이사장</h4>
@@ -310,8 +318,7 @@ a { color: inherit; text-decoration: none; }
 
   <section class="section" id="partners">
     <div class="container">
-      <h2 class="section-title">협력단체</h2>
-      <p class="section-sub">FCO 기독교창의지원재단과 함께하는 기관입니다.</p>
+      <h2 class="tm tm-about-5">협력단체<br>FCO 기독교창의지원재단과 함께하는 기관입니다.</h2>
       <ul class="partner-grid">
         <li>CBS</li>
         <li>NCCK</li>
@@ -344,6 +351,6 @@ document.getElementById('navToggle').addEventListener('click', function() {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-config.js?v=94bf76e2"></script>
 <script src="js/fco-db.js?v=3c440196"></script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

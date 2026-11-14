@@ -128,6 +128,22 @@ a { color: inherit; text-decoration: none; }
 .project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
   background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-projects-1, h2.tm.tm-projects-1, .page-hero h1.tm.tm-projects-1, .award-label h2.tm.tm-projects-1{display:block;text-align:left;font-size:17px;font-weight:400;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 0px;}
+h1.tm.tm-projects-1::first-line, h2.tm.tm-projects-1::first-line, .page-hero h1.tm.tm-projects-1::first-line, .award-label h2.tm.tm-projects-1::first-line{font-size:2.471em;font-weight:700;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;}
+h1.tm.tm-projects-2, h2.tm.tm-projects-2, .page-hero h1.tm.tm-projects-2, .award-label h2.tm.tm-projects-2{display:block;text-align:center;font-size:15px;font-weight:400;color:rgb(102,102,102);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 56px;}
+h1.tm.tm-projects-2::first-line, h2.tm.tm-projects-2::first-line, .page-hero h1.tm.tm-projects-2::first-line, .award-label h2.tm.tm-projects-2::first-line{font-size:1.867em;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;}
+h1.tm.tm-projects-3, h2.tm.tm-projects-3, .page-hero h1.tm.tm-projects-3, .award-label h2.tm.tm-projects-3{display:block;text-align:left;font-size:30px;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;line-height:1.3;margin:0 0 20px;}
+h1.tm.tm-projects-3::first-line, h2.tm.tm-projects-3::first-line, .page-hero h1.tm.tm-projects-3::first-line, .award-label h2.tm.tm-projects-3::first-line{font-size:0.367em;font-weight:600;color:rgb(37,99,235);letter-spacing:1.65px;text-transform:uppercase;}
+h1.tm.tm-projects-4, h2.tm.tm-projects-4, .page-hero h1.tm.tm-projects-4, .award-label h2.tm.tm-projects-4{display:block;text-align:left;font-size:30px;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;line-height:1.3;margin:0 0 20px;}
+h1.tm.tm-projects-4::first-line, h2.tm.tm-projects-4::first-line, .page-hero h1.tm.tm-projects-4::first-line, .award-label h2.tm.tm-projects-4::first-line{font-size:0.367em;font-weight:600;color:rgb(37,99,235);letter-spacing:1.65px;text-transform:uppercase;}
+h1.tm.tm-projects-5, h2.tm.tm-projects-5, .page-hero h1.tm.tm-projects-5, .award-label h2.tm.tm-projects-5{display:block;text-align:left;font-size:30px;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;line-height:1.3;margin:0 0 20px;}
+h1.tm.tm-projects-5::first-line, h2.tm.tm-projects-5::first-line, .page-hero h1.tm.tm-projects-5::first-line, .award-label h2.tm.tm-projects-5::first-line{font-size:0.367em;font-weight:600;color:rgb(37,99,235);letter-spacing:1.65px;text-transform:uppercase;}
+h1.tm.tm-projects-6, h2.tm.tm-projects-6, .page-hero h1.tm.tm-projects-6, .award-label h2.tm.tm-projects-6{display:block;text-align:left;font-size:30px;font-weight:700;color:rgb(26,26,26);letter-spacing:normal;text-transform:none;line-height:1.3;margin:0 0 20px;}
+h1.tm.tm-projects-6::first-line, h2.tm.tm-projects-6::first-line, .page-hero h1.tm.tm-projects-6::first-line, .award-label h2.tm.tm-projects-6::first-line{font-size:0.367em;font-weight:600;color:rgb(37,99,235);letter-spacing:1.65px;text-transform:uppercase;}
+h1.tm.tm-projects-7, h2.tm.tm-projects-7, .page-hero h1.tm.tm-projects-7, .award-label h2.tm.tm-projects-7{display:block;text-align:center;font-size:17px;font-weight:400;color:rgba(255,255,255,0.75);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 32px;}
+h1.tm.tm-projects-7::first-line, h2.tm.tm-projects-7::first-line, .page-hero h1.tm.tm-projects-7::first-line, .award-label h2.tm.tm-projects-7::first-line{font-size:1.765em;font-weight:700;color:rgb(255,255,255);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -163,21 +179,18 @@ a { color: inherit; text-decoration: none; }
 <div class="page-hero">
   <div class="container">
     <p class="breadcrumb">HOME · 사업소개</p>
-    <h1>사업소개</h1>
-    <p>FCO 기독교창의지원재단이 운영하는 창의 지원 사업을 소개합니다.</p>
+    <h1 class="tm tm-projects-1">사업소개<br>FCO 기독교창의지원재단이 운영하는 창의 지원 사업을 소개합니다.</h1>
   </div>
 </div>
 
 <section class="projects-overview">
   <div class="container">
-    <h2 class="section-title">2027 FCO PROJECT</h2>
-    <p class="section-desc">기독교 창의성으로 세상을 변화시키기 위한<br>FCO 기독교창의지원재단의 핵심 사업들입니다.</p>
+    <h2 class="tm tm-projects-2">2027 FCO PROJECT<br>기독교 창의성으로 세상을 변화시키기 위한<br>FCO 기독교창의지원재단의 핵심 사업들입니다.</h2>
 
     <div class="project-detail" id="gertrude">
       <div class="row">
         <div class="text">
-          <div class="cat">PROGRAM 01</div>
-          <h2>거투르드 스타인 프로젝트</h2>
+          <h2 class="tm tm-projects-3">PROGRAM 01<br>거투르드 스타인 프로젝트</h2>
           <p>글을 쓰고, 그림을 그리고, 문화운동을 기획하는 모든 크리스천 창작자들의 지원을 환대합니다.</p>
           <div class="btn-row"><a href="gertrude-stein.html" class="apply-btn">자세히 보기 →</a><a href="apply.html?program=gertrude" class="apply-btn apply-btn-blue">지원하기 →</a></div>
         </div>
@@ -187,8 +200,7 @@ a { color: inherit; text-decoration: none; }
     <div class="project-detail" id="award">
       <div class="row reverse">
         <div class="text">
-          <div class="cat">PROGRAM 02</div>
-          <h2>오바댜 문학상</h2>
+          <h2 class="tm tm-projects-4">PROGRAM 02<br>오바댜 문학상</h2>
           <p>짧은 서사로 창조주 하나님의 메시지를 담는 기독교 문학상입니다.</p>
           <div class="btn-row"><a href="obadiah.html" class="apply-btn">자세히 보기 →</a><a href="apply.html?program=award" class="apply-btn apply-btn-blue">작품 응모하기 →</a></div>
         </div>
@@ -198,8 +210,7 @@ a { color: inherit; text-decoration: none; }
     <div class="project-detail" id="film">
       <div class="row">
         <div class="text">
-          <div class="cat">PROGRAM 03</div>
-          <h2>Film 15'</h2>
+          <h2 class="tm tm-projects-5">PROGRAM 03<br>Film 15'</h2>
           <p>기독교 정신을 바탕으로 사회, 문화, 환경, 교육 등 다양한 분야에서 하나님의 사랑을 담은 15분 분량의 다큐멘터리 제작 팀을 지원합니다.</p>
           <div class="btn-row"><a href="film15.html" class="apply-btn">자세히 보기 →</a><a href="apply.html?program=film15" class="apply-btn apply-btn-blue">지원하기 →</a></div>
         </div>
@@ -209,8 +220,7 @@ a { color: inherit; text-decoration: none; }
     <div class="project-detail" id="christmas">
       <div class="row reverse">
         <div class="text">
-          <div class="cat">PROGRAM 04</div>
-          <h2>빈 방 있수다.</h2>
+          <h2 class="tm tm-projects-6">PROGRAM 04<br>빈 방 있수다.</h2>
           <p>전통적인 성탄 이야기를 현대적으로 재해석하거나, 예수님의 탄생이 오늘날 우리의 삶에 주는 의미를 깊이 있게 성찰하는 작품들을 기다리고 있습니다.</p>
           <div class="btn-row"><a href="christmas.html" class="apply-btn">자세히 보기 →</a><a href="apply.html?program=christmas" class="apply-btn apply-btn-blue">작품 응모하기 →</a></div>
         </div>
@@ -221,8 +231,7 @@ a { color: inherit; text-decoration: none; }
 
 <section class="support-cta">
   <div class="container">
-    <h2>함께 창의의 씨앗을 심어주세요</h2>
-    <p>FCO 기독교창의지원재단의 사역에 동참하시면<br>기독교 창작 문화의 새 역사를 함께 만들어갑니다.</p>
+    <h2 class="tm tm-projects-7">함께 창의의 씨앗을 심어주세요<br>FCO 기독교창의지원재단의 사역에 동참하시면<br>기독교 창작 문화의 새 역사를 함께 만들어갑니다.</h2>
     <a href="support.html">후원하기 →</a>
   </div>
 </section>
@@ -244,6 +253,6 @@ document.getElementById('navToggle').addEventListener('click', function() { docu
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="js/supabase-config.js?v=94bf76e2"></script>
 <script src="js/fco-db.js?v=3c440196"></script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

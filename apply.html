@@ -164,6 +164,10 @@ a { color: inherit; text-decoration: none; }
 .project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
   background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-apply-1, h2.tm.tm-apply-1, .page-hero h1.tm.tm-apply-1, .award-label h2.tm.tm-apply-1{display:block;text-align:left;font-size:17px;font-weight:400;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;line-height:1.4;margin:0 0 0px;}
+h1.tm.tm-apply-1::first-line, h2.tm.tm-apply-1::first-line, .page-hero h1.tm.tm-apply-1::first-line, .award-label h2.tm.tm-apply-1::first-line{font-size:2.471em;font-weight:700;color:rgb(37,99,235);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -199,8 +203,7 @@ a { color: inherit; text-decoration: none; }
 <div class="page-hero">
   <div class="container">
     <p class="breadcrumb">HOME · 지원하기</p>
-    <h1>지원하기</h1>
-    <p>FCO 기독교창의지원재단의 지원사업에 신청하세요.</p>
+    <h1 class="tm tm-apply-1">지원하기<br>FCO 기독교창의지원재단의 지원사업에 신청하세요.</h1>
   </div>
 </div>
 
@@ -498,6 +501,6 @@ async function submitApply() {
 
 document.getElementById('navToggle').addEventListener('click', function() { document.getElementById('navLinks').classList.toggle('open'); });
 </script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

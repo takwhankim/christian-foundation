@@ -321,6 +321,10 @@ body { font-family: "Pretendard", sans-serif; color: var(--text); background: #f
 .project-detail .text .apply-btn:not(.apply-btn-blue):hover, .amount-btn:hover {
   background: var(--key-dark) !important; color: var(--key-ink) !important; border-color: var(--key-dark) !important; }
 .amount-btn.active { border-color: var(--key-ink) !important; }
+/* ── 합친 제목 (한 덩어리: 엔터 줄바꿈·행간·크기 조절) ── */
+h1.tm.tm-film15-1, h2.tm.tm-film15-1, .page-hero h1.tm.tm-film15-1, .award-label h2.tm.tm-film15-1{display:block;text-align:center;font-size:17px;font-weight:400;color:rgba(255,255,255,0.75);letter-spacing:normal;text-transform:none;line-height:1.8;margin:0 0 32px;}
+h1.tm.tm-film15-1::first-line, h2.tm.tm-film15-1::first-line, .page-hero h1.tm.tm-film15-1::first-line, .award-label h2.tm.tm-film15-1::first-line{font-size:2.0em;font-weight:800;color:rgb(255,255,255);letter-spacing:normal;text-transform:none;}
+/* ── 합친 제목 끝 ── */
 </style>
 </head>
 <body>
@@ -412,8 +416,7 @@ body { font-family: "Pretendard", sans-serif; color: var(--text); background: #f
 
 <!-- CTA -->
 <section class="pd-cta">
-  <h2>함께 기록할 이야기가 있나요?</h2>
-  <p>세부 모집 일정은 공지사항으로 안내합니다. 궁금한 점은 info@fco.or.kr 로 문의해 주세요.</p>
+  <h2 class="tm tm-film15-1">함께 기록할 이야기가 있나요?<br>세부 모집 일정은 공지사항으로 안내합니다. 궁금한 점은 info@fco.or.kr 로 문의해 주세요.</h2>
   <div class="btns">
     <a class="pd-btn pri" href="apply.html?program=film15">지원하기 →</a>
     <a class="pd-btn sec" href="projects.html">다른 사업 보기</a>
@@ -467,6 +470,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
   document.getElementById('navLinks').classList.toggle('open');
 });
 </script>
-<script src="js/fco-edit.js?v=26e7764d"></script>
+<script src="js/fco-edit.js?v=9b249cd3"></script>
 </body>
 </html>

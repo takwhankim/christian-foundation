@@ -60,9 +60,32 @@
   const byKey = Object.fromEntries(items.map(el => [el.dataset.fcoKey, el]));
 
   function setText(el, text) { el.innerHTML = esc(text).replace(/\n/g, '<br>'); }
-  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle', 'lineHeight', 'marginBottom'];
+  const STYLE_KEYS = ['fontSize', 'color', 'fontWeight', 'fontStyle', 'lineHeight', 'marginBottom', 'fontFamily'];
   // 관리자가 지정한 스타일은 사이트 기본 스타일(!important 포함)보다 항상 우선
-  const CSS_PROP = { fontSize: 'font-size', color: 'color', fontWeight: 'font-weight', fontStyle: 'font-style', lineHeight: 'line-height', marginBottom: 'margin-bottom' };
+  const CSS_PROP = { fontSize: 'font-size', color: 'color', fontWeight: 'font-weight', fontStyle: 'font-style', lineHeight: 'line-height', marginBottom: 'margin-bottom', fontFamily: 'font-family' };
+  // 글꼴 목록 (구글 웹폰트, 사용할 때만 불러옴)
+  const FONTS = [
+    ['기본 (프리텐다드)', 'Pretendard', null],
+    ['본고딕', 'Noto Sans KR', 'Noto+Sans+KR:wght@400;700;800'],
+    ['본명조', 'Noto Serif KR', 'Noto+Serif+KR:wght@400;700;900'],
+    ['나눔명조', 'Nanum Myeongjo', 'Nanum+Myeongjo:wght@400;700;800'],
+    ['고운바탕', 'Gowun Batang', 'Gowun+Batang:wght@400;700'],
+    ['고운돋움', 'Gowun Dodum', 'Gowun+Dodum'],
+    ['도현', 'Do Hyeon', 'Do+Hyeon'],
+    ['검은고딕', 'Black Han Sans', 'Black+Han+Sans'],
+    ['주아', 'Jua', 'Jua'],
+    ['나눔손글씨 펜', 'Nanum Pen Script', 'Nanum+Pen+Script'],
+    ['Playfair (영문 명조)', 'Playfair Display', 'Playfair+Display:ital,wght@0,400;0,700;1,400;1,700'],
+  ];
+  const fontLoaded = new Set();
+  function ensureFont(name) {
+    const f = FONTS.find(x => x[1] === name);
+    if (!f || !f[2] || fontLoaded.has(name)) return;
+    fontLoaded.add(name);
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + f[2] + '&display=swap';
+    document.head.appendChild(l);
+  }
   const rgbOf = c => (c.match(/[\d.]+/g) || []).map(Number);
   function bgOf(el) {           // 실제로 보이는 배경색 (투명이면 부모로 올라감)
     for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
@@ -74,7 +97,8 @@
   function applyStyle(el, st) {
     STYLE_KEYS.forEach(k => {
       const v = st && st[k];
-      if (v) el.style.setProperty(CSS_PROP[k] || k, v, 'important');
+      if (v && k === 'fontFamily') { ensureFont(v); el.style.setProperty('font-family', '"' + v + '", "Pretendard", sans-serif', 'important'); }
+      else if (v) el.style.setProperty(CSS_PROP[k] || k, v, 'important');
       else el.style.removeProperty(CSS_PROP[k] || k);
     });
     // 안전장치: 글자색이 배경색과 거의 같아 안 보이게 되면 그 색 지정은 적용하지 않음
@@ -173,6 +197,7 @@
       <span class="sep"></span><span>아래 간격</span><button data-s="mbdec" title="아래 간격 좁게">−</button><input type="number" min="-150" max="200" step="2" data-s="mb" style="width:52px" title="0보다 작게 하면 아래 내용이 위로 당겨집니다"><button data-s="mbinc" title="아래 간격 넓게">+</button>
       <span class="sep"></span><button data-s="bold" title="굵게 (700)">B</button><button data-s="normal" title="일반 (400)" style="font-weight:400">B</button>
       <span class="sep"></span><button data-s="italic" title="이탤릭" style="font-style:italic">I</button>
+      <span class="sep"></span><select data-s="font" title="글꼴" style="height:28px;border:0;border-radius:6px;font:inherit;color:#1a1f3c;padding:0 6px;max-width:130px">${FONTS.map(f => `<option value="${f[1]}">${f[0]}</option>`).join('')}</select>
       <span class="sep"></span>${SWATCHES.map(c => `<button class="sw" data-s="color" data-c="${c}" style="background:${c}" title="${c}"></button>`).join('')}
       <input type="color" data-s="pick" title="다른 색 고르기">
       <span class="sep"></span><button data-s="reset" title="크기·색상·굵기·이탤릭을 원래대로">원래 스타일</button>`;
@@ -199,6 +224,7 @@
       sbar.querySelector('[data-s=size]').value = Math.round(parseFloat(cs.fontSize));
       sbar.querySelector('[data-s=bold]').classList.toggle('on', parseInt(cs.fontWeight, 10) >= 600);
       sbar.querySelector('[data-s=lh]').value = lhRatio(cur).toFixed(1);
+      sbar.querySelector('[data-s=font]').value = getStyle(cur).fontFamily || 'Pretendard';
       sbar.querySelector('[data-s=mb]').value = Math.round(parseFloat(getComputedStyle(cur).marginBottom) || 0);
       sbar.querySelector('[data-s=normal]').classList.toggle('on', parseInt(cs.fontWeight, 10) < 600);
       sbar.querySelector('[data-s=italic]').classList.toggle('on', cs.fontStyle === 'italic');
@@ -233,6 +259,7 @@
     sbar.querySelector('[data-s=size]').addEventListener('input', e => {
       const v = Math.min(160, Math.max(8, parseInt(e.target.value, 10) || 0)); if (cur && v) setStyle(cur, { fontSize: v + 'px' });
     });
+    sbar.querySelector('[data-s=font]').addEventListener('change', e => { if (cur) setStyle(cur, { fontFamily: e.target.value === 'Pretendard' ? '' : e.target.value }); });
     sbar.querySelector('[data-s=mb]').addEventListener('input', e => { const v = parseFloat(e.target.value); if (cur && !isNaN(v)) setMb(v); });
     sbar.querySelector('[data-s=lh]').addEventListener('input', e => { const v = parseFloat(e.target.value); if (cur && v) setLh(v); });
     sbar.querySelector('[data-s=pick]').addEventListener('input', e => { if (cur) setStyle(cur, { color: e.target.value }); });
@@ -259,6 +286,9 @@
       editing = true;
       document.body.classList.add('fco-editing');
       items.forEach(el => {
+        // 코드 속 줄바꿈·들여쓰기가 편집 중에 실제 줄바꿈으로 보이거나 저장되지 않도록 정리
+        const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        for (let n = tw.nextNode(); n; n = tw.nextNode()) n.textContent = n.textContent.replace(/[\t\n\r ]+/g, ' ');
         el.setAttribute('contenteditable', 'plaintext-only');
         if (el.contentEditable !== 'plaintext-only') el.setAttribute('contenteditable', 'true');
         el.addEventListener('input', () => { el.dataset.fcoDirty = '1'; dirty.add(el); render(); placeBar(); });
